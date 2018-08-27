@@ -11,32 +11,38 @@ class HashTable:
     def _hash(self, key):
         """ Return hash of key """
         
-        return(hash(key) % size)
+        return(hash(key) % self.size)
 
     def add(self, key, value):
         """ Add [key, value] pair to hash table """
         
         # Calculate index using hash function
         index = self._hash(key)
-        assert(index >= 0 and index < len(container))
+        assert(index >= 0 and index < len(self.container))
         
         # In case of collisions, chain the values
         h_list = self.container[index]
-        if ([key, value] not in h_list):
-            h_list.insert(0, [key, value])
+        
+        # Remove duplicate entries for key
+        for key_val_pair in h_list:
+            if (key_val_pair != None and key in key_val_pair):
+                h_list.remove(key_val_pair)
+        
+        # Insert new entry for [key, value]
+        h_list.insert(0, [key, value])
 
     def delete(self, key):
         """ Delete [key, value] pair from hash table """
         
         # Calculate index using hash function
         index = self._hash(key)
-        assert(index >= 0 and index < len(container))
+        assert(index >= 0 and index < len(self.container))
         
         # If key matches, delete [key, value]
         h_list = self.container[index]
         
-        for (key_val_pair in h_list):
-            if (key in key_val_pair):
+        for key_val_pair in h_list:
+            if (key_val_pair != None and key in key_val_pair):
                 h_list.remove(key_val_pair)
 
     def find(self, key):
@@ -44,12 +50,12 @@ class HashTable:
         
         # Calculate index using hash function
         index = self._hash(key)
-        assert(index >= 0 and index < len(container))
+        assert(index >= 0 and index < len(self.container))
         
         h_list = self.container[index]
         
-        for (key_val_pair in h_list):
-            if (key in key_val_pair):
+        for key_val_pair in h_list:
+            if (key_val_pair != None and key in key_val_pair):
                 return(key_val_pair[1])
-            else:
-                return(None)
+        
+        return(None)
