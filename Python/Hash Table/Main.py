@@ -17,8 +17,8 @@ def gen_phone():
 
 def main():
     local_pb = []
-    pb_size = 100
     iters = 10000
+    pb_size = 1000
     
     pb = PhoneBook.PhoneBook(pb_size)
     

@@ -11,7 +11,15 @@ class HashTable:
     def _hash(self, key):
         """ Return hash of key """
         
-        return(hash(key) % self.size)
+        x = 263
+        hash_val = 0
+        p = 1000000007
+        
+        for i in range(len(key)):
+            hash_val += (ord(key[i]) * pow(x, i))
+        hash_val %= p
+        
+        return(hash_val % self.size)
 
     def add(self, key, value):
         """ Add [key, value] pair to hash table """
