@@ -8,16 +8,14 @@ class HashTable:
         self.size = size
         self.container = [[None] for i in range(size)]
 
-    def _hash(self, key):
+    def _hash(self, key, x = 263, p = 1000000007):
         """ Return hash of key """
         
-        x = 263
         hash_val = 0
-        p = 1000000007
         
         for i in range(len(key)):
             hash_val += (ord(key[i]) * pow(x, i))
-        hash_val %= p
+            hash_val %= p
         
         return(hash_val % self.size)
 
