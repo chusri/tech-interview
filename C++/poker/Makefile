@@ -3,7 +3,7 @@
 CC=g++
 EXE=main
 OBJS=main.o
-DEPS=card.h poker.h card_deck.h
+DEPS=card.h poker.h deck.h
 CFLAGS=-I. -pipe -O2 -std=c++11
 
 %.o: %.cpp ${DEPS}

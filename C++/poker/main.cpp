@@ -1,8 +1,8 @@
 // main.cpp
 
 #include "card.h"
+#include "deck.h"
 #include "poker.h"
-#include "card_deck.h"
 
 int main(int argc, char** argv) {
 	deck d = deck();
