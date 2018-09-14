@@ -1,7 +1,7 @@
 // This class models a deck of cards.
 
-#ifndef CARD_DECK_H
-#define CARD_DECK_H
+#ifndef DECK_H
+#define DECK_H
 
 #include "card.h"
 #include<vector>
@@ -10,47 +10,47 @@
 const int SUIT_SIZE = 13;
 const int DECK_SIZE = 52;
 
-class card_deck {
+class deck {
 	private:
-		vector<card> deck;
+		vector<card> container;
 
 	public:
-		card_deck(void);
+		deck(void);
 		card deal(void);
 		void shuffle(void);
 
 		// Overload the << operator
-		friend ostream& operator<< (ostream& out, const card_deck& d) {
-			for_each(d.deck.begin(), d.deck.end(),
+		friend ostream& operator<< (ostream& out, const deck& d) {
+			for_each(d.container.begin(), d.container.end(),
 							 [&out](const card c){out << c << endl;});
 			return(out);
 		}
 };
 
 // Constructor
-card_deck::card_deck(void) {
+deck::deck(void) {
 	vector<suit> v = {suit::SPADE, suit::HEART, suit::DIAMOND, suit::CLUB};
 
 	for_each(v.begin(), v.end(), [this](const suit s) {
 		for (int i = 1; i <= SUIT_SIZE; i++) {
-			this->deck.push_back(card(s, i));
+			this->container.push_back(card(s, i));
 		}
 	});
 }
 
 // Return the card on top of the deck
-card card_deck::deal(void) {
-	assert(deck.size() >= 1 && deck.size() <= 52);
+card deck::deal(void) {
+	assert(container.size() >= 1 && container.size() <= 52);
 
-	card c = deck[0];
-	deck.erase(deck.begin());
+	card c = container[0];
+	container.erase(container.begin());
 
 	return(c);
 }
 
 // Shuffle the deck
-void card_deck::shuffle(void) {
-	random_shuffle(deck.begin(), deck.end());
+void deck::shuffle(void) {
+	random_shuffle(container.begin(), container.end());
 }
 
-#endif //CARD_DECK_H
+#endif //DECK_H

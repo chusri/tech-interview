@@ -5,7 +5,7 @@
 #include "card_deck.h"
 
 int main(int argc, char** argv) {
-	card_deck d = card_deck();
+	deck d = deck();
 
 	d.shuffle();
 
