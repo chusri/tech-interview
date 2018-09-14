@@ -38,4 +38,19 @@ card_deck::card_deck(void) {
 	});
 }
 
+// Return the card on top of the deck
+card card_deck::deal(void) {
+	assert(deck.size() >= 1 && deck.size() <= 52);
+
+	card c = deck[0];
+	deck.erase(deck.begin());
+
+	return(c);
+}
+
+// Shuffle the deck
+void card_deck::shuffle(void) {
+	random_shuffle(deck.begin(), deck.end());
+}
+
 #endif //CARD_DECK_H
