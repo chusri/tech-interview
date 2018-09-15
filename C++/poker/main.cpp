@@ -1,30 +1,21 @@
 // main.cpp
 
-#include "card.h"
-#include "deck.h"
 #include "poker.h"
 
 int main(int argc, char** argv) {
-	deck d = deck();
+	deck d;
+	poker p;
+	vector<card> hand;
+
+	// Shuffle the deck
 	d.shuffle();
 
-	for (int i = 1; i <= 52; i++) {
-		d.deal();
+	for (int i = 0; i < POKER_HAND_SIZE; i++) {
+		hand.push_back(d.deal());
 	}
 
-	cout << d.return_to_deck(card(suit::HEART, 7)) << endl;
-	cout << d.return_to_deck(card(suit::HEART, 7)) << endl;
-	cout << d.return_to_deck(card(suit::SPADE, 6)) << endl;
-	cout << d.return_to_deck(card(suit::SPADE, 6)) << endl;
-
-	for (int i = 1; i <= 13; i++) {
-		d.return_to_deck(card(suit::SPADE, i));
-		d.return_to_deck(card(suit::HEART, i));
-		d.return_to_deck(card(suit::DIAMOND, i));
-		d.return_to_deck(card(suit::CLUB, i));
-	}
-
-	cout << d;
+	p.print_hand(hand);
+	cout << p.is_flush(hand) << endl;
 
 	return(0);
 }
