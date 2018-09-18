@@ -15,7 +15,9 @@ int main(int argc, char** argv) {
 	}
 
 	p.print_hand(hand);
+
 	cout << p.is_flush(hand) << endl;
+	cout << p.is_straight(hand) << endl;
 
 	return(0);
 }
