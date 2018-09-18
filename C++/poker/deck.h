@@ -4,6 +4,7 @@
 #define DECK_H
 
 #include "card.h"
+#include<ctime>
 #include<vector>
 #include<algorithm>
 
@@ -51,6 +52,7 @@ card deck::deal(void) {
 
 // Shuffle the deck
 void deck::shuffle(void) {
+	srand(time(NULL));
 	random_shuffle(container.begin(), container.end());
 }
 
