@@ -12,6 +12,7 @@ class poker {
 	public:
 		bool is_flush(const vector<card>& hand);
 		bool is_straight(const vector<card>& hand);
+		bool is_straight_flush(const vector<card>& hand);
 		void print_hand(const vector<card>& hand);
 };
 
@@ -56,6 +57,11 @@ bool poker::is_straight(const vector<card>& hand) {
 						pips[2] == pips[3]-1 && pips[3] == pips[4]-1) ||
 					 (pips[1] == 10 && pips[2] == 11 && pips[3] == 12 && pips[4] == 13));
 	}
+}
+
+// Is the poker hand a straight flush?
+bool poker::is_straight_flush(const vector<card>& hand) {
+	return(is_straight(hand) && is_flush(hand));
 }
 
 // Print the hand
