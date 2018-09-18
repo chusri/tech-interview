@@ -1,24 +1,48 @@
 // main.cpp
 
 #include "poker.h"
+#include<string>
 
 int main(int argc, char** argv) {
-	deck d;
-	poker p;
-	vector<card> hand;
 
-	// Shuffle the deck
-	d.shuffle();
-
-	for (int i = 0; i < POKER_HAND_SIZE; i++) {
-		hand.push_back(d.deal());
+	// Check for number of simulations
+	if (argc < 2) {
+		cerr << "Usage: " << argv[0] << " #simulations" << endl;
+		exit(1);
 	}
 
-	p.print_hand(hand);
+	long long flush_count = 0;
+	long long straight_count = 0;
+	long long straight_flush_count = 0;
+	long long sims = stoll(string(argv[1]));
 
-	cout << p.is_flush(hand) << endl;
-	cout << p.is_straight(hand) << endl;
-	cout << p.is_straight_flush(hand) << endl;
+	// Monte-Carlo simulations
+	for (int i = 0; i < sims; i++) {
+		deck d;
+		poker p;
+		vector<card> hand;
+
+		// Shuffle the deck
+		d.shuffle();
+
+		for (int j = 0; j < POKER_HAND_SIZE; j++) {
+			hand.push_back(d.deal());
+		}
+
+		if (p.is_flush(hand)) {flush_count++;}
+		if (p.is_straight(hand)) {straight_count++;}
+		if (p.is_straight_flush(hand)) {straight_flush_count++;}
+	}
+
+	cout << flush_count << ":" << straight_count << ":" << straight_flush_count << endl;
+
+	cout.precision(2);
+	cout << "Probability of a Flush = " << fixed <<
+					(flush_count/static_cast<double>(sims)) << endl;
+	cout << "Probability of a Straight = " << fixed <<
+					(straight_count/static_cast<double>(sims)) << endl;
+	cout << "Probability of a Straight Flush = " << fixed <<
+					(straight_flush_count/static_cast<double>(sims)) << endl;
 
 	return(0);
 }
