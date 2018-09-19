@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 		vector<card> hand;
 
 		// Shuffle the deck
-		d.shuffle();
+		d.shuffle_deck();
 
 		for (int j = 0; j < POKER_HAND_SIZE; j++) {
 			hand.push_back(d.deal());
@@ -34,9 +34,7 @@ int main(int argc, char** argv) {
 		if (p.is_straight_flush(hand)) {straight_flush_count++;}
 	}
 
-	cout << flush_count << ":" << straight_count << ":" << straight_flush_count << endl;
-
-	cout.precision(2);
+	cout.precision(6);
 	cout << "Probability of a Flush = " << fixed <<
 					(flush_count/static_cast<double>(sims)) << endl;
 	cout << "Probability of a Straight = " << fixed <<

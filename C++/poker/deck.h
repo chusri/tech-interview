@@ -4,8 +4,8 @@
 #define DECK_H
 
 #include "card.h"
-#include<ctime>
 #include<vector>
+#include<random>
 #include<algorithm>
 
 const int SUIT_SIZE = 13;
@@ -18,7 +18,7 @@ class deck {
 	public:
 		deck(void);
 		card deal(void);
-		void shuffle(void);
+		void shuffle_deck(void);
 		bool return_to_deck(const card c);
 
 		// Overload the << operator
@@ -51,9 +51,10 @@ card deck::deal(void) {
 }
 
 // Shuffle the deck
-void deck::shuffle(void) {
-	srand(time(NULL));
-	random_shuffle(container.begin(), container.end());
+void deck::shuffle_deck(void) {
+	random_device rd;
+	mt19937 g(rd());
+	shuffle(container.begin(), container.end(), g);
 }
 
 // Return card to deck
