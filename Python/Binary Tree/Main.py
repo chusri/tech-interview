@@ -18,6 +18,7 @@ def main():
 
     print(' '.join(str(x) for x in tree.inorderTraversal(root)))
 
+    tree.clearTraversalResult()
     sys.exit()
 
 threading.Thread(target=main).start()

@@ -19,6 +19,9 @@ class BinaryTree:
         if node.getRightChild() is None:
             node.addRightChild(rightChild)
 
+    def clearTraversalResult(self):
+        self.traversalResult = []
+
     def inorderTraversal(self, root):
         if root:
             self.inorderTraversal(root.getLeftChild())
