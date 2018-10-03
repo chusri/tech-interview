@@ -1,5 +1,10 @@
+import sys
 import Node
+import threading
 import BinaryTree
+
+sys.setrecursionlimit(10**6) # max depth of recursion
+threading.stack_size(2**27)  # new thread will get stack of such size
 
 def main():
     tree = BinaryTree.BinaryTree()
@@ -10,7 +15,9 @@ def main():
     rightChild = Node.Node(3)
 
     tree.addNode(root, leftChild, rightChild)
-    tree.inorderTraversal(root)
 
-if __name__ == '__main__':
-    main()
+    print(' '.join(str(x) for x in tree.inorderTraversal(root)))
+
+    sys.exit()
+
+threading.Thread(target=main).start()

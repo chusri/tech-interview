@@ -5,6 +5,7 @@ class BinaryTree:
 
     def __init__(self):
         self.root = Node.Node()
+        self.traversalResult = []
 
     def getRoot(self):
         return self.root
@@ -21,5 +22,7 @@ class BinaryTree:
     def inorderTraversal(self, root):
         if root:
             self.inorderTraversal(root.getLeftChild())
-            print(root.getKey())
+            self.traversalResult.append(root.getKey())
             self.inorderTraversal(root.getRightChild())
+
+        return self.traversalResult
