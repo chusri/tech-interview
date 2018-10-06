@@ -7,16 +7,23 @@ sys.setrecursionlimit(10**6) # max depth of recursion
 threading.stack_size(2**27)  # new thread will get stack of such size
 
 def main():
-    tree = BinaryTree.BinaryTree('Test0.txt')
+    inputFile = 'Test1.txt'
+    outputFile = 'Test1_output.txt'
 
-    print(' '.join(str(x) for x in tree.inOrderTraversal(tree.getRoot())))
-    tree.clearTraversalResult()
+    tree = BinaryTree.BinaryTree(inputFile)
 
-    print(' '.join(str(x) for x in tree.preOrderTraversal(tree.getRoot())))
-    tree.clearTraversalResult()
+    with open(outputFile, 'w') as f:
+        f.write(' '.join(str(x) for x in tree.inOrderTraversal(tree.getRoot())))
+        f.write('\n')
+        tree.clearTraversalResult()
 
-    print(' '.join(str(x) for x in tree.postOrderTraversal(tree.getRoot())))
-    tree.clearTraversalResult()
+        f.write(' '.join(str(x) for x in tree.preOrderTraversal(tree.getRoot())))
+        f.write('\n')
+        tree.clearTraversalResult()
+
+        f.write(' '.join(str(x) for x in tree.postOrderTraversal(tree.getRoot())))
+        f.write('\n')
+        tree.clearTraversalResult()
 
     sys.exit()
 
