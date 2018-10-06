@@ -50,20 +50,45 @@ class BinaryTree:
         node.addKey(key)
 
         if leftChildIndex == -1 and rightChildIndex == -1:
-            return node
+            pass
+        elif leftChildIndex == -1:
+            self.addNode(node, None,
+                         self._createFromFile(Node.Node(), rightChildIndex, vertexList))
+        elif rightChildIndex == -1:
+            self.addNode(node, self._createFromFile(Node.Node(), leftChildIndex, vertexList),
+                         None)
         else:
             self.addNode(node, self._createFromFile(Node.Node(), leftChildIndex, vertexList),
                          self._createFromFile(Node.Node(), rightChildIndex, vertexList))
-            return node
+        return node
+
 
     def clearTraversalResult(self):
         self.traversalResult = []
 
 
-    def inorderTraversal(self, root):
+    def inOrderTraversal(self, root):
         if root:
-            self.inorderTraversal(root.getLeftChild())
+            self.inOrderTraversal(root.getLeftChild())
             self.traversalResult.append(root.getKey())
-            self.inorderTraversal(root.getRightChild())
+            self.inOrderTraversal(root.getRightChild())
+
+        return self.traversalResult
+
+
+    def preOrderTraversal(self, root):
+        if root:
+            self.traversalResult.append(root.getKey())
+            self.preOrderTraversal(root.getLeftChild())
+            self.preOrderTraversal(root.getRightChild())
+
+        return self.traversalResult
+
+
+    def postOrderTraversal(self, root):
+        if root:
+            self.postOrderTraversal(root.getLeftChild())
+            self.postOrderTraversal(root.getRightChild())
+            self.traversalResult.append(root.getKey())
 
         return self.traversalResult
