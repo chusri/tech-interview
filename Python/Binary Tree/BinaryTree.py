@@ -3,6 +3,9 @@ import Node
 class BinaryTree:
     """ This class implements a Binary Tree """
 
+    # Class variable used in isBST() method
+    _prevNode = None
+
     def __init__(self, filename=None):
         self.root = Node.Node()
         self.traversalResult = []
@@ -92,3 +95,21 @@ class BinaryTree:
             self.traversalResult.append(root.getKey())
 
         return self.traversalResult
+
+
+    def isBST(self, root):
+        """ Is the binary tree a binary search tree? """
+
+        if root is None:
+            # Empty binary tree is a BST
+            return True
+
+        if self.isBST(root.getLeftChild()) is False:
+            return False
+
+        if BinaryTree._prevNode is not None and BinaryTree._prevNode.getKey() > root.getKey():
+            return False
+
+        BinaryTree._prevNode = root
+        return self.isBST(root.getRightChild())
+

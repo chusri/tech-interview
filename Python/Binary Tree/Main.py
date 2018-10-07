@@ -25,6 +25,8 @@ def main():
         f.write('\n')
         tree.clearTraversalResult()
 
+    print(tree.isBST(tree.getRoot()))
+
     sys.exit()
 
 threading.Thread(target=main).start()
