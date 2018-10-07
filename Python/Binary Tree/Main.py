@@ -7,8 +7,8 @@ sys.setrecursionlimit(10**6) # max depth of recursion
 threading.stack_size(2**27)  # new thread will get stack of such size
 
 def main():
-    inputFile = 'Test1.txt'
-    outputFile = 'Test1_output.txt'
+    inputFile = 'Test0.txt'
+    outputFile = 'Test0_output.txt'
 
     tree = BinaryTree.BinaryTree(inputFile)
 

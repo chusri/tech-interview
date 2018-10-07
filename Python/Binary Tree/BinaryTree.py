@@ -47,6 +47,10 @@ class BinaryTree:
 
 
     def _createFromFile(self, node, index, vertexList):
+        if len(vertexList) == 0:
+            node = None
+            return node
+
         assert(index >= 0 and index < len(vertexList))
 
         key, leftChildIndex, rightChildIndex = vertexList[index]
