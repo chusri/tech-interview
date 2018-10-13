@@ -116,4 +116,3 @@ class BinaryTree:
 
         BinaryTree._prevNode = root
         return self.isBST(root.getRightChild())
-

@@ -1,3 +1,4 @@
+import Node
 from BinaryTree import BinaryTree
 
 class BinarySearchTree(BinaryTree):
@@ -5,7 +6,14 @@ class BinarySearchTree(BinaryTree):
 
     def __init__(self):
         BinaryTree.__init__(self)
+        self.height = 1
 
+    def addNode(self, root, key):
+        if root is None:
+            return Node.Node(key)
+        elif key < root.getKey():
+            root.addLeftChild(self.addNode(root.getLeftChild(), key))
+        else:
+            root.addRightChild(self.addNode(root.getRightChild(), key))
 
-    def addNode(self, key):
-        pass
+        return root

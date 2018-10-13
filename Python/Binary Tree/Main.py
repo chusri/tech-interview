@@ -1,5 +1,6 @@
 import sys
 import Node
+import random
 import threading
 import BinaryTree
 import BinarySearchTree
@@ -31,6 +32,12 @@ def main():
     print(tree.isBST(tree.getRoot()))
 
     # Binary Search Tree tests
+    root = bst.getRoot()
+    root.addKey(random.randint(1, 1000000))
+
+    for x in random.sample(range(2, 10000000), 1000000):
+        bst.addNode(root, x)
+
     print(bst.isBST(bst.getRoot()))
 
     sys.exit()
