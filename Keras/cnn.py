@@ -6,7 +6,7 @@ import numpy as np
 from keras.datasets import mnist
 from keras.utils import np_utils
 from keras.models import Sequential
-from keras.layers import Convolution2D, MaxPooling2D
+from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dense, Dropout, Activation, Flatten
 
 def preProcessData():
@@ -16,8 +16,8 @@ def preProcessData():
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
 
     # Reshape tensors to include 1 input channel
-    X_train = X_train.reshape(X_train.shape[0], 1, 28, 28)
-    X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
+    X_train = X_train.reshape(X_train.shape[0], 28, 28, 1)
+    X_test = X_test.reshape(X_test.shape[0], 28, 28, 1)
 
     # Convert data type and normalize values
     X_train = X_train.astype('float32')
@@ -37,15 +37,39 @@ def model():
     model = Sequential()
 
     # CNN input layer
-    model.add(Convolution2D(32, (3, 3), activation='relu', input_shape=(1, 28, 28)))
+    model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), activation='relu',
+                     input_shape=(28, 28, 1)))
 
-    return model 
+    # Stack the other layers
+    model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1),
+              activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.50))
+    model.add(Dense(10, activation='softmax'))
+
+    return model
 
 def main():
     X_train, Y_train, X_test, Y_test = preProcessData()
+
+    # Create a CNN model
     cnnModel = model()
 
-    print cnnModel.output_shape
+    # Compile the model
+    cnnModel.compile(loss='categorical_crossentropy', optimizer='adam',
+                     metrics=['accuracy'])
+
+    # Fit the Keras model
+    cnnModel.fit(X_train, Y_train, batch_size=32, epochs=10, verbose=1)
+
+    # Evaluate model on test data
+    score = cnnModel.evaluate(X_test, Y_test, verbose=0)
+    print 'Test loss: ', '{:.4f}'.format(score[0])
+    print 'Test accuracy: ', '{:.4f}'.format(score[1])
 
 if __name__ == '__main__':
     main()
