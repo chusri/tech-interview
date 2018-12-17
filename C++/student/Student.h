@@ -43,6 +43,34 @@ int Student::get_id(void) const {
 	return(id);
 }
 
+string Student::get_name(void) const {
+	return(name);
+}
+
+double Student::get_gpa(void) const {
+	return(gpa);
+}
+
+year Student::get_year(void) const {
+	return(y);
+}
+
+void Student::set_id(const long id) {
+	this->id = id;
+}
+
+void Student::set_name(const string name) {
+	this->name = name;
+}
+
+void Student::set_gpa(const double gpa) {
+	this->gpa = gpa;
+}
+
+void Student::set_year(const year y) {
+	this->y = y;
+}
+
 // Print the member variables
 ostream& Student::print(ostream& out) const {
 	out << id << "," << name << "," << gpa << ",";

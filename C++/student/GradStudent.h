@@ -16,6 +16,12 @@ class GradStudent: public Student {
 	public:
 		GradStudent(long id, string name, double gpa, year y, support s,
 								string dept, string thesis);
+		support get_support(void) const;
+		string get_dept(void) const;
+		string get_thesis(void) const;
+		void set_support(const support s);
+		void set_dept(const string dept);
+		void set_thesis(const string thesis);
 		ostream& print(ostream& out) const;
 };
 
@@ -24,6 +30,30 @@ GradStudent::GradStudent(long id, string name, double gpa, year y, support s,
 												 string dept, string thesis):
 												 Student(id, name, gpa, y),
 												 s(s), dept(dept), thesis(thesis) {
+}
+
+support GradStudent::get_support(void) const {
+	return(s);
+}
+
+string GradStudent::get_dept(void) const {
+	return(dept);
+}
+
+string GradStudent::get_thesis(void) const {
+	return(thesis);
+}
+
+void GradStudent::set_support(const support s) {
+	this->s = s;
+}
+
+void GradStudent::set_dept(const string dept) {
+	this->dept = dept;
+}
+
+void GradStudent::set_thesis(const string thesis) {
+	this->thesis = thesis;
 }
 
 // Print the member variables
