@@ -22,4 +22,28 @@ class Tree {
 		friend ostream& operator<<(ostream&, const Tree&);
 };
 
+// Copy constructor
+Tree::Tree(const Tree& t) {
+	p = t.p;
+	++p->gc;
+}
+
+// Evaluate the expression
+int Tree::eval(void) {
+	return(p->eval());
+}
+
+// Destructor
+Tree::~Tree(void) {
+	if (--p->gc == 0) {
+		delete p;
+	}
+}
+
+// Overload the << operator
+ostream& operator<<(ostream& out, const Tree& t) {
+	t.p->print(out);
+	return(out);
+}
+
 #endif //TREE_H
