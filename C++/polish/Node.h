@@ -19,7 +19,7 @@ class Node {
 		virtual int eval(void) = 0;
 		virtual ~Node(void) {};
 		friend class Tree;
-		friend ostream& operator <<(ostream&, const Tree&);
+		friend ostream& operator<<(ostream&, const Tree&);
 };
 
 #endif //NODE_H
