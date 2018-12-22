@@ -1,4 +1,4 @@
-// This class models a unary node.
+// This class models a unary node in the expression tree.
 
 #ifndef UNARYNODE_H
 #define UNARYNODE_H
@@ -17,6 +17,7 @@ class UnaryNode: public Node {
 	public:
 		UnaryNode(char c, Tree t): op(c), opnd(t) {}
 		virtual void print(ostream& out) { out << "(" << op << opnd << ")"; }
+		virtual int eval(void);
 		friend class Tree;
 };
 
