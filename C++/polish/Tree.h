@@ -4,6 +4,7 @@
 #define TREE_H
 
 #include "Node.h"
+#include "LeafNode.h"
 #include "IntNode.h"
 #include "VarNode.h"
 #include "UnaryNode.h"
@@ -27,22 +28,22 @@ class Tree {
 };
 
 // Integer leaf node
-Tree(int n) {
+Tree::Tree(int n) {
 	p = new IntNode(n);
 }
 
 // Variable leaf node
-Tree(char id, map<char, int> m) {
+Tree::Tree(char id, map<char, int> m) {
 	p = new VarNode(id, m);
 }
 
 // Unary node
-Tree(char op, Tree opnd) {
+Tree::Tree(char op, Tree opnd) {
 	p = new UnaryNode(op, opnd);
 }
 
 // Binary tree
-Tree(char op, Tree left, Tree right) {
+Tree::Tree(char op, Tree left, Tree right) {
 	p = new BinaryNode(op, left, right);
 }
 
