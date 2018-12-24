@@ -4,11 +4,14 @@
 #define TREE_H
 
 #include "Node.h"
-#include "LeafNode.h"
+//#include "LeafNode.h"
 #include "IntNode.h"
 #include "VarNode.h"
 #include "UnaryNode.h"
 #include "BinaryNode.h"
+#include<iostream>
+
+using namespace std;
 
 class Tree {
 	protected:

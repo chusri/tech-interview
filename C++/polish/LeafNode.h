@@ -5,6 +5,9 @@
 
 #include "Node.h"
 #include "Tree.h"
+#include<iostream>
+
+using namespace std;
 
 class LeafNode: public Node {
 	public:

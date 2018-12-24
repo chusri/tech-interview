@@ -5,6 +5,7 @@
 
 #include "Node.h"
 #include "Tree.h"
+#include<iostream>
 #include<stdexcept>
 
 using namespace std;

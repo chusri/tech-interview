@@ -4,6 +4,7 @@
 #define VARNODE_H
 
 #include<map>
+#include<iostream>
 #include "LeafNode.h"
 
 using namespace std;
