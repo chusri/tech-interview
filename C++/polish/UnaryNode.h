@@ -3,12 +3,8 @@
 #ifndef UNARYNODE_H
 #define UNARYNODE_H
 
-#include "Node.h"
-#include "Tree.h"
-#include<iostream>
-#include<stdexcept>
-
-using namespace std;
+class Node;
+class Tree;
 
 class UnaryNode: public Node {
 	protected:
@@ -22,7 +18,7 @@ class UnaryNode: public Node {
 		friend class Tree;
 };
 
-virtual int UnaryNode::eval(void) {
+int UnaryNode::eval(void) {
 	switch(op) {
 		case '-':
 			return(-1*opnd.eval());

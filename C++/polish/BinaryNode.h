@@ -3,12 +3,8 @@
 #ifndef BINARYNODE_H
 #define BINARYNODE_H
 
-#include "Node.h"
-#include "Tree.h"
-#include<iostream>
-#include<stdexcept>
-
-using namespace std;
+class Node;
+class Tree;
 
 class BinaryNode: public Node {
 	protected:
@@ -23,11 +19,11 @@ class BinaryNode: public Node {
 		friend class Tree;
 };
 
-virtual void BinaryNode::print(ostream& out) {
+void BinaryNode::print(ostream& out) {
 	out << "(" << left << op << right << ")";
 }
 
-virtual int BinaryNode::eval(void) {
+int BinaryNode::eval(void) {
 	switch(op) {
 		case '+':
 			return(left.eval() + right.eval());

@@ -3,10 +3,7 @@
 #ifndef INTNODE_H
 #define INTNODE_H
 
-#include<iostream>
-#include "LeafNode.h"
-
-using namespace std;
+class LeafNode;
 
 class IntNode: public LeafNode {
 	protected:

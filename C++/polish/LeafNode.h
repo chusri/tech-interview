@@ -3,11 +3,8 @@
 #ifndef LEAFNODE_H
 #define LEAFNODE_H
 
-#include "Node.h"
-#include "Tree.h"
-#include<iostream>
-
-using namespace std;
+class Node;
+class Tree;
 
 class LeafNode: public Node {
 	public:

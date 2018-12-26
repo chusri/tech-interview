@@ -3,15 +3,12 @@
 #ifndef TREE_H
 #define TREE_H
 
-#include "Node.h"
-//#include "LeafNode.h"
-#include "IntNode.h"
-#include "VarNode.h"
-#include "UnaryNode.h"
-#include "BinaryNode.h"
-#include<iostream>
-
-using namespace std;
+class Node;
+class LeafNode;
+class IntNode;
+class VarNode;
+class UnaryNode;
+class BinaryNode;
 
 class Tree {
 	protected:

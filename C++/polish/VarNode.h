@@ -3,11 +3,7 @@
 #ifndef VARNODE_H
 #define VARNODE_H
 
-#include<map>
-#include<iostream>
-#include "LeafNode.h"
-
-using namespace std;
+class LeafNode;
 
 class VarNode: public LeafNode {
 	protected:

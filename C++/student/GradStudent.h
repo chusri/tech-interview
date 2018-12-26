@@ -1,7 +1,7 @@
 // This class models a graduate student at a university.
 
-#ifndef GRAD_STUDENT_H
-#define GRAD_STUDENT_H
+#ifndef GRADSTUDENT_H
+#define GRADSTUDENT_H
 
 #include "Student.h"
 
@@ -82,4 +82,4 @@ ostream& GradStudent::print(ostream& out) const {
 	return(out);
 }
 
-#endif //GRAD_STUDENT_H
+#endif //GRADSTUDENT_H

@@ -2,6 +2,7 @@
 
 #include<map>
 #include<iostream>
+#include<stdexcept>
 
 #include "Node.h"
 #include "Tree.h"
