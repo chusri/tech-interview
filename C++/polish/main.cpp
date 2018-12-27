@@ -4,13 +4,7 @@
 #include<iostream>
 #include<stdexcept>
 
-#include "Node.h"
 #include "Tree.h"
-#include "LeafNode.h"
-#include "IntNode.h"
-#include "VarNode.h"
-#include "UnaryNode.h"
-#include "BinaryNode.h"
 
 using namespace std;
 

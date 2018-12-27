@@ -3,7 +3,7 @@
 #ifndef INTNODE_H
 #define INTNODE_H
 
-class LeafNode;
+#include "LeafNode.h"
 
 class IntNode: public LeafNode {
 	protected:

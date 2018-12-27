@@ -3,8 +3,8 @@
 #ifndef UNARYNODE_H
 #define UNARYNODE_H
 
-class Node;
-class Tree;
+#include "Node.h"
+#include "Tree.h"
 
 class UnaryNode: public Node {
 	protected:

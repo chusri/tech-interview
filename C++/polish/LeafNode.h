@@ -3,8 +3,7 @@
 #ifndef LEAFNODE_H
 #define LEAFNODE_H
 
-class Node;
-class Tree;
+#include "Node.h"
 
 class LeafNode: public Node {
 	public:

@@ -3,8 +3,8 @@
 #ifndef BINARYNODE_H
 #define BINARYNODE_H
 
-class Node;
-class Tree;
+#include "Node.h"
+#include "Tree.h"
 
 class BinaryNode: public Node {
 	protected:

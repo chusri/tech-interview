@@ -4,11 +4,11 @@
 #define TREE_H
 
 class Node;
-class LeafNode;
-class IntNode;
-class VarNode;
-class UnaryNode;
-class BinaryNode;
+
+#include "IntNode.h"
+#include "VarNode.h"
+#include "UnaryNode.h"
+#include "BinaryNode.h"
 
 class Tree {
 	protected:

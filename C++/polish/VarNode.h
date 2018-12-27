@@ -3,7 +3,7 @@
 #ifndef VARNODE_H
 #define VARNODE_H
 
-class LeafNode;
+#include "LeafNode.h"
 
 class VarNode: public LeafNode {
 	protected:
