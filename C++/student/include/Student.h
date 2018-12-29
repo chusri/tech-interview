@@ -1,4 +1,8 @@
-// This class models a student at a university.
+/**
+ * @file Student.h
+ * @brief This file implements the Student class.
+ * @author Nawab Ali
+ */
 
 #ifndef STUDENT_H
 #define STUDENT_H
@@ -9,6 +13,11 @@
 using namespace std;
 enum class year{FRESHMAN, SOPHOMORE, JUNIOR, SENIOR, GRADUATE};
 
+/**
+ * @class Student
+ * @brief This class creates and maintains a record for a student at a
+ * university.
+ */
 class Student {
 	protected:
 		long id;
@@ -17,29 +26,95 @@ class Student {
 		year y;
 
 	public:
+		/**
+		 * @brief Constructor for the Student class.
+		 * @param id The student identification number.
+		 * @param name The name of the student (first last).
+		 * @param gpa The student's GPA.
+		 * @param y The year the student is enrolled in.
+		 * @return None Constructor does not return anything.
+		 */
 		Student(long id, string name, double gpa, year y);
-		int get_id(void) const;
+
+		/**
+		 * @brief Getter method for student identification number.
+		 * @param void
+		 * @return Student identification number.
+		 */
+		long get_id(void) const;
+
+		/**
+		 * @brief Getter method for student name.
+		 * @param void
+		 * @return Student name.
+		 */
 		string get_name(void) const;
+
+		/**
+		 * @brief Getter method for student GPA.
+		 * @param void
+		 * @return Student GPA.
+		 */
 		double get_gpa(void) const;
+
+		/**
+		 * @brief Getter method for student year.
+		 * @param void
+		 * @return Student year.
+		 */
 		year get_year(void) const;
+
+		/**
+		 * @brief Setter method for student identification number.
+		 * @param id Student identification number.
+		 * @return void
+		 */
 		void set_id(const long id);
+
+		/**
+		 * @brief Setter method for student name.
+		 * @param name Student name.
+		 * @return void
+		 */
 		void set_name(const string name);
+
+		/**
+		 * @brief Setter method for student GPA.
+		 * @param gpa Student GPA.
+		 * @return void
+		 */
 		void set_gpa(const double gpa);
+
+		/**
+		 * @brief Setter method for student year.
+		 * @param y Student year.
+		 * @return void
+		 */
 		void set_year(const year y);
+
+		/**
+		 * @brief Virtual function to print student record.
+		 * @param out Reference to ostream object.
+		 * @return Reference to ostream object.
+		 */
 		virtual ostream& print(ostream& out) const;
 
-		// Overload the << operator
-		friend ostream& operator<< (ostream& out, const Student& s) {
+		/**
+		 * @brief Overload the << operator.
+		 * @param out Reference to ostream object.
+		 * @param s Reference to Student object.
+		 * @return Reference to ostream object.
+		 */
+		friend ostream& operator<<(ostream& out, const Student& s) {
 			return(s.print(out));
 		}
 };
 
-// Constructor
 Student::Student(long id, string name, double gpa, year y):
 								 id(id), name(name), gpa(gpa), y(y) {
 }
 
-int Student::get_id(void) const {
+long Student::get_id(void) const {
 	return(id);
 }
 
@@ -71,7 +146,6 @@ void Student::set_year(const year y) {
 	this->y = y;
 }
 
-// Print the member variables
 ostream& Student::print(ostream& out) const {
 	out << id << "," << name << "," << gpa << ",";
 	switch(y) {
