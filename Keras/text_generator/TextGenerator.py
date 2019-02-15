@@ -1,6 +1,7 @@
 """ Generate text sequences using a statistical language model. """
 
 import string
+import tempfile
 
 class TextGenerator:
     def __init__(self, training_data_file, sequence_length=51):
@@ -84,3 +85,23 @@ class TextGenerator:
             sequences.append(line)
 
         return sequences
+
+    def _serialize_sequences(self, sequences):
+        """
+        Serialize sequences to file.
+
+        Arguments:
+        self
+        sequences -- list of sequences of length self.sequence_length each
+
+        Returns:
+        sequence_file -- Training data sequence file
+        """
+
+        data = '\n'.join(sequences)
+        _, sequence_file = tempfile.mkstemp()
+
+        with open(sequence_file, 'w') as file:
+            file.write(data)
+
+        return sequence_file

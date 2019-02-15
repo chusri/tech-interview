@@ -27,5 +27,8 @@ def main():
     print sequences[9000]
     print len(sequences)
 
+    sequence_file = text_generator._serialize_sequences(sequences)
+    print sequence_file
+
 if __name__ == '__main__':
     main()
