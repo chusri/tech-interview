@@ -23,5 +23,9 @@ def main():
     print 'Total tokens: %d' % len(tokens)
     print 'Unique tokens: %d' % len(set(tokens))
 
+    sequences = text_generator._create_sequences(tokens)
+    print sequences[9000]
+    print len(sequences)
+
 if __name__ == '__main__':
     main()
