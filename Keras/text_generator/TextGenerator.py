@@ -116,3 +116,21 @@ class TextGenerator:
         self.sequence_length = X.shape[1]
 
         return X, Y
+
+    def _prepare_training_data(self):
+        """
+        Prepare data for training the model.
+
+        Arguments:
+        self
+
+        Returns:
+        X -- input sequence to the neural network
+        Y -- output word
+        """
+
+        training_data = self._load_training_data()
+        tokens = self._tokenize_training_data(training_data)
+        sequences = self._create_sequences(tokens)
+        encoded_sequences = self._encode_sequences(sequences)
+        return self._create_training_set(encoded_sequences)
