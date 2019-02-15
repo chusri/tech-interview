@@ -22,5 +22,8 @@ def main():
     print text_generator.vocab_size
     print text_generator.sequence_length
 
+    model = text_generator._create_model()
+    print model.summary()
+
 if __name__ == '__main__':
     main()

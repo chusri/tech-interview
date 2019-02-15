@@ -2,8 +2,11 @@
 
 import string
 import tempfile
-import numpy as np
 from numpy import array
+from keras.layers import LSTM
+from keras.layers import Dense
+from keras.layers import Embedding
+from keras.models import Sequential
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.text import text_to_word_sequence
 
@@ -134,3 +137,28 @@ class TextGenerator:
         sequences = self._create_sequences(tokens)
         encoded_sequences = self._encode_sequences(sequences)
         return self._create_training_set(encoded_sequences)
+
+    def _create_model(self, embedding_dim=50, lstm_mem_cells=100,
+                      dense_neurons=100):
+        """
+        Create a Keras training model.
+
+        Arguments:
+        self
+        embedding_dim -- Embedding dimensions
+        lstm_mem_cells -- Number of LSTM memory cells
+        dense_neurons -- Number of neurons in the fully-connected layer
+
+        Returns:
+        model -- Keras training model
+        """
+
+        model = Sequential()
+        model.add(Embedding(self.vocab_size, embedding_dim,
+                            input_length=self.sequence_length))
+        model.add(LSTM(lstm_mem_cells, return_sequences=True))
+        model.add(LSTM(lstm_mem_cells))
+        model.add(Dense(dense_neurons, activation='relu'))
+        model.add(Dense(self.vocab_size, activation='softmax'))
+
+        return model
