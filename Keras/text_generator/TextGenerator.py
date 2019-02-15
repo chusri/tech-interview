@@ -2,6 +2,8 @@
 
 import string
 import tempfile
+import numpy as np
+from numpy import array
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.text import text_to_word_sequence
 
@@ -21,6 +23,7 @@ class TextGenerator:
 
         self.training_data_file = training_data_file
         self.sequence_length = sequence_length
+        self.vocab_size = None
 
     def _load_training_data(self):
         """
@@ -90,5 +93,26 @@ class TextGenerator:
         tokenizer = Tokenizer()
         tokenizer.fit_on_texts(sequences)
         encoded_sequences = tokenizer.texts_to_sequences(sequences)
+        self.vocab_size = len(tokenizer.word_index) + 1
 
         return encoded_sequences
+
+    def _create_training_set(self, encoded_sequences):
+        """
+        Create training set by splitting encoded sequences into input (X) and
+        output (Y).
+
+        Arguments:
+        self
+        encoded_sequences -- Encoded training sequences
+
+        Returns:
+        X -- input sequence to the neural network
+        Y -- output word
+        """
+
+        encoded_sequences = array(encoded_sequences)
+        X, Y = encoded_sequences[:,:-1], encoded_sequences[:,-1]
+        self.sequence_length = X.shape[1]
+
+        return X, Y

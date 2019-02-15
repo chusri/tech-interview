@@ -32,5 +32,13 @@ def main():
     print len(encoded_sequences)
     print len(encoded_sequences[9000])
 
+    X, Y = text_generator._create_training_set(encoded_sequences)
+    print X.shape
+    print Y.shape
+    print X[9000]
+    print Y[9000]
+    print text_generator.vocab_size
+    print text_generator.sequence_length
+
 if __name__ == '__main__':
     main()
