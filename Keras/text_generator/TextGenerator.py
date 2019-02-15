@@ -3,6 +3,7 @@
 import string
 import tempfile
 from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import text_to_word_sequence
 
 class TextGenerator:
     def __init__(self, training_data_file, sequence_length=51):
@@ -38,14 +39,7 @@ class TextGenerator:
 
     def _tokenize_training_data(self, training_data):
         """
-        Clean and tokenize training data.
-        1. Replace '-' with a white space so we can split words better
-        2. Split words based on white space
-        3. Remove all punctuation from words to reduce the vocabulary size
-           (e.g. 'What?' becomes 'What')
-        4. Remove all words that are not alphabetic to remove standalone
-           punctuation tokens
-        5. Normalize all words to lowercase to reduce the vocabulary size
+        Tokenize training data.
 
         Arguments:
         self
@@ -54,17 +48,11 @@ class TextGenerator:
         tokens -- tokenized data
         """
 
-        training_data = training_data.replace('--', ' ')
-        tokens = training_data.split()
-
-        # Remove all punctuation from words to reduce the vocabulary size
-        table = string.maketrans('', '')
-        tokens = [word.translate(table, string.punctuation) for word in tokens]
+        tokens = text_to_word_sequence(training_data)
 
         # Remove tokens that are not alphabetic
         tokens = [word for word in tokens if word.isalpha()]
 
-        tokens = [word.lower() for word in tokens]
         return tokens
 
     def _create_sequences(self, tokens):
