@@ -27,8 +27,10 @@ def main():
     print sequences[9000]
     print len(sequences)
 
-    sequence_file = text_generator._serialize_sequences(sequences)
-    print sequence_file
+    encoded_sequences = text_generator._encode_sequences(sequences)
+    print encoded_sequences[9000]
+    print len(encoded_sequences)
+    print len(encoded_sequences[9000])
 
 if __name__ == '__main__':
     main()

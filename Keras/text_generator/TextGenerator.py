@@ -2,6 +2,7 @@
 
 import string
 import tempfile
+from keras.preprocessing.text import Tokenizer
 
 class TextGenerator:
     def __init__(self, training_data_file, sequence_length=51):
@@ -86,22 +87,20 @@ class TextGenerator:
 
         return sequences
 
-    def _serialize_sequences(self, sequences):
+    def _encode_sequences(self, sequences):
         """
-        Serialize sequences to file.
+        Encode training sequences.
 
         Arguments:
         self
         sequences -- list of sequences of length self.sequence_length each
 
         Returns:
-        sequence_file -- Training data sequence file
+        encoded_sequences -- Encoded training sequences
         """
 
-        data = '\n'.join(sequences)
-        _, sequence_file = tempfile.mkstemp()
+        tokenizer = Tokenizer()
+        tokenizer.fit_on_texts(sequences)
+        encoded_sequences = tokenizer.texts_to_sequences(sequences)
 
-        with open(sequence_file, 'w') as file:
-            file.write(data)
-
-        return sequence_file
+        return encoded_sequences
