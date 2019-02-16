@@ -28,6 +28,30 @@ class TextGenerator:
         self.sequence_length = sequence_length
         self.vocab_size = None
 
+    def train(self, embedding_dim=50, lstm_mem_cells=100, dense_neurons=100,
+              epochs=100, batch_size=128):
+        """
+        Train the neural network.
+
+        Arguments:
+        self
+        embedding_dim -- Embedding dimensions
+        lstm_mem_cells -- Number of LSTM memory cells
+        dense_neurons -- Number of neurons in the fully-connected layer
+        epochs -- Number of epochs to train
+        batch_size -- Batch size
+
+        Returns:
+        """
+
+        X, Y = self._prepare_training_data()
+        model = self._create_model(embedding_dim=embedding_dim,
+                                   lstm_mem_cells=lstm_mem_cells,
+                                   dense_neurons=dense_neurons)
+        model.compile(loss='sparse_categorical_crossentropy',
+                      optimizer='adam', metrics=['accuracy'])
+        model.fit(X, Y, epochs=epochs, batch_size=batch_size)
+
     def _load_training_data(self):
         """
         Load training data to memory.
