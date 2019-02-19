@@ -1,17 +1,20 @@
 """ Pre-process text files for Deep Learning training and inference. """
 
 from numpy import array
+from pickle import dump
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.text import text_to_word_sequence
 
 class TextPreProcessor:
-    def __init__(self, training_data_file, sequence_length=51):
+    def __init__(self, training_data_file, word2int_map_file,
+                 sequence_length=51):
         """
         Initialize text pre-processor object.
 
         Arguments:
         self
         training_data_file -- text file containing training data
+        word2int_map_file -- file containing words to integers mapping
         sequence_length -- length of sequence of tokenized training data
 
         Returns:
@@ -19,6 +22,7 @@ class TextPreProcessor:
         """
 
         self.training_data_file = training_data_file
+        self.word2int_map_file = word2int_map_file
         self.sequence_length = sequence_length
         self.vocab_size = None
 
@@ -109,6 +113,9 @@ class TextPreProcessor:
         tokenizer.fit_on_texts(sequences)
         encoded_sequences = tokenizer.texts_to_sequences(sequences)
         self.vocab_size = len(tokenizer.word_index) + 1
+
+        # Save the word2int mapping to file
+        dump(tokenizer, open(self.word2int_map_file, 'wb'))
 
         return encoded_sequences
 
