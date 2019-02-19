@@ -1,3 +1,5 @@
+#!/home/ubuntu/wspace-2/anaconda2/bin/python
+
 """ Generate text sequences using a statistical language model. """
 
 import string
@@ -186,3 +188,21 @@ class TextGenerator:
         model.add(Dense(self.vocab_size, activation='softmax'))
 
         return model
+
+def main():
+    """
+    Main thread of execution.
+
+    Arguments:
+    None
+
+    Returns:
+    None
+    """
+
+    text_generator = TextGenerator('republic.txt')
+    text_generator.train(embedding_dim=50, lstm_mem_cells=100,
+                         dense_neurons=100, epochs=1, batch_size=128)
+
+if __name__ == '__main__':
+    main()
