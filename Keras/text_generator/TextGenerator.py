@@ -100,7 +100,7 @@ def main():
     text_generator = TextGenerator('republic.txt', 'republic_model.h5',
                                    'republic_word2int_map.pkl')
     text_generator.train(embedding_dim=50, lstm_mem_cells=100,
-                         dense_neurons=100, epochs=1, batch_size=128)
+                         dense_neurons=100, epochs=100, batch_size=128)
 
 if __name__ == '__main__':
     main()
