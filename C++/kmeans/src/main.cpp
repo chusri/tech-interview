@@ -7,12 +7,10 @@
 #include "util.h"
 #include<algorithm>
 
-void print_element(double d) {
-	cout << d << " ";
-}
-
 void print_vector(vector<double> v) {
-	for_each(v.begin(), v.end(), print_element);
+	for_each(v.begin(), v.end(), [](double d) {
+			cout << d << " ";
+	});
 	cout << endl;
 }
 
