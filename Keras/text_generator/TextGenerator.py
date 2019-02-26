@@ -4,10 +4,13 @@
 
 import sys
 import argparse
+from pickle import load
 from keras.layers import LSTM
 from keras.layers import Dense
 from keras.layers import Embedding
 from keras.models import Sequential
+from keras.models import load_model
+from keras.preprocessing.sequence import pad_sequences
 
 sys.path.append('/home/ubuntu/efs/tech-interview/Keras/text_preprocessor/')
 from TextPreProcessor import TextPreProcessor
@@ -61,6 +64,44 @@ class TextGenerator:
         # Save the trained model to file
         model.save(self.trained_model_file)
 
+    def generate_text(self, seed_text, num_words):
+        """
+        Generate new text from the trained model.
+
+        Arguments:
+        self
+        seed_text -- Text to seed the sequence generator
+        num_words -- Number of words to generate
+
+        Returns:
+        """
+
+        model = load_model(self.trained_model_file)
+        tokenizer = load(open(self.text_preprocessor.word2int_map_file, 'rb'))
+
+        # Generate fixed number of words
+        output_text = list()
+        input_text = seed_text
+
+        for _ in range(num_words):
+            output_word = ''
+            encoded_sequence = tokenizer.texts_to_sequences(input_text)[0]
+            encoded_sequence = pad_sequences([encoded_sequence],
+                                             maxlen=self.text_preprocessor.sequence_length-1,
+                                             truncating='pre')
+            next_word_index = model.predict_classes(encoded_sequence,
+                                                    verbose=0)
+
+            for word, index in tokenizer.word_index.items():
+                if index == next_word_index:
+                    output_word = word
+                    break
+
+            input_text += ' ' + output_word
+            output_text.append(output_word)
+
+        return ' '.join(output_text)
+
     def _create_model(self, embedding_dim=50, lstm_mem_cells=100,
                       dense_neurons=100):
         """
@@ -97,10 +138,18 @@ def main():
     None
     """
 
+    seed_text = """when he said that a man when he grows old may learn many
+    things for he can no more learn much than he can run much youth is the time
+    for any extraordinary toil of course and therefore calculation and geometry
+    and all the other elements of instruction which are a"""
+
     text_generator = TextGenerator('republic.txt', 'republic_model.h5',
                                    'republic_word2int_map.pkl')
-    text_generator.train(embedding_dim=50, lstm_mem_cells=100,
-                         dense_neurons=100, epochs=100, batch_size=128)
+    #text_generator.train(embedding_dim=50, lstm_mem_cells=100,
+    #                     dense_neurons=100, epochs=100, batch_size=128)
+
+    print seed_text
+    print text_generator.generate_text(seed_text, 50)
 
 if __name__ == '__main__':
     main()
