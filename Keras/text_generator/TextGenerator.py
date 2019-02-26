@@ -1,4 +1,4 @@
-#!/home/ubuntu/wspace-2/anaconda2/bin/python
+#!/home/ubuntu/anaconda3/envs/theano_p27/bin/python
 
 """ Generate text sequences using a statistical language model. """
 
