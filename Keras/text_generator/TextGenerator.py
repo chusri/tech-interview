@@ -119,7 +119,7 @@ class TextGenerator:
 
         Arguments:
         self
-        next_word_index -- word index in the word2int dictionary 
+        next_word_index -- word index in the word2int dictionary
         tokenizer -- word2int mapping
 
         Returns:
