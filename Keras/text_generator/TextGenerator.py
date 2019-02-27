@@ -74,33 +74,66 @@ class TextGenerator:
         num_words -- Number of words to generate
 
         Returns:
+        Generated text containing num_words
         """
 
         model = load_model(self.trained_model_file)
         tokenizer = load(open(self.text_preprocessor.word2int_map_file, 'rb'))
+        return self._generate_sequence(model, tokenizer, seed_text, num_words)
 
-        # Generate fixed number of words
-        output_text = list()
-        input_text = seed_text
+    def _generate_sequence(self, model, tokenizer, seed_text, num_words):
+        """
+        Generate new sequence from the trained model.
+
+        Arguments:
+        self
+        model -- Trained model
+        tokenizer -- word2int mapping
+        seed_text -- Text to seed the sequence generator
+        num_words -- Number of words to generate
+
+        Returns:
+        Generated sequence containing num_words
+        """
+
+        output_sequence = list()
+        input_sequence = seed_text
 
         for _ in range(num_words):
-            output_word = ''
-            encoded_sequence = tokenizer.texts_to_sequences(input_text)[0]
+            encoded_sequence = tokenizer.texts_to_sequences(input_sequence)[0]
             encoded_sequence = pad_sequences([encoded_sequence],
                                              maxlen=self.text_preprocessor.sequence_length-1,
                                              truncating='pre')
             next_word_index = model.predict_classes(encoded_sequence,
                                                     verbose=0)
 
-            for word, index in tokenizer.word_index.items():
-                if index == next_word_index:
-                    output_word = word
-                    break
+            output_word = self._next_output_word(next_word_index, tokenizer)
+            input_sequence += ' ' + output_word
+            output_sequence.append(output_word)
 
-            input_text += ' ' + output_word
-            output_text.append(output_word)
+        return ' '.join(output_sequence)
 
-        return ' '.join(output_text)
+    def _next_output_word(self, next_word_index, tokenizer):
+        """
+        Generate the next output word.
+
+        Arguments:
+        self
+        next_word_index -- word index in the word2int dictionary 
+        tokenizer -- word2int mapping
+
+        Returns:
+        Next output word
+        """
+
+        output_word = ''
+
+        for word, index in tokenizer.word_index.items():
+            if index == next_word_index:
+                output_word = word
+                break
+
+        return output_word
 
     def _create_model(self, embedding_dim=50, lstm_mem_cells=100,
                       dense_neurons=100):
@@ -138,9 +171,9 @@ def main():
     None
     """
 
-    seed_text = """when he said that a man when he grows old may learn many
-    things for he can no more learn much than he can run much youth is the time
-    for any extraordinary toil of course and therefore calculation and geometry
+    seed_text = """when he said that a man when he grows old may learn many 
+    things for he can no more learn much than he can run much youth is the time 
+    for any extraordinary toil of course and therefore calculation and geometry 
     and all the other elements of instruction which are a"""
 
     text_generator = TextGenerator('republic.txt', 'republic_model.h5',
