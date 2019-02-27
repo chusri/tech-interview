@@ -100,7 +100,7 @@ class TextGenerator:
         input_sequence = seed_text
 
         for _ in range(num_words):
-            encoded_sequence = tokenizer.texts_to_sequences(input_sequence)[0]
+            encoded_sequence = tokenizer.texts_to_sequences([input_sequence])[0]
             encoded_sequence = pad_sequences([encoded_sequence],
                                              maxlen=self.text_preprocessor.sequence_length-1,
                                              truncating='pre')
