@@ -172,19 +172,17 @@ def main():
     """
 
     args = parse_args()
+    text_generator = TextGenerator(args.training_data, args.model, args.map)
 
-    seed_text = """when he said that a man when he grows old may learn many 
-    things for he can no more learn much than he can run much youth is the time 
-    for any extraordinary toil of course and therefore calculation and geometry 
-    and all the other elements of instruction which are a"""
-
-    text_generator = TextGenerator('republic.txt', 'republic_model.h5',
-                                   'republic_word2int_map.pkl')
-    #text_generator.train(embedding_dim=50, lstm_mem_cells=100,
-    #                     dense_neurons=100, epochs=100, batch_size=128)
-
-    print seed_text
-    print text_generator.generate_text(seed_text, 50)
+    if args.mode == 'training':
+        text_generator.train(embedding_dim=50, lstm_mem_cells=100,
+                             dense_neurons=100, epochs=args.epochs,
+                             batch_size=args.batch)
+    else:
+        seed_text = TextPreProcessor(args.seed_text,
+                                     args.map)._load_training_data()
+        print(seed_text)
+        print(text_generator.generate_text(seed_text, 50))
 
 def parse_args():
     """
@@ -207,6 +205,8 @@ def parse_args():
                         help='Trained model file')
     parser.add_argument('--map', required=True,
                         help='word2int map file')
+    parser.add_argument('--seed_text', required=True,
+                        help='Seed text file for inference')
     parser.add_argument('--epochs', type=int, default=100,
                         help='Number of epochs for training')
     parser.add_argument('--batch', type=int, default=128,
