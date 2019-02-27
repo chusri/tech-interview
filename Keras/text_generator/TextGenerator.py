@@ -171,6 +171,8 @@ def main():
     None
     """
 
+    args = parse_args()
+
     seed_text = """when he said that a man when he grows old may learn many 
     things for he can no more learn much than he can run much youth is the time 
     for any extraordinary toil of course and therefore calculation and geometry 
@@ -183,6 +185,34 @@ def main():
 
     print seed_text
     print text_generator.generate_text(seed_text, 50)
+
+def parse_args():
+    """
+    Parse the command line arguments.
+
+    Arguments:
+    None
+
+    Returns:
+    Parsed command line arguments
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', required=True,
+                        choices=['training', 'inference'],
+                        help='Deep Learning mode')
+    parser.add_argument('--training_data', required=True,
+                        help='Training data file')
+    parser.add_argument('--model', required=True,
+                        help='Trained model file')
+    parser.add_argument('--map', required=True,
+                        help='word2int map file')
+    parser.add_argument('--epochs', type=int, default=100,
+                        help='Number of epochs for training')
+    parser.add_argument('--batch', type=int, default=128,
+                        help='Batch size')
+
+    return parser.parse_args()
 
 if __name__ == '__main__':
     main()
