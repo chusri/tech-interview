@@ -182,7 +182,7 @@ def main():
         seed_text = TextPreProcessor(args.seed_text,
                                      args.map)._load_training_data()
         print(seed_text)
-        print(text_generator.generate_text(seed_text, 50))
+        print(text_generator.generate_text(seed_text, args.words))
 
 def parse_args():
     """
@@ -211,6 +211,8 @@ def parse_args():
                         help='Number of epochs for training')
     parser.add_argument('--batch', type=int, default=128,
                         help='Batch size')
+    parser.add_argument('--words', type=int, default=50,
+                        help='Number of generated words')
 
     return parser.parse_args()
 
