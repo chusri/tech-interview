@@ -8,6 +8,7 @@
 #define POINT_H
 
 #include<vector>
+#include<iostream>
 
 using namespace std;
 
@@ -34,6 +35,34 @@ class Point {
 		Point(int dimensions, vector<T> coordinates);
 
 		/**
+		 * @brief Copy Constructor for the Point class.
+		 * @param point Point object.
+		 * @return None Constructor does not return.
+		 */
+		Point(const Point<T>& point);
+
+		/**
+		 * @brief Overload the assignment operator for the Point class.
+		 * @param point Point object.
+		 * @return Reference to a Point object.
+		 */
+		Point<T>& operator=(const Point<T>& point);
+
+		/**
+		 * @brief Overload the << operator for the Point class.
+		 * @param ostream ostream object.
+		 * @param point Point object.
+		 * @return Reference to ostream object.
+		 */
+		friend ostream& operator<<(ostream& out, const Point<T>& point) {
+			for_each(point.coordinates.begin(), point.coordinates.end(), [out](T e) {
+				out << e << " ";
+			});
+
+			return(out);
+		}
+
+		/**
 		 * @brief Getter method for number of dimensions.
 		 * @param void
 		 * @return Number of dimensions in space.
@@ -52,18 +81,38 @@ class Point {
 		vector<T> coordinates;
 };
 
-Point::Point(int dimensions): dimensions(dimensions) {}
-
+// Constructor with 1 argument
 template <class T>
-Point::Point(int dimensions, vector<T> coordinates) :
-						 dimensions(dimensions), coordinates(coordinates) {}
+Point<T>::Point(int dimensions): dimensions(dimensions) {}
 
-int Point::get_dimensions(void) const {
+// Constructor with 2 arguments
+template <class T>
+Point<T>::Point(int dimensions, vector<T> coordinates):
+								dimensions(dimensions), coordinates(coordinates) {}
+
+// Copy Constructor
+template <class T>
+Point<T>::Point(const Point<T>& point):
+								Point(point.dimensions, point.coordinates) {}
+
+// Overloaded assignment operator
+template <class T>
+Point<T>& Point<T>::operator=(const Point<T>& point) {
+	dimensions = point.dimensions;
+ 	coordinates = point.coordinates;
+
+	return(*this);
+}
+
+// Getter method for number of dimensions
+template <class T>
+int Point<T>::get_dimensions(void) const {
 	return(dimensions);
 }
 
+// Getter method for coordinates of point
 template <class T>
-vector<T> Point::get_coordinates(void) const {
+vector<T> Point<T>::get_coordinates(void) const {
 	return(coordinates);
 }
 

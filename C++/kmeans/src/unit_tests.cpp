@@ -5,6 +5,7 @@
  */
 
 #include "util.h"
+#include "Point.h"
 #include<gtest/gtest.h>
 
 TEST (KMeansTest, TokenizeData) {
