@@ -8,7 +8,6 @@
 #define POINT_H
 
 #include<vector>
-#include<cassert>
 #include<iostream>
 
 using namespace std;
@@ -29,11 +28,10 @@ class Point {
 
 		/**
 		 * @brief Constructor for the Point class.
-		 * @param dimensions Number of dimensions in space.
 		 * @param coordinates Coordinates of the point in n-dimensional space.
 		 * @return None Constructor does not return.
 		 */
-		Point(int dimensions, vector<T> coordinates);
+		Point(vector<T> coordinates);
 
 		/**
 		 * @brief Copy Constructor for the Point class.
@@ -85,32 +83,26 @@ class Point {
 		void set_coordinates(const vector<T> coordinates);
 
 	private:
-		int dimensions;
 		vector<T> coordinates;
 };
 
-// Constructor with 1 argument
+// Constructor
 template <class T>
-Point<T>::Point(int dimensions): dimensions(dimensions) {
+Point<T>::Point(int dimensions) {
 	coordinates = vector<T>(dimensions);
 }
 
-// Constructor with 2 arguments
+// Constructor
 template <class T>
-Point<T>::Point(int dimensions, vector<T> coordinates):
-								dimensions(dimensions), coordinates(coordinates) {
-	assert(coordinates.size() == dimensions);
-}
+Point<T>::Point(vector<T> coordinates): coordinates(coordinates) {}
 
 // Copy Constructor
 template <class T>
-Point<T>::Point(const Point<T>& point):
-								Point(point.dimensions, point.coordinates) {}
+Point<T>::Point(const Point<T>& point): Point(point.coordinates) {}
 
 // Overloaded assignment operator
 template <class T>
 Point<T>& Point<T>::operator=(const Point<T>& point) {
-	dimensions = point.dimensions;
  	coordinates = point.coordinates;
 
 	return(*this);
@@ -119,7 +111,7 @@ Point<T>& Point<T>::operator=(const Point<T>& point) {
 // Getter method for number of dimensions
 template <class T>
 int Point<T>::get_dimensions(void) const {
-	return(dimensions);
+	return(coordinates.size());
 }
 
 // Getter method for coordinates of point
@@ -131,7 +123,6 @@ vector<T> Point<T>::get_coordinates(void) const {
 // Setter method for coordinates of point
 template <class T>
 void Point<T>::set_coordinates(const vector<T> coordinates) {
-	assert(coordinates.size() == dimensions);
 	this->coordinates = coordinates;
 }
 
