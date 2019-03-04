@@ -8,6 +8,7 @@
 #include "Point.h"
 #include<gtest/gtest.h>
 
+// Unit tests for utility functions
 TEST (KMeansTest, TokenizeData) {
 	vector<double> row0, row149;
 	vector<double> row0_1, row0_2, row0_3;
@@ -43,6 +44,19 @@ TEST (KMeansTest, ReadTrainingData) {
 	ASSERT_EQ(row0, row0_ground_truth);
 	ASSERT_EQ(row149, row149_ground_truth);
 	ASSERT_NE(row0, row149_ground_truth);
+}
+
+// Unit tests for Point class
+TEST (KMeansTest, PointConstructor) {
+	vector<double> v1{5.1,3.5,1.4,0.2};
+	Point<double> point1(4);
+	Point<double> point2(4, v1);
+	Point<double> point3 = point2;
+
+	ASSERT_EQ(4, point1.get_dimensions());
+	ASSERT_EQ(v1, point2.get_coordinates());
+	ASSERT_EQ(point3.get_dimensions(), point2.get_dimensions());
+	ASSERT_EQ(point3.get_coordinates(), point2.get_coordinates());
 }
 
 int main(int argc, char** argv) {
