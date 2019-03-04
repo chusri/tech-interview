@@ -8,6 +8,7 @@
 #define POINT_H
 
 #include<vector>
+#include<cassert>
 #include<iostream>
 
 using namespace std;
@@ -76,6 +77,13 @@ class Point {
 		 */
 		vector<T> get_coordinates(void) const;
 
+		/**
+		 * @brief Setter method for coordinates of point.
+		 * @param coordinates Coordinates of point in n-dimensional space.
+		 * @return void
+		 */
+		void set_coordinates(const vector<T> coordinates);
+
 	private:
 		int dimensions;
 		vector<T> coordinates;
@@ -83,12 +91,16 @@ class Point {
 
 // Constructor with 1 argument
 template <class T>
-Point<T>::Point(int dimensions): dimensions(dimensions) {}
+Point<T>::Point(int dimensions): dimensions(dimensions) {
+	coordinates = vector<T>(dimensions);
+}
 
 // Constructor with 2 arguments
 template <class T>
 Point<T>::Point(int dimensions, vector<T> coordinates):
-								dimensions(dimensions), coordinates(coordinates) {}
+								dimensions(dimensions), coordinates(coordinates) {
+	assert(coordinates.size() == dimensions);
+}
 
 // Copy Constructor
 template <class T>
@@ -114,6 +126,13 @@ int Point<T>::get_dimensions(void) const {
 template <class T>
 vector<T> Point<T>::get_coordinates(void) const {
 	return(coordinates);
+}
+
+// Setter method for coordinates of point
+template <class T>
+void Point<T>::set_coordinates(const vector<T> coordinates) {
+	assert(coordinates.size() == dimensions);
+	this->coordinates = coordinates;
 }
 
 #endif //POINT_H

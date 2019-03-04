@@ -47,16 +47,27 @@ TEST (KMeansTest, ReadTrainingData) {
 }
 
 // Unit tests for Point class
-TEST (KMeansTest, PointConstructor) {
+TEST (KMeansTest, PointClass) {
 	vector<double> v1{5.1,3.5,1.4,0.2};
+	vector<double> v2{3.1,6.5,1.4,1.2};
 	Point<double> point1(4);
 	Point<double> point2(4, v1);
 	Point<double> point3 = point2;
 
+	// Tests for constructors and getter functions
 	ASSERT_EQ(4, point1.get_dimensions());
 	ASSERT_EQ(v1, point2.get_coordinates());
 	ASSERT_EQ(point3.get_dimensions(), point2.get_dimensions());
 	ASSERT_EQ(point3.get_coordinates(), point2.get_coordinates());
+
+	// Tests for setter function
+	point2.set_coordinates(v2);
+	ASSERT_EQ(v2, point2.get_coordinates());
+
+	// Tests for overloaded assignment operator
+	point1 = point3;
+	ASSERT_EQ(point1.get_dimensions(), point3.get_dimensions());
+	ASSERT_EQ(point1.get_coordinates(), point3.get_coordinates());
 }
 
 int main(int argc, char** argv) {
