@@ -5,21 +5,12 @@
  */
 
 #include "util.h"
-#include<algorithm>
-
-void print_vector(vector<double> v) {
-	for_each(v.begin(), v.end(), [](double d) {
-			cout << d << " ";
-	});
-	cout << endl;
-}
+#include "Point.h"
 
 int main(int argc, char** argv) {
-	vector<vector<double> > training_data;
+	vector<double> v1{5.1,3.5,1.4,0.2};
+	Point<double> point1(v1);
 
-	training_data = read_training_data<double>("../data/iris.txt", 4);
-
-	// Print the training data
-	for_each(training_data.begin(), training_data.end(), print_vector);
+	cout << point1 << endl;
 	return(0);
 }

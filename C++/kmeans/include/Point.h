@@ -54,7 +54,8 @@ class Point {
 		 * @return Reference to ostream object.
 		 */
 		friend ostream& operator<<(ostream& out, const Point<T>& point) {
-			for_each(point.coordinates.begin(), point.coordinates.end(), [out](T e) {
+			for_each(point.coordinates.begin(), point.coordinates.end(),
+							[&out](const T e) {
 				out << e << " ";
 			});
 
