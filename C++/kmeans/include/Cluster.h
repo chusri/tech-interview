@@ -24,7 +24,7 @@ class Cluster {
 		 * @brief Constructor for the Cluster class.
 		 * @return None Constructor does not return.
 		 */
-		Cluster();
+		Cluster(void);
 
 		/**
 		 * @brief Constructor for the Cluster class.
@@ -119,41 +119,51 @@ class Cluster {
 
 // Constructor
 template <class T>
-Cluster<T>::Cluster(int id) {
-	points = vector<T>(id);
-}
+Cluster<T>::Cluster(void): id(-1) {}
 
 // Constructor
 template <class T>
-Cluster<T>::Cluster(vector<T> points): points(points) {}
+Cluster<T>::Cluster(int id): id(id) {}
+
+// Constructor
+template <class T>
+Cluster<T>::Cluster(int id, vector<Point<T>> points): id(id), points(points) {}
 
 // Copy Constructor
 template <class T>
-Cluster<T>::Cluster(const Cluster<T>& point): Cluster(point.points) {}
+Cluster<T>::Cluster(const Cluster<T>& cluster):
+										Cluster(cluster.id, cluster.points) {}
 
 // Overloaded assignment operator
 template <class T>
-Cluster<T>& Cluster<T>::operator=(const Cluster<T>& point) {
- 	points = point.points;
+Cluster<T>& Cluster<T>::operator=(const Cluster<T>& cluster) {
+ 	id = cluster.id;
+ 	points = cluster.points;
 
 	return(*this);
 }
 
-// Getter method for number of id
+// Getter method for cluster id
 template <class T>
 int Cluster<T>::get_id(void) const {
-	return(points.size());
+	return(id);
 }
 
-// Getter method for points of point
+// Getter method for cluster points
 template <class T>
-vector<T> Cluster<T>::get_points(void) const {
+vector<Point<T>> Cluster<T>::get_points(void) const {
 	return(points);
 }
 
-// Setter method for points of point
+// Setter method for cluster id
 template <class T>
-void Cluster<T>::set_points(const vector<T> points) {
+void Cluster<T>::set_id(const int id) {
+	this->id = id;
+}
+
+// Setter method for points
+template <class T>
+void Cluster<T>::set_points(const vector<Point<T>> points) {
 	this->points = points;
 }
 
