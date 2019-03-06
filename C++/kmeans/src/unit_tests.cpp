@@ -65,8 +65,9 @@ TEST (KMeansTest, PointClass) {
 	point2.set_coordinates(v2);
 	ASSERT_EQ(v2, point2.get_coordinates());
 
-	// Tests for overloaded assignment operator
+	// Tests for overloaded = and == operators
 	point1 = point3;
+	ASSERT_EQ(point1, point3);
 	ASSERT_EQ(point1.get_dimensions(), point3.get_dimensions());
 	ASSERT_EQ(point1.get_coordinates(), point3.get_coordinates());
 }
@@ -90,7 +91,7 @@ TEST (KMeansTest, ClusterClass) {
 	ASSERT_EQ(2, cluster2.get_id());
 	ASSERT_EQ(0, cluster2.get_num_points());
 	ASSERT_EQ(3, cluster3.get_id());
-	//ASSERT_EQ(points, cluster3.get_points());
+	ASSERT_EQ(points, cluster3.get_points());
 
 #if 0
 	ASSERT_EQ(v1, point2.get_coordinates());

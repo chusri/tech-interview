@@ -48,6 +48,13 @@ class Point {
 		Point<T>& operator=(const Point<T>& point);
 
 		/**
+		 * @brief Overload the == operator for the Point class.
+		 * @param point Point object.
+		 * @return True or False.
+		 */
+		bool operator==(const Point<T>& point) const;
+
+		/**
 		 * @brief Overload the << operator for the Point class.
 		 * @param ostream ostream object.
 		 * @param point Point object.
@@ -101,12 +108,18 @@ Point<T>::Point(vector<T> coordinates): coordinates(coordinates) {}
 template <class T>
 Point<T>::Point(const Point<T>& point): Point(point.coordinates) {}
 
-// Overloaded assignment operator
+// Overload assignment operator
 template <class T>
 Point<T>& Point<T>::operator=(const Point<T>& point) {
  	coordinates = point.coordinates;
 
 	return(*this);
+}
+
+// Overload == operator
+template <class T>
+bool Point<T>::operator==(const Point<T>& point) const {
+	return(coordinates == point.coordinates);
 }
 
 // Getter method for number of dimensions
