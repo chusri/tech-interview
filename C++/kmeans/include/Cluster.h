@@ -167,4 +167,14 @@ void Cluster<T>::set_points(const vector<Point<T>> points) {
 	this->points = points;
 }
 
+// Add point to cluster
+void Cluster<T>::add_point(const Point<T> point) {
+	points.push_back(point);
+}
+
+// Remove point from cluster
+void Cluster<T>::remove_point(const Point<T> point) {
+	points.erase(remove(points.begin(), points.end(), point), points.end());
+}
+
 #endif //CLUSTER_H
