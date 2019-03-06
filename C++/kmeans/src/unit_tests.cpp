@@ -6,6 +6,7 @@
 
 #include "util.h"
 #include "Point.h"
+#include "Cluster.h"
 #include<gtest/gtest.h>
 
 // Unit tests for utility functions
@@ -68,6 +69,43 @@ TEST (KMeansTest, PointClass) {
 	point1 = point3;
 	ASSERT_EQ(point1.get_dimensions(), point3.get_dimensions());
 	ASSERT_EQ(point1.get_coordinates(), point3.get_coordinates());
+}
+
+// Unit tests for Cluster class
+TEST (KMeansTest, ClusterClass) {
+	vector<double> v1{5.1,3.5,1.4,0.2};
+	vector<double> v2{3.1,6.5,1.4,1.2};
+	Point<double> point1(4);
+	Point<double> point2(v1);
+	Point<double> point3 = point2;
+
+	vector<Point<double>> points{point1,point2,point3};
+	Cluster<double> cluster1;
+	Cluster<double> cluster2(2);
+	Cluster<double> cluster3(3, points);
+
+	// Tests for constructors and getter functions
+	ASSERT_EQ(-1, cluster1.get_id());
+	ASSERT_EQ(0, cluster1.get_num_points());
+	ASSERT_EQ(2, cluster2.get_id());
+	ASSERT_EQ(0, cluster2.get_num_points());
+	ASSERT_EQ(3, cluster3.get_id());
+	//ASSERT_EQ(points, cluster3.get_points());
+
+#if 0
+	ASSERT_EQ(v1, point2.get_coordinates());
+	ASSERT_EQ(point3.get_dimensions(), point2.get_dimensions());
+	ASSERT_EQ(point3.get_coordinates(), point2.get_coordinates());
+
+	// Tests for setter function
+	point2.set_coordinates(v2);
+	ASSERT_EQ(v2, point2.get_coordinates());
+
+	// Tests for overloaded assignment operator
+	point1 = point3;
+	ASSERT_EQ(point1.get_dimensions(), point3.get_dimensions());
+	ASSERT_EQ(point1.get_coordinates(), point3.get_coordinates());
+#endif
 }
 
 int main(int argc, char** argv) {

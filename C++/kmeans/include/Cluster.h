@@ -83,7 +83,7 @@ class Cluster {
 		 * @param void
 		 * @return vector of points.
 		 */
-		vector<T> get_points(void) const;
+		vector<Point<T>> get_points(void) const;
 
 		/**
 		 * @brief Setter method for cluster id.
@@ -112,6 +112,13 @@ class Cluster {
 		 * @return void
 		 */
 		void remove_point(const Point<T> point);
+
+		/**
+		 * @brief Return number of points in cluster.
+		 * @param void
+		 * @return Number of points in cluster.
+		 */
+		long get_num_points(void) const;
 
 	private:
 		int id;
@@ -169,13 +176,21 @@ void Cluster<T>::set_points(const vector<Point<T>> points) {
 }
 
 // Add point to cluster
+template <class T>
 void Cluster<T>::add_point(const Point<T> point) {
 	points.push_back(point);
 }
 
 // Remove point from cluster
+template <class T>
 void Cluster<T>::remove_point(const Point<T> point) {
 	points.erase(remove(points.begin(), points.end(), point), points.end());
+}
+
+// Return number of points in cluster
+template <class T>
+long Cluster<T>::get_num_points(void) const {
+	return(points.size());
 }
 
 #endif //CLUSTER_H
