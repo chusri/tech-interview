@@ -84,6 +84,7 @@ TEST (KMeansTest, ClusterClass) {
 	Cluster<double> cluster1;
 	Cluster<double> cluster2(2);
 	Cluster<double> cluster3(3, points);
+	Cluster<double> cluster4 = cluster3;
 
 	// Tests for constructors and getter functions
 	ASSERT_EQ(-1, cluster1.get_id());
@@ -92,6 +93,11 @@ TEST (KMeansTest, ClusterClass) {
 	ASSERT_EQ(0, cluster2.get_num_points());
 	ASSERT_EQ(3, cluster3.get_id());
 	ASSERT_EQ(points, cluster3.get_points());
+	ASSERT_EQ(cluster3, cluster4);
+
+	// Tests for overloaded = and == operator
+	cluster1 = cluster3;
+	ASSERT_EQ(cluster1, cluster3);
 
 #if 0
 	ASSERT_EQ(v1, point2.get_coordinates());

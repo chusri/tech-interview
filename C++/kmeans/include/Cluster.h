@@ -23,14 +23,14 @@ class Cluster {
 	public:
 		/**
 		 * @brief Constructor for the Cluster class.
-		 * @return None Constructor does not return.
+		 * @return None
 		 */
 		Cluster(void);
 
 		/**
 		 * @brief Constructor for the Cluster class.
 		 * @param id Cluster id.
-		 * @return None Constructor does not return.
+		 * @return None
 		 */
 		Cluster(int id);
 
@@ -38,28 +38,35 @@ class Cluster {
 		 * @brief Constructor for the Cluster class.
 		 * @param id Cluster id.
 		 * @param points Vector of points in the cluster.
-		 * @return None Constructor does not return.
+		 * @return None
 		 */
 		Cluster(int id, vector<Point<T>> points);
 
 		/**
 		 * @brief Copy Constructor for the Cluster class.
-		 * @param point Cluster object.
-		 * @return None Constructor does not return.
+		 * @param cluster Cluster object.
+		 * @return None
 		 */
-		Cluster(const Cluster<T>& point);
+		Cluster(const Cluster<T>& cluster);
 
 		/**
 		 * @brief Overload the assignment operator for the Cluster class.
-		 * @param point Cluster object.
+		 * @param cluster Cluster object.
 		 * @return Reference to a Cluster object.
 		 */
-		Cluster<T>& operator=(const Cluster<T>& point);
+		Cluster<T>& operator=(const Cluster<T>& cluster);
+
+		/**
+		 * @brief Overload the == operator for the Cluster class.
+		 * @param cluster Cluster object.
+		 * @return True or False.
+		 */
+		bool operator==(const Cluster<T>& cluster) const;
 
 		/**
 		 * @brief Overload the << operator for the Cluster class.
 		 * @param ostream ostream object.
-		 * @param point Cluster object.
+		 * @param cluster Cluster object.
 		 * @return Reference to ostream object.
 		 */
 		friend ostream& operator<<(ostream& out, const Cluster<T>& cluster) {
@@ -142,13 +149,19 @@ template <class T>
 Cluster<T>::Cluster(const Cluster<T>& cluster):
 										Cluster(cluster.id, cluster.points) {}
 
-// Overloaded assignment operator
+// Overload assignment operator
 template <class T>
 Cluster<T>& Cluster<T>::operator=(const Cluster<T>& cluster) {
  	id = cluster.id;
  	points = cluster.points;
 
 	return(*this);
+}
+
+// Overload == operator
+template <class T>
+bool Cluster<T>::operator==(const Cluster<T>& cluster) const {
+	return(id == cluster.id && points == cluster.points);
 }
 
 // Getter method for cluster id
