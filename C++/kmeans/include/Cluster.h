@@ -70,6 +70,7 @@ class Cluster {
 		 * @return Reference to ostream object.
 		 */
 		friend ostream& operator<<(ostream& out, const Cluster<T>& cluster) {
+			out << "Cluster id: " << cluster.id << endl;
 			for_each(cluster.points.begin(), cluster.points.end(),
 							[&out](const Point<T> p) {
 				out << p << " " << endl;
