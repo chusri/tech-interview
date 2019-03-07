@@ -99,20 +99,26 @@ TEST (KMeansTest, ClusterClass) {
 	cluster1 = cluster3;
 	ASSERT_EQ(cluster1, cluster3);
 
-#if 0
-	ASSERT_EQ(v1, point2.get_coordinates());
-	ASSERT_EQ(point3.get_dimensions(), point2.get_dimensions());
-	ASSERT_EQ(point3.get_coordinates(), point2.get_coordinates());
+	// Tests for setter functions
+	cluster1.set_id(1);
+	cluster1.set_points(points);
+	ASSERT_EQ(1, cluster1.get_id());
+	ASSERT_EQ(points, cluster1.get_points());
 
-	// Tests for setter function
-	point2.set_coordinates(v2);
-	ASSERT_EQ(v2, point2.get_coordinates());
+	// Tests for add_point and remove_point methods
+	cluster2.add_point(point1);
+	cluster2.add_point(point2);
+	cluster2.add_point(point3);
+	ASSERT_EQ(points, cluster2.get_points());
 
-	// Tests for overloaded assignment operator
-	point1 = point3;
-	ASSERT_EQ(point1.get_dimensions(), point3.get_dimensions());
-	ASSERT_EQ(point1.get_coordinates(), point3.get_coordinates());
-#endif
+	cluster2.remove_point(point1);
+	cluster2.remove_point(point2);
+	cluster2.remove_point(point3);
+	ASSERT_EQ(0, cluster2.get_num_points());
+
+	// Remove point from an empty cluster
+	cluster2.remove_point(point1);
+	ASSERT_EQ(0, cluster2.get_num_points());
 }
 
 int main(int argc, char** argv) {
