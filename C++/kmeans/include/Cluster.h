@@ -38,9 +38,10 @@ class Cluster {
 		 * @brief Constructor for the Cluster class.
 		 * @param id Cluster id.
 		 * @param points Vector of points in the cluster.
+		 * @param centroid Centroid of points in cluster.
 		 * @return None
 		 */
-		Cluster(int id, vector<Point<T>> points);
+		Cluster(int id, vector<Point<T>> points, double centroid=0.0);
 
 		/**
 		 * @brief Copy Constructor for the Cluster class.
@@ -71,6 +72,7 @@ class Cluster {
 		 */
 		friend ostream& operator<<(ostream& out, const Cluster<T>& cluster) {
 			out << "Cluster id: " << cluster.id << endl;
+			out << "Cluster centroid: " << cluster.centroid << endl;
 			for_each(cluster.points.begin(), cluster.points.end(),
 							[&out](const Point<T> p) {
 				out << p << " " << endl;
@@ -87,6 +89,13 @@ class Cluster {
 		int get_id(void) const;
 
 		/**
+		 * @brief Getter method for cluster centroid.
+		 * @param void
+		 * @return cluster centroid.
+		 */
+		double get_centroid(void) const;
+
+		/**
 		 * @brief Getter method for points in a cluster.
 		 * @param void
 		 * @return vector of points.
@@ -99,6 +108,13 @@ class Cluster {
 		 * @return void
 		 */
 		void set_id(const int id);
+
+		/**
+		 * @brief Setter method for cluster centroid.
+		 * @param centroid cluster centroid.
+		 * @return void
+		 */
+		void set_centroid(const double centroid);
 
 		/**
 		 * @brief Setter method for points in a cluster.
@@ -130,30 +146,34 @@ class Cluster {
 
 	private:
 		int id;
+		double centroid;
 		vector<Point<T>> points;
+		double calculate_centroid(void) const;
 };
 
 // Constructor
 template <class T>
-Cluster<T>::Cluster(void): id(-1) {}
+Cluster<T>::Cluster(void): id(-1), centroid(0.0) {}
 
 // Constructor
 template <class T>
-Cluster<T>::Cluster(int id): id(id) {}
+Cluster<T>::Cluster(int id): id(id), centroid(0.0) {}
 
 // Constructor
 template <class T>
-Cluster<T>::Cluster(int id, vector<Point<T>> points): id(id), points(points) {}
+Cluster<T>::Cluster(int id, vector<Point<T>> points, double centroid):
+										id(id), centroid(centroid), points(points) {}
 
 // Copy Constructor
 template <class T>
 Cluster<T>::Cluster(const Cluster<T>& cluster):
-										Cluster(cluster.id, cluster.points) {}
+										Cluster(cluster.id, cluster.points, cluster.centroid) {}
 
 // Overload assignment operator
 template <class T>
 Cluster<T>& Cluster<T>::operator=(const Cluster<T>& cluster) {
  	id = cluster.id;
+ 	centroid = cluster.centroid;
  	points = cluster.points;
 
 	return(*this);
@@ -171,6 +191,12 @@ int Cluster<T>::get_id(void) const {
 	return(id);
 }
 
+// Getter method for cluster centroid
+template <class T>
+double Cluster<T>::get_centroid(void) const {
+	return(centroid);
+}
+
 // Getter method for cluster points
 template <class T>
 vector<Point<T>> Cluster<T>::get_points(void) const {
@@ -181,6 +207,12 @@ vector<Point<T>> Cluster<T>::get_points(void) const {
 template <class T>
 void Cluster<T>::set_id(const int id) {
 	this->id = id;
+}
+
+// Setter method for cluster centroid
+template <class T>
+void Cluster<T>::set_centroid(const double centroid) {
+	this->centroid = centroid;
 }
 
 // Setter method for points
@@ -205,6 +237,12 @@ void Cluster<T>::remove_point(const Point<T> point) {
 template <class T>
 long Cluster<T>::get_num_points(void) const {
 	return(points.size());
+}
+
+// Calculate the centroid of the points in the cluster
+template <class T>
+double Cluster<T>::calculate_centroid(void) const {
+	return(0.0);
 }
 
 #endif //CLUSTER_H
