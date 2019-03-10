@@ -24,7 +24,7 @@ class Point {
 		 * @param dimensions Number of dimensions in space.
 		 * @return None Constructor does not return.
 		 */
-		Point(int dimensions);
+		Point(int dimensions=0);
 
 		/**
 		 * @brief Constructor for the Point class.

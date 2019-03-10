@@ -102,10 +102,10 @@ TEST (KMeansTest, ClusterClass) {
 	// Tests for setter functions
 	cluster1.set_id(1);
 	cluster1.set_points(points);
-	cluster1.set_centroid(2.14);
+	cluster1.set_centroid(point2);
 	ASSERT_EQ(1, cluster1.get_id());
 	ASSERT_EQ(points, cluster1.get_points());
-	ASSERT_EQ(2.14, cluster1.get_centroid());
+	ASSERT_EQ(point2, cluster1.get_centroid());
 
 	// Tests for add_point and remove_point methods
 	cluster2.add_point(point1);
