@@ -23,16 +23,10 @@ class Cluster {
 	public:
 		/**
 		 * @brief Constructor for the Cluster class.
-		 * @return None
-		 */
-		Cluster(void);
-
-		/**
-		 * @brief Constructor for the Cluster class.
 		 * @param id Cluster id.
 		 * @return None
 		 */
-		Cluster(int id);
+		Cluster(int id=-1);
 
 		/**
 		 * @brief Constructor for the Cluster class.
@@ -154,10 +148,6 @@ class Cluster {
 		 */
 		void calculate_centroid(void);
 };
-
-// Constructor
-template <class T>
-Cluster<T>::Cluster(void): id(-1) {}
 
 // Constructor
 template <class T>
