@@ -146,6 +146,12 @@ class Cluster {
 		int id;
 		Point<double> centroid;
 		vector<Point<T>> points;
+
+		/**
+		 * @brief Calculate centroid of points in cluster.
+		 * @param void
+		 * @return void
+		 */
 		void calculate_centroid(void);
 };
 
