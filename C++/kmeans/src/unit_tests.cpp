@@ -47,6 +47,22 @@ TEST (KMeansTest, ReadTrainingData) {
 	ASSERT_NE(row0, row149_ground_truth);
 }
 
+TEST (KMeansTest, GetColumnFrom2Dvec) {
+	vector<double> v1{2.1,3.2,1.4,0.2};
+	vector<double> v2{3.1,4.2,1.4,1.2};
+	vector<double> v3{4.1,5.2,1.4,1.2};
+	vector<double> v4{5.1,6.2,1.4,1.2};
+	vector<double> v1_t{2.1,3.1,4.1,5.1};
+	vector<double> v2_t{3.2,4.2,5.2,6.2};
+	vector<double> v3_t{1.4,1.4,1.4,1.4};
+	vector<vector<double> > vec2d{v1,v2,v3,v4};
+
+	ASSERT_EQ(v1_t, get_column_vector<double>(vec2d, 0));
+	ASSERT_EQ(v2_t, get_column_vector<double>(vec2d, 1));
+	ASSERT_EQ(v3_t, get_column_vector<double>(vec2d, 2));
+	ASSERT_NE(v3_t, get_column_vector<double>(vec2d, 3));
+}
+
 // Unit tests for Point class
 TEST (KMeansTest, PointClass) {
 	vector<double> v1{5.1,3.5,1.4,0.2};

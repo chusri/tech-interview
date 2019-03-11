@@ -239,7 +239,7 @@ long Cluster<T>::get_num_points(void) const {
 	return(points.size());
 }
 
-// Calculate the centroid of the points in the cluster
+// Calculate centroid of the points in cluster
 template <class T>
 void Cluster<T>::calculate_centroid(void) {}
 

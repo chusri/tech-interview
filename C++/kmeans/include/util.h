@@ -48,7 +48,7 @@ vector<T> tokenize(const string& str, char delimiter, int num_features) {
  */
 template <class T>
 vector<vector<T> >
-read_training_data(string training_data_file, int num_features) {
+read_training_data(const string& training_data_file, int num_features) {
 	string line;
 	ifstream file;
 	vector<vector<T> > training_data;
@@ -61,6 +61,24 @@ read_training_data(string training_data_file, int num_features) {
 
 	file.close();
 	return(training_data);
+}
+
+/**
+ * @brief This function returns column vector from 2D vector.
+ * @param vec2d 2D vector.
+ * @param index column index.
+ * @return column vector.
+ */
+template <class T>
+vector<T>
+get_column_vector(const vector<vector<T> >& vec2d, int index) {
+	vector<T> column;
+
+	for_each(vec2d.begin(), vec2d.end(), [&column, index](const vector<T> row) {
+			column.push_back(row[index]);
+	});
+
+	return(column);
 }
 
 #endif //UTIL_H
