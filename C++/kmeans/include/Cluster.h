@@ -7,8 +7,10 @@
 #ifndef CLUSTER_H
 #define CLUSTER_H
 
+#include "util.h"
 #include "Point.h"
 #include<vector>
+#include<numeric>
 #include<iostream>
 #include<algorithm>
 
@@ -139,7 +141,7 @@ class Cluster {
 	private:
 		int id;
 		Point<double> centroid;
-		vector<Point<T>> points;
+		vector<Point<T> > points;
 
 		/**
 		 * @brief Calculate centroid of points in cluster.
@@ -155,7 +157,7 @@ Cluster<T>::Cluster(int id): id(id) {}
 
 // Constructor
 template <class T>
-Cluster<T>::Cluster(int id, vector<Point<T>> points): id(id), points(points) {
+Cluster<T>::Cluster(int id, vector<Point<T> > points): id(id), points(points) {
 	calculate_centroid();
 }
 
@@ -214,7 +216,7 @@ void Cluster<T>::set_centroid(const Point<double> centroid) {
 
 // Setter method for points
 template <class T>
-void Cluster<T>::set_points(const vector<Point<T>> points) {
+void Cluster<T>::set_points(const vector<Point<T> > points) {
 	this->points = points;
 	calculate_centroid();
 }
@@ -239,8 +241,27 @@ long Cluster<T>::get_num_points(void) const {
 	return(points.size());
 }
 
-// Calculate centroid of the points in cluster
+// Calculate centroid of points in cluster
 template <class T>
-void Cluster<T>::calculate_centroid(void) {}
+void Cluster<T>::calculate_centroid(void) {
+	vector<vector<T> > coordinates;
+	vector<double> v;
+
+	// If cluster is empty, return
+	if (points.size() == 0) return;
+
+	// Create 2D vector of the point coordinates in cluster
+	for_each(points.begin(), points.end(), [&coordinates](const Point<T> point) {
+		coordinates.push_back(point.get_coordinates());
+	});
+
+	// Extract all columns from 2D vector and calculate avg. per column.
+	for (int i = 0; i < coordinates[0].size(); i++) {
+		vector<T> col_vector = get_column_vector<T>(coordinates, i);
+		double col_vector_avg = accumulate(col_vector.begin(), col_vector.end(), 0)/col_vector.size();
+		v.push_back(col_vector_avg);
+	}
+	centroid.set_coordinates(v);
+}
 
 #endif //CLUSTER_H
