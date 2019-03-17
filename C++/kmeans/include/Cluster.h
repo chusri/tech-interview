@@ -149,6 +149,13 @@ class Cluster {
 		 * @return void
 		 */
 		void calculate_centroid(void);
+
+		/**
+		 * @brief Create 2D vector of point coordinates.
+		 * @param void
+		 * @return 2D vector of point coordinates.
+		 */
+		vector<vector<T> > create_vec2d_coordinates(void);
 };
 
 // Constructor
@@ -244,24 +251,36 @@ long Cluster<T>::get_num_points(void) const {
 // Calculate centroid of points in cluster
 template <class T>
 void Cluster<T>::calculate_centroid(void) {
+	vector<double> column_avgs;
+	double col_vector_avg = 0.0;
 	vector<vector<T> > coordinates;
-	vector<double> v;
 
 	// If cluster is empty, return
 	if (points.size() == 0) return;
 
 	// Create 2D vector of the point coordinates in cluster
-	for_each(points.begin(), points.end(), [&coordinates](const Point<T> point) {
-		coordinates.push_back(point.get_coordinates());
-	});
+	coordinates = create_vec2d_coordinates();
 
 	// Extract all columns from 2D vector and calculate avg. per column.
 	for (int i = 0; i < coordinates[0].size(); i++) {
 		vector<T> col_vector = get_column_vector<T>(coordinates, i);
-		double col_vector_avg = accumulate(col_vector.begin(), col_vector.end(), 0)/col_vector.size();
-		v.push_back(col_vector_avg);
+		col_vector_avg = accumulate(col_vector.begin(), col_vector.end(), 0)/
+										 col_vector.size();
+		column_avgs.push_back(col_vector_avg);
 	}
-	centroid.set_coordinates(v);
+	centroid.set_coordinates(column_avgs);
+}
+
+// Create 2D vector of the point coordinates in cluster
+template <class T>
+vector<vector<T> > Cluster<T>::create_vec2d_coordinates(void) {
+	vector<vector<T> > coordinates;
+
+	for_each(points.begin(), points.end(), [&coordinates](const Point<T> point) {
+		coordinates.push_back(point.get_coordinates());
+	});
+
+	return(coordinates);
 }
 
 #endif //CLUSTER_H
