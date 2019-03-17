@@ -92,15 +92,25 @@ TEST (KMeansTest, PointClass) {
 TEST (KMeansTest, ClusterClass) {
 	vector<double> v1{5.1,3.5,1.4,0.2};
 	vector<double> v2{3.1,6.5,1.4,1.2};
+	vector<double> v3{2.1,8.5,3.4,9.2};
+	vector<double> v4{3.4333,6.1666,2.0666,3.5333};
+
 	Point<double> point1(4);
 	Point<double> point2(v1);
 	Point<double> point3 = point2;
+	Point<double> point4(v1);
+	Point<double> point5(v2);
+	Point<double> point6(v3);
+	Point<double> point7(v4);
 
 	vector<Point<double>> points{point1,point2,point3};
+	vector<Point<double>> points1{point4,point5,point6};
+
 	Cluster<double> cluster1;
 	Cluster<double> cluster2(2);
 	Cluster<double> cluster3(3, points);
 	Cluster<double> cluster4 = cluster3;
+	Cluster<double> cluster5(5, points1);
 
 	// Tests for constructors and getter functions
 	ASSERT_EQ(-1, cluster1.get_id());
@@ -137,6 +147,9 @@ TEST (KMeansTest, ClusterClass) {
 	// Remove point from an empty cluster
 	cluster2.remove_point(point1);
 	ASSERT_EQ(0, cluster2.get_num_points());
+
+	// Test for calculate_centroid()
+	ASSERT_EQ(point7, cluster5.get_centroid());
 }
 
 int main(int argc, char** argv) {
