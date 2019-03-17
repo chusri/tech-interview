@@ -6,6 +6,7 @@
 
 #include "util.h"
 #include "Point.h"
+#include "KMeans.h"
 #include "Cluster.h"
 #include<gtest/gtest.h>
 
@@ -153,6 +154,34 @@ TEST (KMeansTest, ClusterClass) {
 		ASSERT_NEAR(point7.get_coordinates()[i],
 								cluster5.get_centroid().get_coordinates()[i], 0.00001);
 	}
+}
+
+// Unit tests for KMeans algorithm
+TEST (KMeansTest, KMeansAlgorithm) {
+	vector<double> v1{5.1,3.5,1.4,0.2};
+	vector<double> v2{3.1,6.5,1.4,1.2};
+	vector<double> v3{2.1,8.5,3.4,9.2};
+
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+	Point<double> point3(v3);
+	vector<Point<double>> random_points{point1,point2,point3};
+
+	Cluster<double> cluster1(1);
+	Cluster<double> cluster2(2);
+	Cluster<double> cluster3(3);
+	vector<Cluster<double>> clusters{cluster1,cluster2,cluster3};
+
+	init_cluster_centroid(clusters, random_points);
+	ASSERT_EQ(point1, cluster1.get_centroid());
+
+#if 0
+	// Test for calculate_centroid()
+	for (int i = 0; i < point7.get_coordinates().size(); i++) {
+		ASSERT_NEAR(point7.get_coordinates()[i],
+								cluster5.get_centroid().get_coordinates()[i], 0.00001);
+	}
+#endif
 }
 
 int main(int argc, char** argv) {

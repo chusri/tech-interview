@@ -30,12 +30,20 @@ KMeans(int k, vector<Point<T>> points, long max_iterations=1000) {
 /**
  * @brief This function initializes the centroid of each cluster.
  * @param clusters Vector of clusters
+ * @param random_points Vector of random points from dataset.
  * @return Void
  */
 template <class T>
-void init_cluster_centroid(vector<Cluster<T>> &clusters) {
-	for_each(clusters.begin(), clusters.end(), [](Cluster<T> cluster) {
-		cluster.set_centroid();
+void init_cluster_centroid(vector<Cluster<T>>& clusters,
+													 vector<Point<T>>& random_points) {
+	int i = 0;
+
+	// Initialize cluster centroids with random points from dataset
+	for_each(clusters.begin(), clusters.end(),
+					 [&random_points, &i](Cluster<T> cluster) {
+		cout << i << endl;
+		cluster.set_centroid(random_points[i++]);
+		cout << cluster.get_centroid() << endl;
 	});
 }
 
