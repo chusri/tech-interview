@@ -172,16 +172,10 @@ TEST (KMeansTest, KMeansAlgorithm) {
 	Cluster<double> cluster3(3);
 	vector<Cluster<double>> clusters{cluster1,cluster2,cluster3};
 
-	init_cluster_centroid(clusters, random_points);
-	ASSERT_EQ(point1, cluster1.get_centroid());
-
-#if 0
-	// Test for calculate_centroid()
-	for (int i = 0; i < point7.get_coordinates().size(); i++) {
-		ASSERT_NEAR(point7.get_coordinates()[i],
-								cluster5.get_centroid().get_coordinates()[i], 0.00001);
-	}
-#endif
+	init_cluster_centroid<double>(clusters, random_points);
+	ASSERT_EQ(point1, clusters[0].get_centroid());
+	ASSERT_EQ(point2, clusters[1].get_centroid());
+	ASSERT_EQ(point3, clusters[2].get_centroid());
 }
 
 int main(int argc, char** argv) {
