@@ -264,8 +264,8 @@ void Cluster<T>::calculate_centroid(void) {
 	// Extract all columns from 2D vector and calculate avg. per column.
 	for (int i = 0; i < coordinates[0].size(); i++) {
 		vector<T> col_vector = get_column_vector<T>(coordinates, i);
-		col_vector_avg = accumulate(col_vector.begin(), col_vector.end(), 0)/
-										 col_vector.size();
+		col_vector_avg = accumulate(col_vector.begin(), col_vector.end(), 0.0)/
+										 static_cast<double>(col_vector.size());
 		column_avgs.push_back(col_vector_avg);
 	}
 	centroid.set_coordinates(column_avgs);

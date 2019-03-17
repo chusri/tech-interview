@@ -93,7 +93,7 @@ TEST (KMeansTest, ClusterClass) {
 	vector<double> v1{5.1,3.5,1.4,0.2};
 	vector<double> v2{3.1,6.5,1.4,1.2};
 	vector<double> v3{2.1,8.5,3.4,9.2};
-	vector<double> v4{3.4333,6.1666,2.0666,3.5333};
+	vector<double> v4{3.43333,6.16667,2.06667,3.53333};
 
 	Point<double> point1(4);
 	Point<double> point2(v1);
@@ -149,7 +149,10 @@ TEST (KMeansTest, ClusterClass) {
 	ASSERT_EQ(0, cluster2.get_num_points());
 
 	// Test for calculate_centroid()
-	ASSERT_EQ(point7, cluster5.get_centroid());
+	for (int i = 0; i < point7.get_coordinates().size(); i++) {
+		ASSERT_NEAR(point7.get_coordinates()[i],
+								cluster5.get_centroid().get_coordinates()[i], 0.00001);
+	}
 }
 
 int main(int argc, char** argv) {
