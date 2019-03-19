@@ -21,13 +21,14 @@
  */
 template <class T>
 vector<Point<double>> get_random_points(int k, const vector<Point<T>>& points) {
+	random_device device;
+	mt19937 generator(device());
+	uniform_int_distribution<int> distribution(0, points.size()-1);
 	vector<Point<double>> random_points;
-	mt19937::result_type seed = time(0);
 
 	// Choose k random points
 	for (int i = 0; i < k; i++) {
-		auto index = bind(uniform_int_distribution<int>(0, points.size()-1),
-                      mt19937(seed));
+		int index = distribution(generator);
 		random_points.push_back(points[index]);
 	}
 
