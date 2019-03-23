@@ -10,26 +10,39 @@
 #include "Cluster.h"
 #include<gtest/gtest.h>
 
-// Unit tests for utility functions
-TEST (KMeansTest, TokenizeData) {
-	vector<double> row0, row149;
-	vector<double> row0_1, row0_2, row0_3;
-	vector<double> row0_1_ground_truth{5.1,3.5,1.4};
-	vector<double> row0_ground_truth{5.1,3.5,1.4,0.2};
-	vector<double> row149_ground_truth{5.9,3.0,5.1,1.8};
+// Unit tests for tokenize utility function
+TEST (KMeansTest, UtilTokenizeDataDim4) {
+	vector<double> tokens;
+	vector<double> expected_tokens{5.1,3.5,1.4,0.2};
 
-	row0 = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', 4);
-	row0_1 = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', 3);
-	row0_2 = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', 0);
-	row0_3 = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', -1);
-	row149 = tokenize<double>("5.9,3.0,5.1,1.8,Iris-virginica", ',', 4);
+	tokens = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', 4);
 
-	ASSERT_EQ(row0, row0_ground_truth);
-	ASSERT_NE(row0, row149_ground_truth);
-	ASSERT_EQ(row0_1, row0_1_ground_truth);
-	ASSERT_EQ(row0_2.size(), 0);
-	ASSERT_EQ(row0_3.size(), 0);
-	ASSERT_EQ(row149, row149_ground_truth);
+	ASSERT_EQ(tokens, expected_tokens);
+}
+
+TEST (KMeansTest, UtilTokenizeDataDim3) {
+	vector<double> tokens;
+	vector<double> expected_tokens{5.1,3.5,1.4};
+
+	tokens = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', 3);
+
+	ASSERT_EQ(tokens, expected_tokens);
+}
+
+TEST (KMeansTest, UtilTokenizeDataDim0) {
+	vector<double> tokens;
+
+	tokens = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', 0);
+
+	ASSERT_EQ(tokens.size(), 0);
+}
+
+TEST (KMeansTest, UtilTokenizeDataDimNegative1) {
+	vector<double> tokens;
+
+	tokens = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', -1);
+
+	ASSERT_EQ(tokens.size(), 0);
 }
 
 TEST (KMeansTest, ReadTrainingData) {
