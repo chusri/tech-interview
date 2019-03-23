@@ -72,20 +72,44 @@ TEST (KMeansTest, UtilReadTrainingDataLastRow) {
 	ASSERT_EQ(row149, training_data[149]);
 }
 
-TEST (KMeansTest, GetColumnFrom2Dvec) {
+// Unit tests for get_column_vector utility function
+TEST (KMeansTest, UtilGetColumnFrom2DVecCol0) {
 	vector<double> v1{2.1,3.2,1.4,0.2};
 	vector<double> v2{3.1,4.2,1.4,1.2};
 	vector<double> v3{4.1,5.2,1.4,1.2};
 	vector<double> v4{5.1,6.2,1.4,1.2};
-	vector<double> v1_t{2.1,3.1,4.1,5.1};
-	vector<double> v2_t{3.2,4.2,5.2,6.2};
-	vector<double> v3_t{1.4,1.4,1.4,1.4};
 	vector<vector<double> > vec2d{v1,v2,v3,v4};
+	vector<double> expected_col0{2.1,3.1,4.1,5.1};
 
-	ASSERT_EQ(v1_t, get_column_vector<double>(vec2d, 0));
-	ASSERT_EQ(v2_t, get_column_vector<double>(vec2d, 1));
-	ASSERT_EQ(v3_t, get_column_vector<double>(vec2d, 2));
-	ASSERT_NE(v3_t, get_column_vector<double>(vec2d, 3));
+	vector<double> col0 = get_column_vector<double>(vec2d, 0);
+
+	ASSERT_EQ(col0, expected_col0);
+}
+
+TEST (KMeansTest, UtilGetColumnFrom2DVecCol1) {
+	vector<double> v1{2.1,3.2,1.4,0.2};
+	vector<double> v2{3.1,4.2,1.4,1.2};
+	vector<double> v3{4.1,5.2,1.4,1.2};
+	vector<double> v4{5.1,6.2,1.4,1.2};
+	vector<vector<double> > vec2d{v1,v2,v3,v4};
+	vector<double> expected_col1{3.2,4.2,5.2,6.2};
+
+	vector<double> col1 = get_column_vector<double>(vec2d, 1);
+
+	ASSERT_EQ(col1, expected_col1);
+}
+
+TEST (KMeansTest, UtilGetColumnFrom2DVecCol3) {
+	vector<double> v1{2.1,3.2,1.4,0.2};
+	vector<double> v2{3.1,4.2,1.4,1.2};
+	vector<double> v3{4.1,5.2,1.4,1.2};
+	vector<double> v4{5.1,6.2,1.4,1.2};
+	vector<vector<double> > vec2d{v1,v2,v3,v4};
+	vector<double> expected_col3{0.2,1.2,1.2,1.2};
+
+	vector<double> col3 = get_column_vector<double>(vec2d, 3);
+
+	ASSERT_EQ(col3, expected_col3);
 }
 
 // Unit tests for Point class
