@@ -113,28 +113,58 @@ TEST (KMeansTest, UtilGetColumnFrom2DVecCol3) {
 }
 
 // Unit tests for Point class
-TEST (KMeansTest, PointClass) {
-	vector<double> v1{5.1,3.5,1.4,0.2};
-	vector<double> v2{3.1,6.5,1.4,1.2};
+TEST (KMeansTest, PointConstructorDim) {
+	Point<double> point(4);
+
+	int dimensions = point.get_dimensions();
+	vector<double> coordinates = point.get_coordinates();
+
+	ASSERT_EQ(4, dimensions);
+	ASSERT_EQ(4, coordinates.size());
+}
+
+TEST (KMeansTest, PointConstructorCoordinates) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+
+	int dimensions = point.get_dimensions();
+	vector<double> coordinates = point.get_coordinates();
+
+	ASSERT_EQ(4, dimensions);
+	ASSERT_EQ(v, coordinates);
+}
+
+TEST (KMeansTest, PointSetCoordinates) {
+	Point<double> point(4);
+	vector<double> v{5.1,3.5,1.4,0.2};
+
+	point.set_coordinates(v);
+	vector<double> coordinates = point.get_coordinates();
+
+	ASSERT_EQ(v, coordinates);
+}
+
+TEST (KMeansTest, PointOverloadAssignmentOperator) {
+	vector<double> v{5.1,3.5,1.4,0.2};
 	Point<double> point1(4);
-	Point<double> point2(v1);
-	Point<double> point3 = point2;
+	Point<double> point2(v);
 
-	// Tests for constructors and getter functions
-	ASSERT_EQ(4, point1.get_dimensions());
-	ASSERT_EQ(v1, point2.get_coordinates());
-	ASSERT_EQ(point3.get_dimensions(), point2.get_dimensions());
-	ASSERT_EQ(point3.get_coordinates(), point2.get_coordinates());
+	point1 = point2;
 
-	// Tests for setter function
-	point2.set_coordinates(v2);
-	ASSERT_EQ(v2, point2.get_coordinates());
+	ASSERT_EQ(point1, point2);
+}
 
-	// Tests for overloaded = and == operators
-	point1 = point3;
-	ASSERT_EQ(point1, point3);
-	ASSERT_EQ(point1.get_dimensions(), point3.get_dimensions());
-	ASSERT_EQ(point1.get_coordinates(), point3.get_coordinates());
+TEST (KMeansTest, PointOverloadEqualOperator) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point1(4);
+	Point<double> point2(v);
+
+	point1 = point2;
+	bool b1 = (point1 == point2);
+	bool b2 = (point1.get_dimensions() == point2.get_dimensions()) &&
+						(point1.get_coordinates() == point2.get_coordinates());
+
+	ASSERT_EQ(b1, b2);
 }
 
 // Unit tests for Cluster class
