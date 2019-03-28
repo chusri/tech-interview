@@ -168,6 +168,82 @@ TEST (KMeansTest, PointOverloadEqualOperator) {
 }
 
 // Unit tests for Cluster class
+TEST (KMeansTest, ClusterConstructorNoArg) {
+	Cluster<double> cluster;
+
+	int id = cluster.get_id();
+	long num_points = cluster.get_num_points();
+
+	ASSERT_EQ(-1, id);
+	ASSERT_EQ(0, num_points);
+}
+
+TEST (KMeansTest, ClusterConstructorId) {
+	Cluster<double> cluster(1);
+
+	int id = cluster.get_id();
+	long num_points = cluster.get_num_points();
+
+	ASSERT_EQ(1, id);
+	ASSERT_EQ(0, num_points);
+}
+
+TEST (KMeansTest, ClusterConstructorPoints) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point1(4);
+	Point<double> point2(v);
+	Point<double> point3 = point2;
+	vector<Point<double>> points{point1,point2,point3};
+	Cluster<double> cluster(1, points);
+
+	int id = cluster.get_id();
+	vector<Point<double>> returned_points = cluster.get_points();
+
+	ASSERT_EQ(1, id);
+	ASSERT_EQ(points, returned_points);
+}
+
+TEST (KMeansTest, ClusterOverloadAssignmentOperator) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point1(4);
+	Point<double> point2(v);
+	Point<double> point3 = point2;
+	vector<Point<double>> points{point1,point2,point3};
+	Cluster<double> cluster1(1, points);
+	Cluster<double> cluster2(2);
+
+	cluster2 = cluster1;
+
+	ASSERT_EQ(cluster1, cluster2);
+}
+
+TEST (KMeansTest, ClusterOverloadEqualOperator) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point1(4);
+	Point<double> point2(v);
+	Point<double> point3 = point2;
+	vector<Point<double>> points{point1,point2,point3};
+	Cluster<double> cluster1(1, points);
+	Cluster<double> cluster2(2);
+
+	cluster2 = cluster1;
+	bool b1 = (cluster1 == cluster2);
+	bool b2 = (cluster1.get_id() == cluster2.get_id() &&
+						 cluster1.get_points() == cluster2.get_points());
+
+	ASSERT_EQ(b1, b2);
+}
+
+TEST (KMeansTest, ClusterSetId) {
+	Cluster<double> cluster;
+
+	cluster.set_id(1);
+	int id = cluster.get_id();
+
+	ASSERT_EQ(1, id);
+}
+
+#if 0
 TEST (KMeansTest, ClusterClass) {
 	vector<double> v1{5.1,3.5,1.4,0.2};
 	vector<double> v2{3.1,6.5,1.4,1.2};
@@ -185,27 +261,12 @@ TEST (KMeansTest, ClusterClass) {
 	vector<Point<double>> points{point1,point2,point3};
 	vector<Point<double>> points1{point4,point5,point6};
 
-	Cluster<double> cluster1;
-	Cluster<double> cluster2(2);
 	Cluster<double> cluster3(3, points);
 	Cluster<double> cluster4 = cluster3;
 	Cluster<double> cluster5(5, points1);
 
-	// Tests for constructors and getter functions
-	ASSERT_EQ(-1, cluster1.get_id());
-	ASSERT_EQ(0, cluster1.get_num_points());
-	ASSERT_EQ(2, cluster2.get_id());
-	ASSERT_EQ(0, cluster2.get_num_points());
-	ASSERT_EQ(3, cluster3.get_id());
-	ASSERT_EQ(points, cluster3.get_points());
-	ASSERT_EQ(cluster3, cluster4);
-
-	// Tests for overloaded = and == operator
-	cluster1 = cluster3;
-	ASSERT_EQ(cluster1, cluster3);
 
 	// Tests for setter functions
-	cluster1.set_id(1);
 	cluster1.set_points(points);
 	cluster1.set_centroid(point2);
 	ASSERT_EQ(1, cluster1.get_id());
@@ -233,6 +294,7 @@ TEST (KMeansTest, ClusterClass) {
 								cluster5.get_centroid().get_coordinates()[i], 0.00001);
 	}
 }
+#endif
 
 // Unit tests for KMeans algorithm
 TEST (KMeansTest, KMeansAlgorithm) {
