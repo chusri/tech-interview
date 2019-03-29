@@ -243,58 +243,86 @@ TEST (KMeansTest, ClusterSetId) {
 	ASSERT_EQ(1, id);
 }
 
-#if 0
-TEST (KMeansTest, ClusterClass) {
+TEST (KMeansTest, ClusterSetPoint) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point1(4);
+	Point<double> point2(v);
+	Point<double> point3 = point2;
+	vector<Point<double>> points{point1,point2,point3};
+	Cluster<double> cluster(1);
+
+	cluster.set_points(points);
+	vector<Point<double>> returned_points = cluster.get_points();
+
+	ASSERT_EQ(points, returned_points);
+}
+
+TEST (KMeansTest, ClusterSetCentroid) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	Cluster<double> cluster(1);
+
+	cluster.set_centroid(point);
+	Point<double> returned_centroid = cluster.get_centroid();
+
+	ASSERT_EQ(point, returned_centroid);
+}
+
+TEST (KMeansTest, ClusterAddPoint) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	vector<Point<double>> points{point};
+	Cluster<double> cluster(1);
+
+	cluster.add_point(point);
+	vector<Point<double>> returned_points = cluster.get_points();
+
+	ASSERT_EQ(points, returned_points);
+}
+
+TEST (KMeansTest, ClusterRemovePoint) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	Cluster<double> cluster(1);
+
+	cluster.add_point(point);
+	cluster.remove_point(point);
+	int num_points = cluster.get_num_points();
+
+	ASSERT_EQ(0, num_points);
+}
+
+TEST (KMeansTest, ClusterRemovePointFromEmptyCluster) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	Cluster<double> cluster(1);
+
+	cluster.remove_point(point);
+	int num_points = cluster.get_num_points();
+
+	ASSERT_EQ(0, num_points);
+}
+
+TEST (KMeansTest, ClusterCalculateCentroid) {
 	vector<double> v1{5.1,3.5,1.4,0.2};
 	vector<double> v2{3.1,6.5,1.4,1.2};
 	vector<double> v3{2.1,8.5,3.4,9.2};
 	vector<double> v4{3.43333,6.16667,2.06667,3.53333};
 
-	Point<double> point1(4);
-	Point<double> point2(v1);
-	Point<double> point3 = point2;
-	Point<double> point4(v1);
-	Point<double> point5(v2);
-	Point<double> point6(v3);
-	Point<double> point7(v4);
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+	Point<double> point3(v3);
+	Point<double> point4(v4);
 
 	vector<Point<double>> points{point1,point2,point3};
-	vector<Point<double>> points1{point4,point5,point6};
+	Cluster<double> cluster(1, points);
+	vector<double> centroid_coordinates = cluster.get_centroid().get_coordinates();
 
-	Cluster<double> cluster3(3, points);
-	Cluster<double> cluster4 = cluster3;
-	Cluster<double> cluster5(5, points1);
-
-
-	// Tests for setter functions
-	cluster1.set_points(points);
-	cluster1.set_centroid(point2);
-	ASSERT_EQ(1, cluster1.get_id());
-	ASSERT_EQ(points, cluster1.get_points());
-	ASSERT_EQ(point2, cluster1.get_centroid());
-
-	// Tests for add_point and remove_point methods
-	cluster2.add_point(point1);
-	cluster2.add_point(point2);
-	cluster2.add_point(point3);
-	ASSERT_EQ(points, cluster2.get_points());
-
-	cluster2.remove_point(point1);
-	cluster2.remove_point(point2);
-	cluster2.remove_point(point3);
-	ASSERT_EQ(0, cluster2.get_num_points());
-
-	// Remove point from an empty cluster
-	cluster2.remove_point(point1);
-	ASSERT_EQ(0, cluster2.get_num_points());
-
-	// Test for calculate_centroid()
-	for (int i = 0; i < point7.get_coordinates().size(); i++) {
-		ASSERT_NEAR(point7.get_coordinates()[i],
-								cluster5.get_centroid().get_coordinates()[i], 0.00001);
+	for (int i = 0; i < point4.get_coordinates().size(); i++) {
+		ASSERT_NEAR(point4.get_coordinates()[i],
+								centroid_coordinates[i], 0.00001);
 	}
 }
-#endif
 
 // Unit tests for KMeans algorithm
 TEST (KMeansTest, KMeansAlgorithm) {
