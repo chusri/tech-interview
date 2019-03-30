@@ -338,40 +338,6 @@ TEST (KMeansTest, KMeansInitClusterCentroid) {
 	ASSERT_EQ(point, centroid);
 }
 
-#if 0
-TEST (KMeansTest, KMeansAlgorithm) {
-	vector<double> v1{5.1,3.5,1.4,0.2};
-	vector<double> v2{3.1,6.5,1.4,1.2};
-	vector<double> v3{2.1,8.5,3.4,9.2};
-	vector<double> v4{2.5,9.5,6.4,1.2};
-	vector<double> v5{1.1,4.5,3.6,0.2};
-
-	Point<double> point1(v1);
-	Point<double> point2(v2);
-	Point<double> point3(v3);
-	Point<double> point4(v4);
-	Point<double> point5(v5);
-	vector<Point<double>> random_points{point1,point2,point3};
-	vector<Point<double>> points{point1,point2,point3,point4,point5};
-
-	Cluster<double> cluster1(1);
-	Cluster<double> cluster2(2);
-	Cluster<double> cluster3(3);
-	vector<Cluster<double>> clusters{cluster1,cluster2,cluster3};
-
-	init_cluster_centroid<double>(clusters, random_points);
-	ASSERT_EQ(point1, clusters[0].get_centroid());
-	ASSERT_EQ(point2, clusters[1].get_centroid());
-	ASSERT_EQ(point3, clusters[2].get_centroid());
-
-	vector<Point<double>> random_points1 = get_random_points<double>(2, points);
-	for_each(random_points1.begin(), random_points1.end(),
-					 [](const Point<double> point) {
-			cout << point << endl;
-	});
-}
-#endif
-
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());
