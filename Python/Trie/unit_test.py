@@ -2,6 +2,7 @@
 
 import unittest
 from Trie import TrieNode
+from Trie import Trie
 
 class TestTrieNode(unittest.TestCase):
     def test_initialize_trie_node_object(self):
@@ -19,7 +20,12 @@ class TestTrieNode(unittest.TestCase):
         self.assertFalse(node.is_end_of_word)
 
 class TestTrie(unittest.TestCase):
-    pass
+    def test_initialize_trie_object(self):
+        trie = Trie()
+        self.assertEqual(trie.root.character, None)
+        self.assertEqual(trie.root.value, None)
+        self.assertEqual(trie.root.children, [None]*26)
+        self.assertFalse(trie.root.is_end_of_word)
 
 if __name__ == '__main__':
     unittest.main()

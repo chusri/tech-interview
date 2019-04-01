@@ -20,4 +20,16 @@ class TrieNode():
         self.is_end_of_word = False
 
 class Trie():
-    pass
+    def __init__(self):
+        """
+        Initialize Trie object.
+
+        Arguments:
+        self
+
+        Returns:
+        None
+        """
+
+        self.root = TrieNode(None)
+
