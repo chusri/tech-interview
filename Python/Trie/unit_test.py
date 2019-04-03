@@ -27,5 +27,9 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(trie.root.children, [None]*26)
         self.assertFalse(trie.root.is_end_of_word)
 
+    def test_search_key_in_empty_trie(self):
+        trie = Trie()
+        self.assertEqual(trie.search_key('hello'), None)
+
 if __name__ == '__main__':
     unittest.main()
