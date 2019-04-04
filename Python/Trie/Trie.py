@@ -16,6 +16,7 @@ class TrieNode():
 
         self.character = character
         self.value = None
+        self.alphabet_length = alphabet_length
         self.children = [None]*alphabet_length
         self.is_end_of_word = False
 
@@ -46,7 +47,19 @@ class Trie():
         None
         """
 
-        pass
+        current_node = self.root
+
+        for character in key:
+            child = self._search_character_in_node_children(current_node,
+                                                            character)
+            if child != None:
+                current_node = child
+            else:
+                index = self._get_first_empty_child_index(current_node)
+                current_node.children[index] = TrieNode(character,
+                                                        self.root.alphabet_length)
+        current_node.value = value
+        current_node.is_end_of_word = True
 
     def search_key(self, key):
         """
@@ -63,7 +76,8 @@ class Trie():
         current_node = self.root
 
         for character in key:
-            child = self._search_character_in_node_children(current_node, character)
+            child = self._search_character_in_node_children(current_node,
+                                                            character)
             if child != None:
                 current_node = child
             else:
@@ -90,5 +104,27 @@ class Trie():
         for child in node.children:
             if child != None and character == child.character:
                 return child
+
+        return None
+
+    def _get_first_empty_child_index(self, node):
+        """
+        Search for first empty slot in node's children.
+
+        Arguments:
+        self
+        node -- node in trie
+
+        Returns:
+        Index of first empty slot in node's children or None if full
+        """
+
+        index = 0
+
+        for child in node.children:
+            if child == None:
+                return index
+            else:
+                index += 1
 
         return None
