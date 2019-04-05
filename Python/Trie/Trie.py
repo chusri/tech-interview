@@ -58,8 +58,13 @@ class Trie():
                 index = self._get_first_empty_child_index(current_node)
                 current_node.children[index] = TrieNode(character,
                                                         self.root.alphabet_length)
+                print('insert_0: ', current_node.children[index].character,
+                       index)
+                current_node = current_node.children[index]
+
         current_node.value = value
         current_node.is_end_of_word = True
+        print('insert_1: ', current_node.character, current_node.value, current_node.is_end_of_word)
 
     def search_key(self, key):
         """
@@ -103,6 +108,7 @@ class Trie():
 
         for child in node.children:
             if child != None and character == child.character:
+                #print('search: ', child.character)
                 return child
 
         return None

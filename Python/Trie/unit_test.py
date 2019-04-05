@@ -1,5 +1,6 @@
 #!/home/ubuntu/wspace-2/anaconda2/bin/python
 
+import string
 import unittest
 from Trie import TrieNode
 from Trie import Trie
@@ -33,10 +34,15 @@ class TestTrie(unittest.TestCase):
         trie = Trie()
         self.assertIsNone(trie.search_key('hello'))
 
-    def test_insert_key_in_empty_trie(self):
+    def test_insert_key_with_unique_characters_in_empty_trie(self):
         trie = Trie()
-        trie.insert_key('hello', 1)
-        self.assertEqual(trie.search_key('hello'), 1)
+        trie.insert_key(string.ascii_lowercase, 1)
+        self.assertEqual(trie.search_key(string.ascii_lowercase), 1)
+
+    def test_insert_key_with_duplicate_characters_in_empty_trie(self):
+        trie = Trie()
+        trie.insert_key('helloo', 1)
+        self.assertEqual(trie.search_key('helloo'), 1)
 
 if __name__ == '__main__':
     unittest.main()
