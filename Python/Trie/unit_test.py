@@ -4,6 +4,7 @@ import string
 import unittest
 from Trie import TrieNode
 from Trie import Trie
+from PatternMatching import *
 
 class TestTrieNode(unittest.TestCase):
     def test_initialize_trie_node_object(self):
@@ -67,6 +68,12 @@ class TestTrie(unittest.TestCase):
         trie.insert_key('bye', 5)
 
         self.assertIsNone(trie.search_key('hello'))
+
+class TestPatternMatching(unittest.TestCase):
+    def test_random_genome_sequence_generator(self):
+        random.seed(10)
+        sequence = generate_single_random_genome_sequence(10)
+        self.assertEqual('GCGATTGAGC', sequence)
 
 if __name__ == '__main__':
     unittest.main()
