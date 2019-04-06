@@ -30,10 +30,6 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(trie.root.children, [None]*26)
         self.assertFalse(trie.root.is_end_of_word)
 
-    def test_search_key_in_empty_trie(self):
-        trie = Trie()
-        self.assertIsNone(trie.search_key('hello'))
-
     def test_insert_key_with_unique_characters_in_empty_trie(self):
         trie = Trie()
         trie.insert_key(string.ascii_lowercase, 1)
@@ -43,6 +39,34 @@ class TestTrie(unittest.TestCase):
         trie = Trie()
         trie.insert_key('helloo', 1)
         self.assertEqual(trie.search_key('helloo'), 1)
+
+    def test_insert_multiple_keys_in_trie(self):
+        trie = Trie()
+        trie.insert_key('their', 1)
+        trie.insert_key('there', 2)
+        trie.insert_key('answer', 3)
+        trie.insert_key('any', 4)
+        trie.insert_key('bye', 5)
+
+        self.assertEqual(trie.search_key('their'), 1)
+        self.assertEqual(trie.search_key('there'), 2)
+        self.assertEqual(trie.search_key('answer'), 3)
+        self.assertEqual(trie.search_key('any'), 4)
+        self.assertEqual(trie.search_key('bye'), 5)
+
+    def test_search_key_in_empty_trie(self):
+        trie = Trie()
+        self.assertIsNone(trie.search_key('hello'))
+
+    def test_search_key_not_in_trie(self):
+        trie = Trie()
+        trie.insert_key('their', 1)
+        trie.insert_key('there', 2)
+        trie.insert_key('answer', 3)
+        trie.insert_key('any', 4)
+        trie.insert_key('bye', 5)
+
+        self.assertIsNone(trie.search_key('hello'))
 
 if __name__ == '__main__':
     unittest.main()

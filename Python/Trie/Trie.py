@@ -1,5 +1,7 @@
 """ Implement the Trie data structure. """
 
+from collections import deque
+
 class TrieNode():
     def __init__(self, character, alphabet_length=26):
         """
@@ -34,6 +36,19 @@ class Trie():
 
         self.root = TrieNode(None)
 
+    def __repr__(self):
+        """
+        Create a string representation of Trie object.
+
+        Arguments:
+        self
+
+        Returns:
+        String representation of trie
+        """
+
+        return self._breadth_first_traversal(self.root)
+
     def insert_key(self, key, value):
         """
         Insert key into Trie.
@@ -58,13 +73,10 @@ class Trie():
                 index = self._get_first_empty_child_index(current_node)
                 current_node.children[index] = TrieNode(character,
                                                         self.root.alphabet_length)
-                print('insert_0: ', current_node.children[index].character,
-                       index)
                 current_node = current_node.children[index]
 
         current_node.value = value
         current_node.is_end_of_word = True
-        print('insert_1: ', current_node.character, current_node.value, current_node.is_end_of_word)
 
     def search_key(self, key):
         """
@@ -108,7 +120,6 @@ class Trie():
 
         for child in node.children:
             if child != None and character == child.character:
-                #print('search: ', child.character)
                 return child
 
         return None
@@ -134,3 +145,27 @@ class Trie():
                 index += 1
 
         return None
+
+    def _breadth_first_traversal(self, head, queue=deque()):
+        """
+        Breadth First Traversal of Trie object.
+
+        Arguments:
+        self
+        head -- Trie node at head of queue
+        queue -- queue for storing trie nodes
+
+        Returns:
+        String representation of trie
+        """
+
+        if head is None:
+            return
+
+        trie_string = repr(head.character) + '\n'
+        [queue.append(node) for node in head.children if node]
+
+        if queue:
+            trie_string += self._breadth_first_traversal(queue.popleft(), queue)
+
+        return trie_string
