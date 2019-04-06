@@ -75,5 +75,11 @@ class TestPatternMatching(unittest.TestCase):
         sequence = generate_single_random_genome_sequence(10)
         self.assertEqual('GCGATTGAGC', sequence)
 
+    def test_multiple_random_genome_sequence_generator(self):
+        random.seed(10)
+        sequences = generate_random_genome_sequences(10, 5)
+        self.assertEqual(['CGATTGA', 'CATTAT', 'CCGCGGA', 'TTGAAATCC',
+                          'CGCAGTAACA'], sequences)
+
 if __name__ == '__main__':
     unittest.main()

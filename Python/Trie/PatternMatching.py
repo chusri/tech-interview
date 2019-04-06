@@ -12,10 +12,11 @@ def generate_random_genome_sequences(max_sequence_length=100, max_sequences=100)
     max_sequences -- maximum number of sequences
 
     Returns:
-    None
+    Random genome sequences
     """
 
-    #return [for _ in range(max_sequences)]
+    return [generate_single_random_genome_sequence(random.randint(1, max_sequence_length+1))
+            for _ in range(max_sequences)]
 
 def generate_single_random_genome_sequence(sequence_length):
     """
@@ -25,7 +26,7 @@ def generate_single_random_genome_sequence(sequence_length):
     sequence_length -- length of the genome sequence
 
     Returns:
-    single random genome sequence
+    Single random genome sequence
     """
 
     genome_alphabet = 'ACGT'
