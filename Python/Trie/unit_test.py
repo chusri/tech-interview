@@ -31,6 +31,13 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(trie.root.children, [None]*26)
         self.assertFalse(trie.root.is_end_of_word)
 
+    def test_initialize_trie_object_with_alphabet_length(self):
+        trie = Trie(4)
+        self.assertIsNone(trie.root.character)
+        self.assertIsNone(trie.root.value)
+        self.assertEqual(trie.root.children, [None]*4)
+        self.assertFalse(trie.root.is_end_of_word)
+
     def test_insert_key_with_unique_characters_in_empty_trie(self):
         trie = Trie()
         trie.insert_key(string.ascii_lowercase, 1)

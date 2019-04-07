@@ -23,18 +23,19 @@ class TrieNode():
         self.is_end_of_word = False
 
 class Trie():
-    def __init__(self):
+    def __init__(self, alphabet_length=26):
         """
         Initialize Trie object.
 
         Arguments:
         self
+        alphabet_length -- number of characters in the alphabet
 
         Returns:
         None
         """
 
-        self.root = TrieNode(None)
+        self.root = TrieNode(None, alphabet_length)
 
     def __repr__(self):
         """
