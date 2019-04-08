@@ -88,5 +88,20 @@ class TestPatternMatching(unittest.TestCase):
         self.assertEqual(['CGATTGA', 'CATTAT', 'CCGCGGA', 'TTGAAATCC',
                           'CGCAGTAACA'], sequences)
 
+    def test_generate_text_prefixes(self):
+        prefixes = generate_text_prefixes('apple')
+        self.assertEqual(['a', 'ap', 'app', 'appl', 'apple'], prefixes)
+
+    def test_prefix_trie_matching(self):
+        trie = Trie(4)
+        text = 'CGCAGTAACA'
+        patterns = ['CGCA', 'CGCAGT', 'CGC', 'C']
+
+        for pattern in patterns:
+            trie.insert_key(pattern, len(pattern))
+
+        prefix_matches = prefix_trie_matching(text, trie)
+        self.assertEqual(['C', 'CGC', 'CGCA', 'CGCAGT'], prefix_matches)
+
 if __name__ == '__main__':
     unittest.main()
