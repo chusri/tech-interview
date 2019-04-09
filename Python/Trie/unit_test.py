@@ -103,5 +103,17 @@ class TestPatternMatching(unittest.TestCase):
         prefix_matches = prefix_trie_matching(text, trie)
         self.assertEqual(['C', 'CGC', 'CGCA', 'CGCAGT'], prefix_matches)
 
+    def test_trie_matching(self):
+        trie = Trie(4)
+        text = 'CGCAGTAACA'
+        patterns = ['CGCA', 'CA', 'CAGTA', 'AGTA']
+
+        for pattern in patterns:
+            trie.insert_key(pattern, len(pattern))
+
+        matches = trie_matching(text, trie)
+        expected_matches = [['CGCA'], [], ['CA', 'CAGTA'], ['AGTA'], [], [], [], [], ['CA'], []]
+        self.assertEqual(expected_matches, matches)
+
 if __name__ == '__main__':
     unittest.main()

@@ -3,6 +3,20 @@
 import random
 from Trie import Trie
 
+def trie_matching(text, trie):
+    """
+    Match collection of patterns against the text using trie.
+
+    Arguments:
+    text -- text to be matched against the patterns
+    trie -- trie containing the patterns
+
+    Returns:
+    Patterns matching the text or None if pattern not found
+    """
+
+    return [prefix_trie_matching(text[i:], trie) for i in range(len(text))]
+
 def prefix_trie_matching(text, trie):
     """
     Match collection of patterns against the text using trie.
@@ -35,7 +49,7 @@ def generate_text_prefixes(text):
     All prefixes of text
     """
 
-    return [text[0:i+1] for i in range(len(text))]
+    return [text[:i+1] for i in range(len(text))]
 
 def generate_random_genome_sequences(max_sequence_length=100, max_sequences=100):
     """
