@@ -4,6 +4,7 @@ import string
 import unittest
 from Trie import TrieNode
 from Trie import Trie
+from SuffixTrie import SuffixTrie
 from PatternMatching import *
 
 class TestTrieNode(unittest.TestCase):
@@ -75,6 +76,21 @@ class TestTrie(unittest.TestCase):
         trie.insert_key('bye', 5)
 
         self.assertIsNone(trie.search_key('hello'))
+
+class TestSuffixTrie(unittest.TestCase):
+    def test_is_prefix_of_suffix_in_empty_suffix_trie(self):
+        suffix_trie = SuffixTrie()
+        self.assertFalse(suffix_trie.is_prefix_of_suffix('hello'))
+
+    def test_search_for_prefix_in_suffix_trie(self):
+        suffix_trie = SuffixTrie()
+        suffix_trie.insert_key('baaba', 1)
+        suffix_trie.insert_key('aaba', 2)
+        suffix_trie.insert_key('aba', 3)
+        suffix_trie.insert_key('ba', 4)
+        suffix_trie.insert_key('a', 5)
+
+        self.assertTrue(suffix_trie.is_prefix_of_suffix('baa'))
 
 class TestPatternMatching(unittest.TestCase):
     def test_random_genome_sequence_generator(self):

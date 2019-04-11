@@ -2,7 +2,7 @@
 
 from collections import deque
 
-class TrieNode():
+class TrieNode(object):
     def __init__(self, character, alphabet_length=26):
         """
         Initialize TrieNode object.
@@ -22,7 +22,7 @@ class TrieNode():
         self.children = [None]*alphabet_length
         self.is_end_of_word = False
 
-class Trie():
+class Trie(object):
     def __init__(self, alphabet_length=26):
         """
         Initialize Trie object.
