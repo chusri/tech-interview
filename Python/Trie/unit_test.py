@@ -108,6 +108,10 @@ class TestPatternMatching(unittest.TestCase):
         prefixes = generate_text_prefixes('apple')
         self.assertEqual(['a', 'ap', 'app', 'appl', 'apple'], prefixes)
 
+    def test_generate_text_suffixes(self):
+        suffixes = generate_text_suffixes('apple')
+        self.assertEqual(['apple', 'pple', 'ple', 'le', 'e'], suffixes)
+
     def test_prefix_trie_matching(self):
         trie = Trie(4)
         text = 'CGCAGTAACA'

@@ -51,6 +51,19 @@ def generate_text_prefixes(text):
 
     return [text[:i+1] for i in range(len(text))]
 
+def generate_text_suffixes(text):
+    """
+    Generate all suffixes of text.
+
+    Arguments:
+    text -- text string
+
+    Returns:
+    All suffixes of text
+    """
+
+    return [text[i:] for i in range(len(text))]
+
 def generate_random_genome_sequences(max_sequence_length=100, max_sequences=100):
     """
     Generate random genome sequences.
