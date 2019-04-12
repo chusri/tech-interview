@@ -107,6 +107,20 @@ class TestPatternMatching(unittest.TestCase):
         matches = search_text_for_patterns_with_suffix_trie(text, patterns, 4)
         self.assertEqual([], matches)
 
+    def test_search_text_for_patterns_with_trie(self):
+        text = 'CGCAGTAACA'
+        patterns = ['CGCA', 'CA', 'CAGTA', 'AGTA']
+
+        matches = search_text_for_patterns_with_trie(text, patterns, 4)
+        self.assertEqual(set(patterns), set(matches))
+
+    def test_search_text_for_patterns_with_trie_no_match(self):
+        text = 'CGCAGTAACA'
+        patterns = ['CCA', 'CAT', 'CGTA', 'ATA']
+
+        matches = search_text_for_patterns_with_trie(text, patterns, 4)
+        self.assertEqual([], matches)
+
     def test_random_genome_sequence_generator(self):
         random.seed(10)
         sequence = generate_single_random_genome_sequence(10)
@@ -147,30 +161,6 @@ class TestPatternMatching(unittest.TestCase):
 
         prefix_matches = prefix_trie_matching(text, trie)
         self.assertEqual([], prefix_matches)
-
-    def test_trie_matching(self):
-        trie = Trie(4)
-        text = 'CGCAGTAACA'
-        patterns = ['CGCA', 'CA', 'CAGTA', 'AGTA']
-
-        for pattern in patterns:
-            trie.insert_key(pattern, len(pattern))
-
-        matches = trie_matching(text, trie)
-        expected_matches = [['CGCA'], [], ['CA', 'CAGTA'], ['AGTA'], [], [], [], [], ['CA'], []]
-        self.assertEqual(expected_matches, matches)
-
-    def test_trie_matching_pattern_not_found(self):
-        trie = Trie(4)
-        text = 'CGCAGTAACA'
-        patterns = ['ATC', 'CAT', 'CGTA']
-
-        for pattern in patterns:
-            trie.insert_key(pattern, len(pattern))
-
-        matches = trie_matching(text, trie)
-        expected_matches = [[], [], [], [], [], [], [], [], [], []]
-        self.assertEqual(expected_matches, matches)
 
 if __name__ == '__main__':
     unittest.main()

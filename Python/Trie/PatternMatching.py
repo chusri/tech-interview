@@ -25,19 +25,27 @@ def search_text_for_patterns_with_suffix_trie(text, patterns, alphabet_length=26
 
     return [pattern for pattern in patterns if suffix_trie.is_prefix_of_suffix(pattern)]
 
-def trie_matching(text, trie):
+def search_text_for_patterns_with_trie(text, patterns, alphabet_length=26):
     """
-    Match collection of patterns against the text using trie.
+    Search for patterns in the text using trie.
 
     Arguments:
     text -- text to be matched against the patterns
-    trie -- trie containing the patterns
+    patterns -- list of patterns
+    alphabet_length -- number of characters in the alphabet
 
     Returns:
     Patterns matching the text or None if pattern not found
     """
 
-    return [prefix_trie_matching(text[i:], trie) for i in range(len(text))]
+    trie = Trie(alphabet_length)
+
+    for pattern in patterns:
+        trie.insert_key(pattern, len(pattern))
+
+    matches = [prefix_trie_matching(text[i:], trie) for i in range(len(text))]
+
+    return list(set([pattern for sublist in matches for pattern in sublist]))
 
 def prefix_trie_matching(text, trie):
     """
