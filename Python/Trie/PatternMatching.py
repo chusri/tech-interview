@@ -2,6 +2,28 @@
 
 import random
 from Trie import Trie
+from SuffixTrie import SuffixTrie
+
+def search_text_for_patterns_with_suffix_trie(text, patterns, alphabet_length=26):
+    """
+    Search for patterns in the text using suffix trie.
+
+    Arguments:
+    text -- text to be matched against the patterns
+    patterns -- list of patterns
+    alphabet_length -- number of characters in the alphabet
+
+    Returns:
+    Patterns matching the text or None if pattern not found
+    """
+
+    suffix_trie = SuffixTrie(alphabet_length)
+    suffixes = generate_text_suffixes(text)
+
+    for suffix in suffixes:
+        suffix_trie.insert_key(suffix, len(suffix))
+
+    return [pattern for pattern in patterns if suffix_trie.is_prefix_of_suffix(pattern)]
 
 def trie_matching(text, trie):
     """

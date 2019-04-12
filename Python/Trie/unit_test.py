@@ -93,6 +93,20 @@ class TestSuffixTrie(unittest.TestCase):
         self.assertTrue(suffix_trie.is_prefix_of_suffix('baa'))
 
 class TestPatternMatching(unittest.TestCase):
+    def test_search_text_for_patterns_with_suffix_trie(self):
+        text = 'CGCAGTAACA'
+        patterns = ['CGCA', 'CA', 'CAGTA', 'AGTA']
+
+        matches = search_text_for_patterns_with_suffix_trie(text, patterns, 4)
+        self.assertEqual(patterns, matches)
+
+    def test_search_text_for_patterns_with_suffix_trie_no_match(self):
+        text = 'CGCAGTAACA'
+        patterns = ['CCA', 'CAT', 'CGTA', 'ATA']
+
+        matches = search_text_for_patterns_with_suffix_trie(text, patterns, 4)
+        self.assertEqual([], matches)
+
     def test_random_genome_sequence_generator(self):
         random.seed(10)
         sequence = generate_single_random_genome_sequence(10)
