@@ -16,6 +16,9 @@ class TrieNode(object):
         None
         """
 
+        if alphabet_length < 0:
+            raise ValueError('alphabet_length < 0')
+
         self.character = character
         self.value = None
         self.alphabet_length = alphabet_length

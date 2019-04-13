@@ -8,6 +8,10 @@ from SuffixTrie import SuffixTrie
 from PatternMatching import *
 
 class TestTrieNode(unittest.TestCase):
+    def test_raise_exception_if_alphabet_length_less_than_zero(self):
+        with self.assertRaises(ValueError):
+            _ = TrieNode('a', -1)
+
     def test_initialize_trie_node_object(self):
         node = TrieNode('a')
         self.assertEqual(node.character, 'a')
