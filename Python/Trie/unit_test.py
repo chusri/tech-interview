@@ -129,24 +129,43 @@ class TestPatternMatching(unittest.TestCase):
         matches = search_text_for_patterns_with_trie(text, patterns, 4)
         self.assertEqual([], matches)
 
-    def test_random_genome_sequence_generator_raise_exception_if_sequence_length_less_than_zero(self):
-        with self.assertRaises(ValueError):
-            _ = generate_single_random_genome_sequence(-1)
+    def test_prefix_trie_matching(self):
+        trie = Trie(4)
+        text = 'CGCAGTAACA'
+        patterns = ['CGCA', 'CGCAGT', 'CGC', 'C']
 
-    def test_random_genome_sequence_generator_default_sequence_length(self):
-        random.seed(10)
-        sequence = generate_single_random_genome_sequence()
-        self.assertEqual('GCGATTGAGC', sequence)
+        for pattern in patterns:
+            trie.insert_key(pattern, len(pattern))
 
-    def test_random_genome_sequence_generator_zero_sequence_length(self):
-        random.seed(10)
-        sequence = generate_single_random_genome_sequence(0)
-        self.assertEqual('', sequence)
+        prefix_matches = prefix_trie_matching(text, trie)
+        self.assertEqual(['C', 'CGC', 'CGCA', 'CGCAGT'], prefix_matches)
 
-    def test_random_genome_sequence_generator(self):
-        random.seed(10)
-        sequence = generate_single_random_genome_sequence(10)
-        self.assertEqual('GCGATTGAGC', sequence)
+    def test_prefix_trie_matching_pattern_not_found(self):
+        trie = Trie(4)
+        text = 'CGCAGTAACA'
+        patterns = ['ATC', 'CAT', 'CGTA']
+
+        for pattern in patterns:
+            trie.insert_key(pattern, len(pattern))
+
+        prefix_matches = prefix_trie_matching(text, trie)
+        self.assertEqual([], prefix_matches)
+
+    def test_generate_text_prefixes(self):
+        prefixes = generate_text_prefixes('apple')
+        self.assertEqual(['a', 'ap', 'app', 'appl', 'apple'], prefixes)
+
+    def test_generate_text_prefixes_empty_text(self):
+        prefixes = generate_text_prefixes('')
+        self.assertEqual([], prefixes)
+
+    def test_generate_text_suffixes(self):
+        suffixes = generate_text_suffixes('apple')
+        self.assertEqual(['apple', 'pple', 'ple', 'le', 'e'], suffixes)
+
+    def test_generate_text_suffixes_empty_text(self):
+        suffixes = generate_text_suffixes('')
+        self.assertEqual([], suffixes)
 
     def test_multiple_random_genome_sequence_generator_max_sequence_length_less_than_0(self):
         with self.assertRaises(ValueError):
@@ -170,35 +189,24 @@ class TestPatternMatching(unittest.TestCase):
         sequences = generate_random_genome_sequences(10, 5)
         self.assertEqual(['CGATTG', 'G', 'ATT', '', 'GCCGCGGAT'], sequences)
 
-    def test_generate_text_prefixes(self):
-        prefixes = generate_text_prefixes('apple')
-        self.assertEqual(['a', 'ap', 'app', 'appl', 'apple'], prefixes)
+    def test_random_genome_sequence_generator_raise_exception_if_sequence_length_less_than_zero(self):
+        with self.assertRaises(ValueError):
+            _ = generate_single_random_genome_sequence(-1)
 
-    def test_generate_text_suffixes(self):
-        suffixes = generate_text_suffixes('apple')
-        self.assertEqual(['apple', 'pple', 'ple', 'le', 'e'], suffixes)
+    def test_random_genome_sequence_generator_default_sequence_length(self):
+        random.seed(10)
+        sequence = generate_single_random_genome_sequence()
+        self.assertEqual('GCGATTGAGC', sequence)
 
-    def test_prefix_trie_matching(self):
-        trie = Trie(4)
-        text = 'CGCAGTAACA'
-        patterns = ['CGCA', 'CGCAGT', 'CGC', 'C']
+    def test_random_genome_sequence_generator_zero_sequence_length(self):
+        random.seed(10)
+        sequence = generate_single_random_genome_sequence(0)
+        self.assertEqual('', sequence)
 
-        for pattern in patterns:
-            trie.insert_key(pattern, len(pattern))
-
-        prefix_matches = prefix_trie_matching(text, trie)
-        self.assertEqual(['C', 'CGC', 'CGCA', 'CGCAGT'], prefix_matches)
-
-    def test_prefix_trie_matching_pattern_not_found(self):
-        trie = Trie(4)
-        text = 'CGCAGTAACA'
-        patterns = ['ATC', 'CAT', 'CGTA']
-
-        for pattern in patterns:
-            trie.insert_key(pattern, len(pattern))
-
-        prefix_matches = prefix_trie_matching(text, trie)
-        self.assertEqual([], prefix_matches)
+    def test_random_genome_sequence_generator(self):
+        random.seed(10)
+        sequence = generate_single_random_genome_sequence(10)
+        self.assertEqual('GCGATTGAGC', sequence)
 
 if __name__ == '__main__':
     unittest.main()
