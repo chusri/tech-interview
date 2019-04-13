@@ -78,9 +78,17 @@ class TestTrie(unittest.TestCase):
         self.assertIsNone(trie.search_key('hello'))
 
 class TestSuffixTrie(unittest.TestCase):
+    def test_raise_exception_if_alphabet_length_less_than_zero(self):
+        with self.assertRaises(ValueError):
+            suffix_trie = SuffixTrie(-1)
+
     def test_is_prefix_of_suffix_in_empty_suffix_trie(self):
         suffix_trie = SuffixTrie()
         self.assertFalse(suffix_trie.is_prefix_of_suffix('hello'))
+
+    def test_is_prefix_of_suffix_empty_key(self):
+        suffix_trie = SuffixTrie()
+        self.assertTrue(suffix_trie.is_prefix_of_suffix(''))
 
     def test_search_for_prefix_in_suffix_trie(self):
         suffix_trie = SuffixTrie()

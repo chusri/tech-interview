@@ -15,6 +15,8 @@ class SuffixTrie(Trie):
         None
         """
 
+        if alphabet_length < 0:
+            raise ValueError('alphabet_length < 0')
         super(SuffixTrie, self).__init__(alphabet_length)
 
     def is_prefix_of_suffix(self, key):
