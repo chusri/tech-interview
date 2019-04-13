@@ -148,18 +148,18 @@ class TestPatternMatching(unittest.TestCase):
         sequence = generate_single_random_genome_sequence(10)
         self.assertEqual('GCGATTGAGC', sequence)
 
-    def test_multiple_random_genome_sequence_generator_max_sequence_length_less_than_one(self):
+    def test_multiple_random_genome_sequence_generator_max_sequence_length_less_than_0(self):
         with self.assertRaises(ValueError):
-            _ = generate_random_genome_sequences(0, 5)
+            _ = generate_random_genome_sequences(-1, 5)
 
     def test_multiple_random_genome_sequence_generator_max_sequences_less_than_zero(self):
         with self.assertRaises(ValueError):
             _ = generate_random_genome_sequences(10, -1)
 
-    def test_multiple_random_genome_sequence_generator_max_sequence_length_is_one(self):
+    def test_multiple_random_genome_sequence_generator_max_sequence_length_is_zero(self):
         random.seed(10)
-        sequences = generate_random_genome_sequences(1, 5)
-        self.assertEqual(['C', 'A', 'T', 'A', 'C'], sequences)
+        sequences = generate_random_genome_sequences(0, 5)
+        self.assertEqual(['', '', '', '', ''], sequences)
 
     def test_multiple_random_genome_sequence_generator_max_sequences_is_zero(self):
         sequences = generate_random_genome_sequences(5, 0)
@@ -168,8 +168,7 @@ class TestPatternMatching(unittest.TestCase):
     def test_multiple_random_genome_sequence_generator(self):
         random.seed(10)
         sequences = generate_random_genome_sequences(10, 5)
-        self.assertEqual(['CGATTG', 'GC', 'TTA', 'GCCGCGGAT', 'TGAAATCCTC'],
-                         sequences)
+        self.assertEqual(['CGATTG', 'G', 'ATT', '', 'GCCGCGGAT'], sequences)
 
     def test_generate_text_prefixes(self):
         prefixes = generate_text_prefixes('apple')
