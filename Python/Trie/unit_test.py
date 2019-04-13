@@ -129,6 +129,20 @@ class TestPatternMatching(unittest.TestCase):
         matches = search_text_for_patterns_with_trie(text, patterns, 4)
         self.assertEqual([], matches)
 
+    def test_random_genome_sequence_generator_raise_exception_if_sequence_length_less_than_zero(self):
+        with self.assertRaises(ValueError):
+            _ = generate_single_random_genome_sequence(-1)
+
+    def test_random_genome_sequence_generator_default_sequence_length(self):
+        random.seed(10)
+        sequence = generate_single_random_genome_sequence()
+        self.assertEqual('GCGATTGAGC', sequence)
+
+    def test_random_genome_sequence_generator_zero_sequence_length(self):
+        random.seed(10)
+        sequence = generate_single_random_genome_sequence(0)
+        self.assertEqual('', sequence)
+
     def test_random_genome_sequence_generator(self):
         random.seed(10)
         sequence = generate_single_random_genome_sequence(10)

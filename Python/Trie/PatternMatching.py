@@ -109,7 +109,7 @@ def generate_random_genome_sequences(max_sequence_length=100, max_sequences=100)
     return [generate_single_random_genome_sequence(random.randint(1, max_sequence_length+1))
             for _ in range(max_sequences)]
 
-def generate_single_random_genome_sequence(sequence_length):
+def generate_single_random_genome_sequence(sequence_length=10):
     """
     Generate a single random genome sequence.
 
@@ -119,6 +119,9 @@ def generate_single_random_genome_sequence(sequence_length):
     Returns:
     Single random genome sequence
     """
+
+    if sequence_length < 0:
+        raise ValueError('sequence_length < 0')
 
     genome_alphabet = 'ACGT'
     return ''.join(random.choice(genome_alphabet) for _ in
