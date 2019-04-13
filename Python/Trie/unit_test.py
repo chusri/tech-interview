@@ -101,6 +101,20 @@ class TestSuffixTrie(unittest.TestCase):
         self.assertTrue(suffix_trie.is_prefix_of_suffix('baa'))
 
 class TestPatternMatching(unittest.TestCase):
+    def test_search_text_for_patterns_with_suffix_trie_text_is_empty(self):
+        text = ''
+        patterns = ['CGCA', 'CA', 'CAGTA', 'AGTA']
+
+        matches = search_text_for_patterns_with_suffix_trie(text, patterns, 4)
+        self.assertEqual([], matches)
+
+    def test_search_text_for_patterns_with_suffix_trie_patterns_is_empty(self):
+        text = 'CGCAGTAACA'
+        patterns = []
+
+        matches = search_text_for_patterns_with_suffix_trie(text, patterns, 4)
+        self.assertEqual([], matches)
+
     def test_search_text_for_patterns_with_suffix_trie(self):
         text = 'CGCAGTAACA'
         patterns = ['CGCA', 'CA', 'CAGTA', 'AGTA']
