@@ -106,7 +106,10 @@ def generate_random_genome_sequences(max_sequence_length=100, max_sequences=100)
     Random genome sequences
     """
 
-    return [generate_single_random_genome_sequence(random.randint(1, max_sequence_length+1))
+    if max_sequence_length < 1 or max_sequences < 0:
+        raise ValueError('max_sequence_length < 1 or max_sequences < 0')
+
+    return [generate_single_random_genome_sequence(random.randint(1, max_sequence_length))
             for _ in range(max_sequences)]
 
 def generate_single_random_genome_sequence(sequence_length=10):
