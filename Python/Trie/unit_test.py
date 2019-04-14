@@ -67,6 +67,18 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(trie.search_key('any'), 4)
         self.assertEqual(trie.search_key('bye'), 5)
 
+    def test_insert_empty_key(self):
+        trie = Trie()
+
+        with self.assertRaises(ValueError):
+            trie.insert_key('', 1)
+
+    def test_search_empty_key(self):
+        trie = Trie()
+
+        with self.assertRaises(ValueError):
+            trie.search_key('')
+
     def test_search_key_in_empty_trie(self):
         trie = Trie()
         self.assertIsNone(trie.search_key('hello'))

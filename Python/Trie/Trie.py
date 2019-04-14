@@ -66,6 +66,9 @@ class Trie(object):
         None
         """
 
+        if key == '':
+            raise ValueError('Invalid key')
+
         current_node = self.root
 
         for character in key:
@@ -93,6 +96,9 @@ class Trie(object):
         Returns:
         value -- value associated with key or None if key not found
         """
+
+        if key == '':
+            raise ValueError('Invalid key')
 
         current_node = self.root
 
@@ -122,6 +128,9 @@ class Trie(object):
         node associated with character or None if character not found
         """
 
+        if node == None:
+            raise ValueError('node == None')
+
         for child in node.children:
             if child != None and character == child.character:
                 return child
@@ -140,8 +149,10 @@ class Trie(object):
         Index of first empty slot in node's children or None if full
         """
 
-        index = 0
+        if node == None:
+            raise ValueError('node == None')
 
+        index = 0
         for child in node.children:
             if child == None:
                 return index
