@@ -106,10 +106,10 @@ def generate_random_genome_sequences(max_sequence_length=100, max_sequences=100)
     Random genome sequences
     """
 
-    if max_sequence_length < 0 or max_sequences < 0:
-        raise ValueError('max_sequence_length < 0 or max_sequences < 0')
+    if max_sequence_length < 1 or max_sequences < 0:
+        raise ValueError('max_sequence_length < 1 or max_sequences < 0')
 
-    return [generate_single_random_genome_sequence(random.randint(0, max_sequence_length))
+    return [generate_single_random_genome_sequence(random.randint(1, max_sequence_length))
             for _ in range(max_sequences)]
 
 def generate_single_random_genome_sequence(sequence_length=10):
@@ -123,8 +123,8 @@ def generate_single_random_genome_sequence(sequence_length=10):
     Single random genome sequence
     """
 
-    if sequence_length < 0:
-        raise ValueError('sequence_length < 0')
+    if sequence_length < 1:
+        raise ValueError('sequence_length < 1')
 
     genome_alphabet = 'ACGT'
     return ''.join(random.choice(genome_alphabet) for _ in
@@ -141,14 +141,18 @@ def main():
     None
     """
 
-    trie = Trie(4)
-    genome_sequences = generate_random_genome_sequences()
+    genome_sequences = generate_random_genome_sequences(10, 10)
+    text = max(genome_sequences, key=len)
+    patterns = genome_sequences[:]
+    patterns.remove(text)
 
-    for sequence in genome_sequences:
-        trie.insert_key(sequence, len(sequence))
+    trie_patterns = search_text_for_patterns_with_trie(text, patterns, 4)
+    suffix_trie_patterns = search_text_for_patterns_with_suffix_trie(text, patterns, 4)
+    assert(set(trie_patterns) == set(suffix_trie_patterns))
 
-    for sequence in genome_sequences:
-        assert(trie.search_key(sequence) == len(sequence))
+    print 'Text: ', text
+    print 'Patterns: ', patterns
+    print 'Matches: ', trie_patterns
 
 if __name__ == '__main__':
     main()

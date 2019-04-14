@@ -229,18 +229,13 @@ class TestPatternMatching(unittest.TestCase):
         suffixes = generate_text_suffixes('')
         self.assertEqual([], suffixes)
 
-    def test_multiple_random_genome_sequence_generator_max_sequence_length_less_than_0(self):
+    def test_multiple_random_genome_sequence_generator_max_sequence_length_less_than_1(self):
         with self.assertRaises(ValueError):
-            _ = generate_random_genome_sequences(-1, 5)
+            _ = generate_random_genome_sequences(0, 5)
 
     def test_multiple_random_genome_sequence_generator_max_sequences_less_than_zero(self):
         with self.assertRaises(ValueError):
             _ = generate_random_genome_sequences(10, -1)
-
-    def test_multiple_random_genome_sequence_generator_max_sequence_length_is_zero(self):
-        random.seed(10)
-        sequences = generate_random_genome_sequences(0, 5)
-        self.assertEqual(['', '', '', '', ''], sequences)
 
     def test_multiple_random_genome_sequence_generator_max_sequences_is_zero(self):
         sequences = generate_random_genome_sequences(5, 0)
@@ -249,21 +244,16 @@ class TestPatternMatching(unittest.TestCase):
     def test_multiple_random_genome_sequence_generator(self):
         random.seed(10)
         sequences = generate_random_genome_sequences(10, 5)
-        self.assertEqual(['CGATTG', 'G', 'ATT', '', 'GCCGCGGAT'], sequences)
+        self.assertEqual(['CGATTG', 'GC', 'TTA', 'GCCGCGGAT', 'TGAAATCCTC'], sequences)
 
-    def test_random_genome_sequence_generator_raise_exception_if_sequence_length_less_than_zero(self):
+    def test_random_genome_sequence_generator_raise_exception_if_sequence_length_less_than_one(self):
         with self.assertRaises(ValueError):
-            _ = generate_single_random_genome_sequence(-1)
+            _ = generate_single_random_genome_sequence(0)
 
     def test_random_genome_sequence_generator_default_sequence_length(self):
         random.seed(10)
         sequence = generate_single_random_genome_sequence()
         self.assertEqual('GCGATTGAGC', sequence)
-
-    def test_random_genome_sequence_generator_zero_sequence_length(self):
-        random.seed(10)
-        sequence = generate_single_random_genome_sequence(0)
-        self.assertEqual('', sequence)
 
     def test_random_genome_sequence_generator(self):
         random.seed(10)
