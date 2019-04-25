@@ -26,7 +26,6 @@ vector<Point<double>> get_random_points(int k, const vector<Point<T>>& points) {
 	uniform_int_distribution<int> distribution(0, points.size()-1);
 	vector<Point<double>> random_points;
 
-	// Choose k random points
 	for (int i = 0; i < k; i++) {
 		int index = distribution(generator);
 		random_points.push_back(points[index]);

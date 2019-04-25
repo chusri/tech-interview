@@ -158,11 +158,9 @@ class Cluster {
 		vector<vector<T> > create_vec2d_coordinates(void);
 };
 
-// Constructor
 template <class T>
 Cluster<T>::Cluster(int id): id(id) {}
 
-// Constructor
 template <class T>
 Cluster<T>::Cluster(int id, vector<Point<T> > points): id(id), points(points) {
 	calculate_centroid();
@@ -191,71 +189,60 @@ bool Cluster<T>::operator==(const Cluster<T>& cluster) const {
 	return(id == cluster.id && points == cluster.points);
 }
 
-// Getter method for cluster id
 template <class T>
 int Cluster<T>::get_id(void) const {
 	return(id);
 }
 
-// Getter method for cluster centroid
 template <class T>
 Point<double> Cluster<T>::get_centroid(void) const {
 	return(centroid);
 }
 
-// Getter method for cluster points
 template <class T>
 vector<Point<T>> Cluster<T>::get_points(void) const {
 	return(points);
 }
 
-// Setter method for cluster id
 template <class T>
 void Cluster<T>::set_id(const int id) {
 	this->id = id;
 }
 
-// Setter method for cluster centroid
 template <class T>
 void Cluster<T>::set_centroid(const Point<double> centroid) {
 	this->centroid = centroid;
 }
 
-// Setter method for points
 template <class T>
 void Cluster<T>::set_points(const vector<Point<T> > points) {
 	this->points = points;
 	calculate_centroid();
 }
 
-// Add point to cluster
 template <class T>
 void Cluster<T>::add_point(const Point<T> point) {
 	points.push_back(point);
 	calculate_centroid();
 }
 
-// Remove point from cluster
 template <class T>
 void Cluster<T>::remove_point(const Point<T> point) {
 	points.erase(remove(points.begin(), points.end(), point), points.end());
 	calculate_centroid();
 }
 
-// Return number of points in cluster
 template <class T>
 long Cluster<T>::get_num_points(void) const {
 	return(points.size());
 }
 
-// Calculate centroid of points in cluster
 template <class T>
 void Cluster<T>::calculate_centroid(void) {
 	vector<double> column_avgs;
 	double col_vector_avg = 0.0;
 	vector<vector<T> > coordinates;
 
-	// If cluster is empty, return
 	if (points.size() == 0) return;
 
 	// Create 2D vector of the point coordinates in cluster

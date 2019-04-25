@@ -94,13 +94,11 @@ class Point {
 		vector<T> coordinates;
 };
 
-// Constructor
 template <class T>
 Point<T>::Point(int dimensions) {
 	coordinates = vector<T>(dimensions);
 }
 
-// Constructor
 template <class T>
 Point<T>::Point(vector<T> coordinates): coordinates(coordinates) {}
 
@@ -122,19 +120,16 @@ bool Point<T>::operator==(const Point<T>& point) const {
 	return(coordinates == point.coordinates);
 }
 
-// Getter method for number of dimensions
 template <class T>
 int Point<T>::get_dimensions(void) const {
 	return(coordinates.size());
 }
 
-// Getter method for coordinates of point
 template <class T>
 vector<T> Point<T>::get_coordinates(void) const {
 	return(coordinates);
 }
 
-// Setter method for coordinates of point
 template <class T>
 void Point<T>::set_coordinates(const vector<T> coordinates) {
 	this->coordinates = coordinates;
