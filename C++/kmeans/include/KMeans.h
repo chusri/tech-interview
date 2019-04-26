@@ -49,6 +49,10 @@ void init_cluster_centroid(vector<Cluster<T>>& clusters,
 													 vector<Point<double>>& random_points) {
 	int i = 0;
 
+	if (clusters.size() > random_points.size()) {
+		throw invalid_argument("clusters.size() > random_points.size()");
+	}
+
 	// Initialize cluster centroids with random points from dataset
 	for_each(clusters.begin(), clusters.end(),
 					 [&random_points, &i](Cluster<T>& cluster) {
@@ -66,19 +70,19 @@ void init_cluster_centroid(vector<Cluster<T>>& clusters,
  */
 template <class T>
 vector<Cluster<T>>
-KMeans(int k, vector<Point<T>>& points, long max_iterations=1000) {
+KMeans(unsigned int k, vector<Point<T>>& points, long max_iterations=1000) {
 	vector<Cluster<T>> clusters;
 	vector<Point<double>> random_points;
 
-	// Create k clusters
+	if (k > points.size()) {
+		throw invalid_argument("k > points.size()");
+	}
+
 	for (int i = 0; i < k; i++) {
 		clusters.push_back(Cluster<T>(i));
 	}
 
-	// Choose k random points from dataset to initialize cluster centroids
 	random_points = get_random_points<T>(k, points);
-
-	// Initialize centroid of each cluster
 	init_cluster_centroid<T>(clusters, random_points);
 
 	return(clusters);

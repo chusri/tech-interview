@@ -330,7 +330,7 @@ TEST (KMeansTest, KMeansGetRandomPointsKMoreThanPoints) {
 	Point<double> point(v);
 	vector<Point<double>> points{point};
 
-	EXPECT_THROW(get_random_points(2, points), invalid_argument);
+	EXPECT_THROW(get_random_points<double>(2, points), invalid_argument);
 }
 
 TEST (KMeansTest, KMeansGetRandomPointsKEqualToPoints) {
@@ -338,9 +338,20 @@ TEST (KMeansTest, KMeansGetRandomPointsKEqualToPoints) {
 	Point<double> point(v);
 	vector<Point<double>> points{point};
 
-	vector<Point<double>> random_points = get_random_points(1, points);
+	vector<Point<double>> random_points = get_random_points<double>(1, points);
 
 	ASSERT_EQ(random_points, points);
+}
+
+TEST (KMeansTest, KMeansInitClusterCentroidClustersSizeMoreThanPointsSize) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	vector<Point<double>> points{point};
+	Cluster<double> cluster1(1);
+	Cluster<double> cluster2(2);
+	vector<Cluster<double>> clusters{cluster1, cluster2};
+
+	EXPECT_THROW(init_cluster_centroid<double>(clusters, points), invalid_argument);
 }
 
 TEST (KMeansTest, KMeansInitClusterCentroid) {
@@ -354,6 +365,14 @@ TEST (KMeansTest, KMeansInitClusterCentroid) {
 	Point<double> centroid = clusters[0].get_centroid();
 
 	ASSERT_EQ(point, centroid);
+}
+
+TEST (KMeansTest, KMeansKMoreThanPointsSize) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	vector<Point<double>> points{point};
+
+	EXPECT_THROW(KMeans<double>(2, points), invalid_argument);
 }
 
 int main(int argc, char** argv) {
