@@ -24,7 +24,7 @@ using namespace std;
  * @return Vector containing tokenized string.
  */
 template <class T>
-vector<T> tokenize(const string& str, char delimiter, int num_features) {
+vector<T> tokenize(const string& str, char delimiter, unsigned int num_features) {
 	string token;
 	vector<T> tokens;
 	int token_count = 0;
@@ -48,7 +48,7 @@ vector<T> tokenize(const string& str, char delimiter, int num_features) {
  */
 template <class T>
 vector<vector<T> >
-read_training_data(const string& training_data_file, int num_features) {
+read_training_data(const string& training_data_file, unsigned int num_features) {
 	string line;
 	ifstream file;
 	vector<vector<T> > training_data;
@@ -71,10 +71,13 @@ read_training_data(const string& training_data_file, int num_features) {
  */
 template <class T>
 vector<T>
-get_column_vector(const vector<vector<T> >& vec2d, int index) {
+get_column_vector(const vector<vector<T> >& vec2d, unsigned int index) {
 	vector<T> column;
 
 	for_each(vec2d.begin(), vec2d.end(), [&column, index](const vector<T> row) {
+			if (index >= row.size()) {
+				throw invalid_argument("index >= row.size()");
+			}
 			column.push_back(row[index]);
 	});
 

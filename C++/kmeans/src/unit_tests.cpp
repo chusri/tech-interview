@@ -37,14 +37,6 @@ TEST (KMeansTest, UtilTokenizeDataDim0) {
 	ASSERT_EQ(tokens.size(), 0);
 }
 
-TEST (KMeansTest, UtilTokenizeDataDimNegative1) {
-	vector<double> tokens;
-
-	tokens = tokenize<double>("5.1,3.5,1.4,0.2,Iris-setosa", ',', -1);
-
-	ASSERT_EQ(tokens.size(), 0);
-}
-
 // Unit tests for read_training_data utility function
 TEST (KMeansTest, UtilReadTrainingDataSize) {
 	vector<vector<double> > training_data;
@@ -73,6 +65,16 @@ TEST (KMeansTest, UtilReadTrainingDataLastRow) {
 }
 
 // Unit tests for get_column_vector utility function
+TEST (KMeansTest, UtilGetColumnFrom2DVecIndexMoreThanEqualRowSize) {
+	vector<double> v1{2.1,3.2,1.4,0.2};
+	vector<double> v2{3.1,4.2,1.4,1.2};
+	vector<double> v3{4.1,5.2,1.4,1.2};
+	vector<double> v4{5.1,6.2,1.4,1.2};
+	vector<vector<double> > vec2d{v1,v2,v3,v4};
+
+	EXPECT_THROW(get_column_vector<double>(vec2d, 4), invalid_argument);
+}
+
 TEST (KMeansTest, UtilGetColumnFrom2DVecCol0) {
 	vector<double> v1{2.1,3.2,1.4,0.2};
 	vector<double> v2{3.1,4.2,1.4,1.2};
