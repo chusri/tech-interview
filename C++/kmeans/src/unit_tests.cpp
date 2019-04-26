@@ -11,6 +11,10 @@
 #include<gtest/gtest.h>
 
 // Unit tests for tokenize utility function
+TEST (KMeansTest, UtilTokenizeDataTokensSizeNotEqualNumFeatures) {
+	EXPECT_THROW(tokenize<double>("5.1,3.5", ',', 4), length_error);
+}
+
 TEST (KMeansTest, UtilTokenizeDataDim4) {
 	vector<double> tokens;
 	vector<double> expected_tokens{5.1,3.5,1.4,0.2};

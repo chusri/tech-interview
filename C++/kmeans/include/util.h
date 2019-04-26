@@ -37,6 +37,10 @@ vector<T> tokenize(const string& str, char delimiter, unsigned int num_features)
 		token_count++;
 	}
 
+	if (tokens.size() != num_features) {
+		throw length_error("tokens.size() != num_features");
+	}
+
 	return(tokens);
 }
 
