@@ -20,11 +20,15 @@
  * @return Vector of k random points
  */
 template <class T>
-vector<Point<double>> get_random_points(int k, const vector<Point<T>>& points) {
+vector<Point<double>> get_random_points(unsigned int k, const vector<Point<T>>& points) {
 	random_device device;
 	mt19937 generator(device());
 	uniform_int_distribution<int> distribution(0, points.size()-1);
 	vector<Point<double>> random_points;
+
+	if (k > points.size()) {
+		throw invalid_argument("k > points.size()");
+	}
 
 	for (int i = 0; i < k; i++) {
 		int index = distribution(generator);

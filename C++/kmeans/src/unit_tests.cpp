@@ -325,6 +325,24 @@ TEST (KMeansTest, ClusterCalculateCentroid) {
 }
 
 // Unit tests for KMeans algorithm
+TEST (KMeansTest, KMeansGetRandomPointsKMoreThanPoints) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	vector<Point<double>> points{point};
+
+	EXPECT_THROW(get_random_points(2, points), invalid_argument);
+}
+
+TEST (KMeansTest, KMeansGetRandomPointsKEqualToPoints) {
+	vector<double> v{5.1,3.5,1.4,0.2};
+	Point<double> point(v);
+	vector<Point<double>> points{point};
+
+	vector<Point<double>> random_points = get_random_points(1, points);
+
+	ASSERT_EQ(random_points, points);
+}
+
 TEST (KMeansTest, KMeansInitClusterCentroid) {
 	vector<double> v{5.1,3.5,1.4,0.2};
 	Point<double> point(v);
