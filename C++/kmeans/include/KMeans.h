@@ -9,6 +9,7 @@
 
 #include "Point.h"
 #include "Cluster.h"
+#include<cmath>
 #include<random>
 #include<vector>
 #include<functional>
@@ -58,6 +59,30 @@ void init_cluster_centroid(vector<Cluster<T>>& clusters,
 					 [&random_points, &i](Cluster<T>& cluster) {
 		cluster.set_centroid(random_points[i++]);
 	});
+}
+
+/**
+ * @brief This function calculates the euclidean distance between
+ * 2 n-dimensional Points.
+ * @param point1 Point 1
+ * @param point2 Point 2
+ * @return Euclidean distance between point1 and point2
+ */
+template <class T>
+double euclidean_distance(const Point<T>& point1, const Point<T>& point2) {
+	double distance = 0.0;
+
+	if (point1.get_dimensions() != point2.get_dimensions()) {
+		throw invalid_argument("point1.get_dimensions() != point2.get_dimensions()");
+	}
+
+	for (int i = 0; i < point1.get_dimensions(); i++) {
+		T x1 = point1.get_coordinates()[i];
+		T x2 = point2.get_coordinates()[i];
+		distance += pow(x1-x2, 2);
+	}
+
+	return(sqrt(distance));
 }
 
 /**

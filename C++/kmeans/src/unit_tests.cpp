@@ -381,6 +381,26 @@ TEST (KMeansTest, KMeansKMoreThanPointsSize) {
 	EXPECT_THROW(KMeans<double>(2, points), invalid_argument);
 }
 
+TEST (KMeansTest, KMeansEuclideanDistanceUnequalDimensions) {
+	vector<double> v1{3.5,1.4,0.2};
+	vector<double> v2{5.1,3.5,1.4,0.2};
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+
+	EXPECT_THROW(euclidean_distance<double>(point1, point2), invalid_argument);
+}
+
+TEST (KMeansTest, KMeansEuclideanDistance) {
+	vector<double> v1{3.5,1.4,0.2,7.9};
+	vector<double> v2{5.1,3.5,1.4,0.2};
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+
+	double distance = euclidean_distance<double>(point1, point2);
+
+	ASSERT_EQ(distance, 8.228000972289685);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());
