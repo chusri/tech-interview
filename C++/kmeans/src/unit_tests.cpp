@@ -401,6 +401,14 @@ TEST (KMeansTest, KMeansEuclideanDistance) {
 	ASSERT_EQ(distance, 8.228000972289685);
 }
 
+TEST (KMeansTest, KMeansGetNearestClusterEmptyClusters) {
+	vector<double> v{3.5,1.4,0.2};
+	Point<double> point(v);
+	vector<Cluster<double>> clusters;
+
+	EXPECT_THROW(get_nearest_cluster<double>(point, clusters), invalid_argument);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());

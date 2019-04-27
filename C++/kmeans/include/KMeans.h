@@ -86,6 +86,23 @@ double euclidean_distance(const Point<T>& point1, const Point<T>& point2) {
 }
 
 /**
+ * @brief This function returns the cluster nearest to the point
+ * @param point n-dimensional Point
+ * @param clusters vector of k clusters
+ * @return cluster_id of the nearest cluster
+ */
+template <class T>
+int get_nearest_cluster(const Point<T>& point, const vector<Cluster<T>>& clusters) {
+	Cluster<T> nearest_cluster;
+
+	if (clusters.size() == 0) {
+		throw invalid_argument("clusters.size() == 0");
+	}
+
+	return(nearest_cluster.get_id());
+}
+
+/**
  * @brief This function implements the KMeans clustering algorithm.
  * @param k Number of clusters
  * @param points Vector of points
@@ -109,6 +126,10 @@ KMeans(unsigned int k, vector<Point<T>>& points, long max_iterations=1000) {
 
 	random_points = get_random_points<T>(k, points);
 	init_cluster_centroid<T>(clusters, random_points);
+
+	for (int i = 0; i < max_iterations; i++) {
+
+	}
 
 	return(clusters);
 }
