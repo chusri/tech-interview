@@ -409,6 +409,37 @@ TEST (KMeansTest, KMeansGetNearestClusterEmptyClusters) {
 	EXPECT_THROW(get_nearest_cluster<double>(point, clusters), invalid_argument);
 }
 
+TEST (KMeansTest, KMeansGetNearestCluster) {
+	vector<double> v1{3.5,1.1,5.2};
+	vector<double> v2{4.5,1.2,6.2};
+	vector<double> v3{5.5,1.3,7.2};
+	vector<double> v4{6.5,1.4,8.2};
+	vector<double> v5{7.5,1.5,9.2};
+	vector<double> v6{8.5,1.6,4.2};
+	vector<double> v7{3.1,5.2,1.9};
+
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+	Point<double> point3(v3);
+	Point<double> point4(v4);
+	Point<double> point5(v5);
+	Point<double> point6(v6);
+	Point<double> point7(v7);
+
+	vector<Point<double>> points1{point1, point2};
+	vector<Point<double>> points2{point3, point4};
+	vector<Point<double>> points3{point5, point6};
+
+	Cluster<double> cluster1(1, points1);
+	Cluster<double> cluster2(2, points2);
+	Cluster<double> cluster3(3, points3);
+	vector<Cluster<double>> clusters{cluster1, cluster2, cluster3};
+
+	int nearest_cluster_id = get_nearest_cluster<double>(point7, clusters);
+
+	ASSERT_EQ(nearest_cluster_id, 1);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());
