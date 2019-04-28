@@ -322,6 +322,7 @@ TEST (KMeansTest, ClusterCalculateCentroid) {
 
 	vector<Point<double>> points{point1,point2,point3};
 	Cluster<double> cluster(1, points);
+	cluster.update_centroid();
 	vector<double> centroid_coordinates = cluster.get_centroid().get_coordinates();
 
 	for (int i = 0; i < point4.get_coordinates().size(); i++) {
@@ -368,6 +369,7 @@ TEST (KMeansTest, KMeansInitClusterCentroid) {
 	vector<Cluster<double>> clusters{cluster};
 
 	init_cluster_centroid<double>(clusters, points);
+	clusters[0].update_centroid();
 	Point<double> centroid = clusters[0].get_centroid();
 
 	ASSERT_EQ(point, centroid);

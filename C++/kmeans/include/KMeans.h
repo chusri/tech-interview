@@ -92,15 +92,17 @@ double euclidean_distance(const Point<T>& point1, const Point<T>& point2) {
  * @return cluster_id of the nearest cluster
  */
 template <class T>
-int get_nearest_cluster(const Point<T>& point, const vector<Cluster<T>>& clusters) {
+int get_nearest_cluster(const Point<T>& point, vector<Cluster<T>>& clusters) {
 	if (clusters.size() == 0) {
 		throw invalid_argument("clusters.size() == 0");
 	}
 
 	Cluster<T> nearest_cluster = clusters[0];
+	clusters[0].update_centroid();
 	double min_distance = euclidean_distance(point, clusters[0].get_centroid());
 
 	for (int i = 1; i < clusters.size(); i++) {
+		clusters[i].update_centroid();
 		double distance = euclidean_distance(point, clusters[i].get_centroid());
 		if (distance < min_distance) {
 			min_distance = distance;

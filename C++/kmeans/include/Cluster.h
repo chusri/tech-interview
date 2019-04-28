@@ -111,6 +111,13 @@ class Cluster {
 		void set_centroid(const Point<double> centroid);
 
 		/**
+		 * @brief Update centroid of points in cluster.
+		 * @param void
+		 * @return void
+		 */
+		void update_centroid(void);
+
+		/**
 		 * @brief Setter method for points in a cluster.
 		 * @param points vector of points.
 		 * @return void
@@ -144,13 +151,6 @@ class Cluster {
 		vector<Point<T> > points;
 
 		/**
-		 * @brief Calculate centroid of points in cluster.
-		 * @param void
-		 * @return void
-		 */
-		void calculate_centroid(void);
-
-		/**
 		 * @brief Create 2D vector of point coordinates.
 		 * @param void
 		 * @return 2D vector of point coordinates.
@@ -162,9 +162,7 @@ template <class T>
 Cluster<T>::Cluster(int id): id(id) {}
 
 template <class T>
-Cluster<T>::Cluster(int id, vector<Point<T> > points): id(id), points(points) {
-	calculate_centroid();
-}
+Cluster<T>::Cluster(int id, vector<Point<T> > points): id(id), points(points) {}
 
 // Copy Constructor
 template <class T>
@@ -217,19 +215,16 @@ void Cluster<T>::set_centroid(const Point<double> centroid) {
 template <class T>
 void Cluster<T>::set_points(const vector<Point<T> > points) {
 	this->points = points;
-	calculate_centroid();
 }
 
 template <class T>
 void Cluster<T>::add_point(const Point<T> point) {
 	points.push_back(point);
-	calculate_centroid();
 }
 
 template <class T>
 void Cluster<T>::remove_point(const Point<T> point) {
 	points.erase(remove(points.begin(), points.end(), point), points.end());
-	calculate_centroid();
 }
 
 template <class T>
@@ -238,7 +233,7 @@ long Cluster<T>::get_num_points(void) const {
 }
 
 template <class T>
-void Cluster<T>::calculate_centroid(void) {
+void Cluster<T>::update_centroid(void) {
 	vector<double> column_avgs;
 	double col_vector_avg = 0.0;
 	vector<vector<T> > coordinates;
