@@ -527,6 +527,14 @@ TEST (KMeansTest, KMeansCategorizePointsIntoClusters) {
 	vector<Point<double>> random_points{point1, point3, point5};
 	init_cluster_centroid<double>(clusters, random_points);
 	categorize_points_into_clusters<double>(points, clusters);
+
+	vector<Point<double>> points1{point1, point2, point7};
+	vector<Point<double>> points2{point3, point4, point6};
+	vector<Point<double>> points3{point5};
+
+	ASSERT_EQ(clusters[0].get_points(), points1);
+	ASSERT_EQ(clusters[1].get_points(), points2);
+	ASSERT_EQ(clusters[2].get_points(), points3);
 }
 
 int main(int argc, char** argv) {

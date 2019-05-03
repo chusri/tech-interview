@@ -129,7 +129,6 @@ void categorize_points_into_clusters(vector<Point<T>>& points, vector<Cluster<T>
 			}
 
 			clusters[nearest_cluster_id].add_point(point);
-			cout << clusters[nearest_cluster_id] << endl;
 	});
 
 	for_each(clusters.begin(), clusters.end(), [](Cluster<T>& cluster) {
