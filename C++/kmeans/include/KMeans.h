@@ -123,6 +123,11 @@ template <class T>
 void categorize_points_into_clusters(vector<Point<T>>& points, vector<Cluster<T>>& clusters) {
 	for_each(points.begin(), points.end(), [&clusters](Point<T>& point) {
 			int nearest_cluster_id = get_nearest_cluster(point, clusters);
+
+			if (nearest_cluster_id < 0 || nearest_cluster_id >= clusters.size()) {
+				throw out_of_range("nearest_cluster_id < 0 || nearest_cluster_id >= clusters.size()");
+			}
+
 			clusters[nearest_cluster_id].add_point(point);
 			cout << clusters[nearest_cluster_id] << endl;
 	});

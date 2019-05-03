@@ -442,6 +442,64 @@ TEST (KMeansTest, KMeansGetNearestCluster) {
 	ASSERT_EQ(nearest_cluster_id, 1);
 }
 
+TEST (KMeansTest, KMeansCategorizePointsIntoClustersNearestClusterIdMoreThanClustersSize) {
+	vector<double> v1{3.5,1.1,5.2};
+	vector<double> v2{4.5,1.2,6.2};
+	vector<double> v3{5.5,1.3,7.2};
+	vector<double> v4{6.5,1.4,8.2};
+	vector<double> v5{7.5,1.5,9.2};
+	vector<double> v6{8.5,1.6,4.2};
+	vector<double> v7{3.1,5.2,1.9};
+
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+	Point<double> point3(v3);
+	Point<double> point4(v4);
+	Point<double> point5(v5);
+	Point<double> point6(v6);
+	Point<double> point7(v7);
+
+	vector<Point<double>> points{point1, point2, point3, point4, point5, point6, point7};
+
+	Cluster<double> cluster0(4);
+	Cluster<double> cluster1(5);
+	Cluster<double> cluster2(6);
+	vector<Cluster<double>> clusters{cluster0, cluster1, cluster2};
+
+	vector<Point<double>> random_points{point1, point3, point5};
+	init_cluster_centroid<double>(clusters, random_points);
+	EXPECT_THROW(categorize_points_into_clusters<double>(points, clusters), out_of_range);
+}
+
+TEST (KMeansTest, KMeansCategorizePointsIntoClustersNearestClusterIdLessThanZero) {
+	vector<double> v1{3.5,1.1,5.2};
+	vector<double> v2{4.5,1.2,6.2};
+	vector<double> v3{5.5,1.3,7.2};
+	vector<double> v4{6.5,1.4,8.2};
+	vector<double> v5{7.5,1.5,9.2};
+	vector<double> v6{8.5,1.6,4.2};
+	vector<double> v7{3.1,5.2,1.9};
+
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+	Point<double> point3(v3);
+	Point<double> point4(v4);
+	Point<double> point5(v5);
+	Point<double> point6(v6);
+	Point<double> point7(v7);
+
+	vector<Point<double>> points{point1, point2, point3, point4, point5, point6, point7};
+
+	Cluster<double> cluster0(-1);
+	Cluster<double> cluster1(-21);
+	Cluster<double> cluster2(-2);
+	vector<Cluster<double>> clusters{cluster0, cluster1, cluster2};
+
+	vector<Point<double>> random_points{point1, point3, point5};
+	init_cluster_centroid<double>(clusters, random_points);
+	EXPECT_THROW(categorize_points_into_clusters<double>(points, clusters), out_of_range);
+}
+
 TEST (KMeansTest, KMeansCategorizePointsIntoClusters) {
 	vector<double> v1{3.5,1.1,5.2};
 	vector<double> v2{4.5,1.2,6.2};
