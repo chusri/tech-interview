@@ -535,6 +535,17 @@ TEST (KMeansTest, KMeansCategorizePointsIntoClusters) {
 	ASSERT_EQ(clusters[0].get_points(), points1);
 	ASSERT_EQ(clusters[1].get_points(), points2);
 	ASSERT_EQ(clusters[2].get_points(), points3);
+
+	Cluster<double> cluster3(3, points1);
+	Cluster<double> cluster4(4, points2);
+	Cluster<double> cluster5(5, points3);
+	cluster3.update_centroid();
+	cluster4.update_centroid();
+	cluster5.update_centroid();
+
+	ASSERT_EQ(clusters[0].get_centroid(), cluster3.get_centroid());
+	ASSERT_EQ(clusters[1].get_centroid(), cluster4.get_centroid());
+	ASSERT_EQ(clusters[2].get_centroid(), cluster5.get_centroid());
 }
 
 int main(int argc, char** argv) {
