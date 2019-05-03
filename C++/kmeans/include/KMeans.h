@@ -114,6 +114,25 @@ int get_nearest_cluster(const Point<T>& point, vector<Cluster<T>>& clusters) {
 }
 
 /**
+ * @brief This function categorizes points into clusters.
+ * @param points vector of n-dimensional Points
+ * @param clusters vector of k clusters
+ * @return None
+ */
+template <class T>
+void categorize_points_into_clusters(vector<Point<T>>& points, vector<Cluster<T>>& clusters) {
+	for_each(points.begin(), points.end(), [&clusters](Point<T>& point) {
+			int nearest_cluster_id = get_nearest_cluster(point, clusters);
+			clusters[nearest_cluster_id].add_point(point);
+			cout << clusters[nearest_cluster_id] << endl;
+	});
+
+	for_each(clusters.begin(), clusters.end(), [](Cluster<T>& cluster) {
+		cluster.update_centroid();
+	});
+}
+
+/**
  * @brief This function implements the KMeans clustering algorithm.
  * @param k Number of clusters
  * @param points Vector of points
