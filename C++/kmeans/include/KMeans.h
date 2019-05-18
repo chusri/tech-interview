@@ -137,6 +137,20 @@ void categorize_points_into_clusters(vector<Point<T>>& points, vector<Cluster<T>
 }
 
 /**
+ * @brief This function removes points from clusters.
+ * @param clusters vector of clusters
+ * @return None
+ */
+template <class T>
+void remove_points_from_clusters(vector<Cluster<T>>& clusters) {
+	vector<Point<T>> empty_points;
+
+	for_each(clusters.begin(), clusters.end(), [empty_points](Cluster<T>& cluster) {
+		cluster.set_points(empty_points);
+	});
+}
+
+/**
  * @brief This function implements the KMeans clustering algorithm.
  * @param k Number of clusters
  * @param points Vector of points
@@ -162,7 +176,8 @@ KMeans(unsigned int k, vector<Point<T>>& points, long max_iterations=1000) {
 	init_cluster_centroid<T>(clusters, random_points);
 
 	for (int i = 0; i < max_iterations; i++) {
-
+		remove_points_from_clusters<T>(clusters);
+		categorize_points_into_clusters<T>(points, clusters);
 	}
 
 	return(clusters);

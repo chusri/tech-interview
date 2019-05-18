@@ -548,6 +548,41 @@ TEST (KMeansTest, KMeansCategorizePointsIntoClusters) {
 	ASSERT_EQ(clusters[2].get_centroid(), cluster5.get_centroid());
 }
 
+TEST (KMeansTest, KMeansRemovePointsFromClusters) {
+	vector<double> v1{3.5,1.1,5.2};
+	vector<double> v2{4.5,1.2,6.2};
+	vector<double> v3{5.5,1.3,7.2};
+	vector<double> v4{6.5,1.4,8.2};
+	vector<double> v5{7.5,1.5,9.2};
+	vector<double> v6{8.5,1.6,4.2};
+	vector<double> v7{3.1,5.2,1.9};
+
+	Point<double> point1(v1);
+	Point<double> point2(v2);
+	Point<double> point3(v3);
+	Point<double> point4(v4);
+	Point<double> point5(v5);
+	Point<double> point6(v6);
+	Point<double> point7(v7);
+
+	vector<Point<double>> points{point1, point2, point3, point4, point5, point6, point7};
+
+	Cluster<double> cluster0(0);
+	Cluster<double> cluster1(1);
+	Cluster<double> cluster2(2);
+	vector<Cluster<double>> clusters{cluster0, cluster1, cluster2};
+
+	vector<Point<double>> random_points{point1, point3, point5};
+	init_cluster_centroid<double>(clusters, random_points);
+	categorize_points_into_clusters<double>(points, clusters);
+
+	remove_points_from_clusters<double>(clusters);
+
+	ASSERT_EQ(clusters[0].get_num_points(), 0);
+	ASSERT_EQ(clusters[1].get_num_points(), 0);
+	ASSERT_EQ(clusters[2].get_num_points(), 0);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());
