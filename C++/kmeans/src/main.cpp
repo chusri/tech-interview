@@ -4,20 +4,26 @@
  * @author Nawab Ali
  */
 
+#include<vector>
+#include<string>
 #include "util.h"
 #include "Point.h"
+#include "KMeans.h"
 #include "Cluster.h"
 
 int main(int argc, char** argv) {
-	vector<double> v1{5.1,3.5,1.4,0.2};
-	Point<double> point1(4);
-	Point<double> point2(v1);
-	Point<double> point3 = point2;
-	vector<Point<double>> points{point1,point2,point3};
-	Cluster<double> cluster1(1, points);
+	vector<Point<double>> points;
+	vector<vector<double>> training_data = read_training_data<double>(string("../data/iris.txt"), 4);
 
-	cout << point3 << endl;
-	cout << cluster1;
+	for_each(training_data.begin(), training_data.end(), [&points](vector<double> coordinates) {
+		points.push_back(Point<double>(coordinates));
+	});
+
+	vector<Cluster<double>> clusters = KMeans<double>(3, points, 100);
+
+	for_each(clusters.begin(), clusters.end(), [](Cluster<double> cluster) {
+		cout << cluster << endl;
+	});
 
 	return(0);
 }
