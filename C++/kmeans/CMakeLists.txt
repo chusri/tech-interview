@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 # Main executable
 include_directories(include)
 add_executable(KMeans src/main.cpp)
+target_link_libraries(KMeans boost_program_options)
 
 # Google Test unit tests
 enable_testing()
