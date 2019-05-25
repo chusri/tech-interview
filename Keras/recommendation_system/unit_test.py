@@ -12,5 +12,9 @@ class TestRecommendationSystem(unittest.TestCase):
         recommendation_system = RecommendationSystem('data/movielens_100k.data', None)
         self.assertEqual(recommendation_system.test_data.shape, (20000, 4))
 
+    def test_train(self):
+        recommendation_system = RecommendationSystem('data/movielens_100k.data', None)
+        recommendation_system.train(epochs=10, batch_size=1)
+
 if __name__ == '__main__':
     unittest.main()
