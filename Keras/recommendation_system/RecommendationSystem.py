@@ -3,7 +3,7 @@
 """ Neural Collaborative Filtering based Recommendation System for movies, books etc. """
 
 import pandas as pd
-from keras.layers import merge
+from keras.layers import Concatenate
 from keras.layers import Dense
 from keras.layers import Flatten
 from keras.layers import Dropout
@@ -30,6 +30,9 @@ class RecommendationSystem:
         self.train_data, self.test_data = self._preprocess_training_data(training_data_file)
         self.trained_model_file = trained_model_file
         self.num_latent_factors = num_latent_factors
+        print(self.train_data.user_id.values)
+        print(self.train_data.item_id.values)
+        print(self.train_data.rating.values)
 
     def train(self, epochs=100, batch_size=128):
         """
@@ -48,10 +51,10 @@ class RecommendationSystem:
         num_items = len(self.train_data.item_id.unique())
 
         model = self._create_training_model(num_users, num_items)
-        model.summary()
         model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['accuracy'])
-        model.fit([self.train_data.user_id, self.train_data.item_id], self.train_data.rating,
-                  epochs=epochs, batch_size=batch_size)
+        model.fit([self.train_data.user_id.values, self.train_data.item_id.values],
+                   self.train_data.rating.values, epochs=epochs, batch_size=batch_size)
+        print(model.summary())
 
     def _preprocess_training_data(self, training_data_file):
         """
@@ -94,7 +97,7 @@ class RecommendationSystem:
         item_model = self._create_embedding_model(num_items, self.num_latent_factors,
                                                   'item_embedding', 'item_flatten')
         model = Sequential()
-        model.add(merge([user_model, item_model], mode='concat', name='concat'))
+        model.add(Concatenate([user_model, item_model], name='concat'))
         model.add(Dropout(dropout, name='dropout_2'))
         model.add(Dense(200, name='fully_connected_1'))
         model.add(Dropout(dropout, name='dropout_3'))
@@ -125,7 +128,7 @@ class RecommendationSystem:
         """
 
         model = Sequential()
-        model.add(Embedding(input_dim+1, output_dim, name=embedding_name))
+        model.add(Embedding(input_dim+1, output_dim, input_length=1, name=embedding_name))
         model.add(Flatten(name=flatten_name))
         model.add(Dropout(dropout, name='dropout_1'))
 
