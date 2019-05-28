@@ -3,13 +3,14 @@
 """ Neural Collaborative Filtering based Recommendation System for movies, books etc. """
 
 import pandas as pd
-from keras.layers import Concatenate
+from keras import Model
+from keras.layers import Input
 from keras.layers import Dense
 from keras.layers import Flatten
 from keras.layers import Dropout
 from keras.layers import Embedding
+from keras.layers import concatenate
 from keras.optimizers import Adam
-from keras.models import Sequential
 from sklearn.model_selection import train_test_split
 
 class RecommendationSystem:
@@ -30,9 +31,6 @@ class RecommendationSystem:
         self.train_data, self.test_data = self._preprocess_training_data(training_data_file)
         self.trained_model_file = trained_model_file
         self.num_latent_factors = num_latent_factors
-        print(self.train_data.user_id.values)
-        print(self.train_data.item_id.values)
-        print(self.train_data.rating.values)
 
     def train(self, epochs=100, batch_size=128):
         """
@@ -92,47 +90,45 @@ class RecommendationSystem:
         model -- Keras training model
         """
 
-        user_model = self._create_embedding_model(num_users, self.num_latent_factors,
-                                                  'user_embedding', 'user_flatten')
-        item_model = self._create_embedding_model(num_items, self.num_latent_factors,
-                                                  'item_embedding', 'item_flatten')
-        model = Sequential()
-        model.add(Concatenate([user_model, item_model], name='concat'))
-        model.add(Dropout(dropout, name='dropout_2'))
-        model.add(Dense(200, name='fully_connected_1'))
-        model.add(Dropout(dropout, name='dropout_3'))
-        model.add(Dense(100, name='fully_connected_2'))
-        model.add(Dropout(dropout, name='dropout_4'))
-        model.add(Dense(50, name='fully_connected_3'))
-        model.add(Dropout(dropout, name='dropout_5'))
-        model.add(Dense(20, name='fully_connected_4', activation='relu'))
-        model.add(Dense(1, name='activation', activation='relu'))
+        user_input, user_vector = self._create_embedding('user', num_users, self.num_latent_factors)
+        item_input, item_vector = self._create_embedding('item', num_items, self.num_latent_factors)
 
-        return model
+        concat_vector = concatenate([user_vector, item_vector], name='concat')
+        dropout_1 = Dropout(dropout, name='dropout_1')(concat_vector)
+        dense_1 = Dense(200, name='fully_connected_1')(dropout_1)
+        dropout_2 = Dropout(dropout, name='dropout_2')(dense_1)
+        dense_2 = Dense(100, name='fully_connected_2')(dropout_2)
+        dropout_3 = Dropout(dropout, name='dropout_3')(dense_2)
+        dense_3 = Dense(50, name='fully_connected_3')(dropout_3)
+        dropout_4 = Dropout(dropout, name='dropout_4')(dense_3)
+        dense_4 = Dense(20, name='fully_connected_4', activation='relu')(dropout_4)
+        result = Dense(1, name='activation', activation='relu')(dense_4)
 
-    def _create_embedding_model(self, input_dim, output_dim, embedding_name, flatten_name,
-                                dropout=0.2):
+        return Model([user_input, item_input], result)
+
+    def _create_embedding(self, name, input_dim, output_dim, dropout=0.2):
         """
-        Create a Keras embedding model.
+        Create a Keras embedding.
 
         Arguments:
         self
+        name -- embedding name
         input_dim -- input dimension
         output_dim -- output dimension
-        embedding_name -- name of embedding layer
-        flatten_name -- name of flatten layer
         dropout -- dropout value
 
         Returns:
-        model -- Keras embedding model
+        input_vector -- input vector
+        output_vector -- embedding vector
         """
 
-        model = Sequential()
-        model.add(Embedding(input_dim+1, output_dim, input_length=1, name=embedding_name))
-        model.add(Flatten(name=flatten_name))
-        model.add(Dropout(dropout, name='dropout_1'))
+        input_vector = Input(shape=[1], name=name+'_input')
+        embedding = Embedding(input_dim+1, output_dim, input_length=1,
+                              name=name+'_embedding')(input_vector)
+        output_vector = Flatten(name=name+'_flatten')(embedding)
+        output_vector = Dropout(dropout, name=name+'_dropout')(output_vector)
 
-        return model
+        return input_vector, output_vector
 
 def main():
     """

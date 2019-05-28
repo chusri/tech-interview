@@ -16,7 +16,7 @@ class TestRecommendationSystem(unittest.TestCase):
 
     def test_train(self):
         recommendation_system = RecommendationSystem('data/movielens_100k.data', None)
-        recommendation_system.train(epochs=10, batch_size=1)
+        recommendation_system.train(epochs=10, batch_size=128)
 
 if __name__ == '__main__':
     unittest.main()
