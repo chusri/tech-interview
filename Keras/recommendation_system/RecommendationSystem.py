@@ -28,7 +28,8 @@ class RecommendationSystem:
         None
         """
 
-        self.train_data, self.test_data = self._preprocess_training_data(training_data_file)
+        self.num_users, self.num_items, self.train_data, self.test_data = \
+                                        self._preprocess_training_data(training_data_file)
         self.trained_model_file = trained_model_file
         self.num_latent_factors = num_latent_factors
 
@@ -45,10 +46,7 @@ class RecommendationSystem:
         None
         """
 
-        num_users = len(self.train_data.user_id.unique())
-        num_items = len(self.train_data.item_id.unique())
-
-        model = self._create_training_model(num_users, num_items)
+        model = self._create_training_model(self.num_users, self.num_items)
         model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['accuracy'])
         model.fit([self.train_data.user_id.values, self.train_data.item_id.values],
                    self.train_data.rating.values, epochs=epochs, batch_size=batch_size)
@@ -74,7 +72,11 @@ class RecommendationSystem:
         # Assign a unique item_id between (0, #items)
         dataset.item_id = dataset.item_id.astype('category').cat.codes.values
 
-        return train_test_split(dataset, test_size=0.2)
+        num_users = len(dataset.user_id.unique())
+        num_items = len(dataset.item_id.unique())
+        train_data, test_data = train_test_split(dataset, test_size=0.2)
+
+        return num_users, num_items, train_data, test_data
 
     def _create_training_model(self, num_users, num_items, dropout=0.2):
         """
