@@ -2,6 +2,7 @@
 
 """ Neural Collaborative Filtering based Recommendation System for movies, books etc. """
 
+import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
 from keras import Model
@@ -195,7 +196,44 @@ def main():
     None
     """
 
-    pass
+    args = parse_args()
+    recommendation_system = RecommendationSystem(training_data_file=args.training_data,
+                                                 trained_model_file=args.trained_model_file,
+                                                 model_plot_file=args.model_plot_file,
+                                                 model_accuracy_file=args.model_accuracy_file,
+                                                 model_loss_file=args.model_loss_file,
+                                                 num_latent_factors=args.num_latent_factors)
+
+    if args.mode == 'training':
+        recommendation_system.train(epochs=args.epochs, batch_size=args.batch)
+    else:
+        pass
+
+def parse_args():
+    """
+    Parse command line arguments.
+
+    Arguments:
+    None
+
+    Returns:
+    Parsed command line arguments
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', required=True, choices=['training', 'inference'],
+                        help='Deep Learning mode')
+    parser.add_argument('--training_data', required=True, help='Training data file')
+    parser.add_argument('--trained_model_file', required=True, help='Trained model file')
+    parser.add_argument('--model_plot_file', default='model_plot.png', help='Model plot file')
+    parser.add_argument('--model_accuracy_file', default='model_accuracy.png',
+                        help='Model accuracy file')
+    parser.add_argument('--model_loss_file', default='model_loss.png', help='Model loss file')
+    parser.add_argument('--num_latent_factors', type=int, default=64, help='Number of latent factors')
+    parser.add_argument('--epochs', type=int, default=100, help='Number of training epochs')
+    parser.add_argument('--batch', type=int, default=128, help='Batch size')
+
+    return parser.parse_args()
 
 if __name__ == '__main__':
     main()
