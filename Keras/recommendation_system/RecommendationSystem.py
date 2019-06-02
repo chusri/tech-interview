@@ -11,10 +11,12 @@ from keras.layers import Dropout
 from keras.layers import Embedding
 from keras.layers import concatenate
 from keras.optimizers import Adam
+from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
 
 class RecommendationSystem:
-    def __init__(self, training_data_file, trained_model_file, num_latent_factors=64):
+    def __init__(self, training_data_file, trained_model_file, model_plot_file='model_plot.png',
+                 num_latent_factors=64):
         """
         Initialize Recommendation System object.
 
@@ -22,6 +24,7 @@ class RecommendationSystem:
         self
         training_data_file -- file containing training data
         trained_model_file -- file where trained model will be saved
+        model_plot_file -- file where model plot will be saved
         num_latent_factors -- number of latent factors for users and items
 
         Returns:
@@ -31,6 +34,7 @@ class RecommendationSystem:
         self.num_users, self.num_items, self.train_data, self.test_data = \
                                         self._preprocess_training_data(training_data_file)
         self.trained_model_file = trained_model_file
+        self.model_plot_file = model_plot_file
         self.num_latent_factors = num_latent_factors
 
     def train(self, epochs=100, batch_size=128):
@@ -43,14 +47,17 @@ class RecommendationSystem:
         batch_size -- batch size
 
         Returns:
-        None
+        history -- record of training loss values and metrics values at successive epochs
         """
 
         model = self._create_training_model(self.num_users, self.num_items)
         model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['accuracy'])
-        model.fit([self.train_data.user_id.values, self.train_data.item_id.values],
-                   self.train_data.rating.values, epochs=epochs, batch_size=batch_size)
-        print(model.summary())
+        history = model.fit([self.train_data.user_id.values, self.train_data.item_id.values],
+                            self.train_data.rating.values, epochs=epochs, batch_size=batch_size)
+        model.save(self.trained_model_file)
+        plot_model(model, to_file=self.model_plot_file, show_shapes=True, show_layer_names=True)
+
+        return history
 
     def _preprocess_training_data(self, training_data_file):
         """
