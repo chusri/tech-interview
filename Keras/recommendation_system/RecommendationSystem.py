@@ -3,6 +3,7 @@
 """ Neural Collaborative Filtering based Recommendation System for movies, books etc. """
 
 import pandas as pd
+import matplotlib.pyplot as plt
 from keras import Model
 from keras.layers import Input
 from keras.layers import Dense
@@ -16,6 +17,7 @@ from sklearn.model_selection import train_test_split
 
 class RecommendationSystem:
     def __init__(self, training_data_file, trained_model_file, model_plot_file='model_plot.png',
+                 model_accuracy_file='model_accuracy.png', model_loss_file='model_loss.png',
                  num_latent_factors=64):
         """
         Initialize Recommendation System object.
@@ -25,6 +27,8 @@ class RecommendationSystem:
         training_data_file -- file containing training data
         trained_model_file -- file where trained model will be saved
         model_plot_file -- file where model plot will be saved
+        model_accuracy_file -- file where model accuracy plot will be saved
+        model_loss_file -- file where model loss plot will be saved
         num_latent_factors -- number of latent factors for users and items
 
         Returns:
@@ -35,6 +39,8 @@ class RecommendationSystem:
                                         self._preprocess_training_data(training_data_file)
         self.trained_model_file = trained_model_file
         self.model_plot_file = model_plot_file
+        self.model_accuracy_file = model_accuracy_file
+        self.model_loss_file = model_loss_file
         self.num_latent_factors = num_latent_factors
 
     def train(self, epochs=100, batch_size=128):
@@ -47,7 +53,7 @@ class RecommendationSystem:
         batch_size -- batch size
 
         Returns:
-        history -- record of training loss values and metrics values at successive epochs
+        None
         """
 
         model = self._create_training_model(self.num_users, self.num_items)
@@ -55,9 +61,48 @@ class RecommendationSystem:
         history = model.fit([self.train_data.user_id.values, self.train_data.item_id.values],
                             self.train_data.rating.values, epochs=epochs, batch_size=batch_size)
         model.save(self.trained_model_file)
-        plot_model(model, to_file=self.model_plot_file, show_shapes=True, show_layer_names=True)
 
-        return history
+        plot_model(model, to_file=self.model_plot_file, show_shapes=True, show_layer_names=True)
+        self._visualize_model_accuracy(history)
+        self._visualize_model_loss(history)
+
+    def _visualize_model_accuracy(self, history):
+        """
+        Visualize model accuracy.
+
+        Arguments:
+        self
+        history -- record of training loss values and metrics values at successive epochs
+
+        Returns:
+        None
+        """
+
+        plt.plot(history.history['acc'])
+        plt.title('Model Accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epochs')
+        plt.legend(['Train'], loc='upper left')
+        plt.savefig(self.model_accuracy_file)
+
+    def _visualize_model_loss(self, history):
+        """
+        Visualize model loss.
+
+        Arguments:
+        self
+        history -- record of training loss values and metrics values at successive epochs
+
+        Returns:
+        None
+        """
+
+        plt.plot(history.history['loss'])
+        plt.title('Model Loss')
+        plt.ylabel('Loss')
+        plt.xlabel('Epochs')
+        plt.legend(['Train'], loc='upper left')
+        plt.savefig(self.model_loss_file)
 
     def _preprocess_training_data(self, training_data_file):
         """
