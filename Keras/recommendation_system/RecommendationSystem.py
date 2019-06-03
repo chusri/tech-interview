@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 class RecommendationSystem:
     def __init__(self, training_data_file, trained_model_file, model_plot_file='model_plot.png',
                  model_accuracy_file='model_accuracy.png', model_loss_file='model_loss.png',
-                 num_latent_factors=64):
+                 num_latent_factors=64, validation_split=0.25):
         """
         Initialize Recommendation System object.
 
@@ -31,6 +31,7 @@ class RecommendationSystem:
         model_accuracy_file -- file where model accuracy plot will be saved
         model_loss_file -- file where model loss plot will be saved
         num_latent_factors -- number of latent factors for users and items
+        validation_split -- split between training and validation data
 
         Returns:
         None
@@ -43,6 +44,7 @@ class RecommendationSystem:
         self.model_accuracy_file = model_accuracy_file
         self.model_loss_file = model_loss_file
         self.num_latent_factors = num_latent_factors
+        self.validation_split = validation_split
 
     def train(self, epochs=100, batch_size=128):
         """
@@ -60,7 +62,8 @@ class RecommendationSystem:
         model = self._create_training_model(self.num_users, self.num_items)
         model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['accuracy'])
         history = model.fit([self.train_data.user_id.values, self.train_data.item_id.values],
-                            self.train_data.rating.values, epochs=epochs, batch_size=batch_size)
+                            self.train_data.rating.values, validation_split=self.validation_split,
+                            epochs=epochs, batch_size=batch_size)
         model.save(self.trained_model_file)
 
         plot_model(model, to_file=self.model_plot_file, show_shapes=True, show_layer_names=True)
@@ -80,10 +83,11 @@ class RecommendationSystem:
         """
 
         plt.plot(history.history['acc'])
+        plt.plot(history.history['val_acc'])
         plt.title('Model Accuracy')
         plt.ylabel('Accuracy')
         plt.xlabel('Epochs')
-        plt.legend(['Train'], loc='upper left')
+        plt.legend(['Train', 'Test'], loc='upper left')
         plt.savefig(self.model_accuracy_file)
 
     def _visualize_model_loss(self, history):
@@ -99,10 +103,11 @@ class RecommendationSystem:
         """
 
         plt.plot(history.history['loss'])
+        plt.plot(history.history['val_loss'])
         plt.title('Model Loss')
         plt.ylabel('Loss')
         plt.xlabel('Epochs')
-        plt.legend(['Train'], loc='upper left')
+        plt.legend(['Train', 'Test'], loc='upper left')
         plt.savefig(self.model_loss_file)
 
     def _preprocess_training_data(self, training_data_file):
@@ -202,7 +207,8 @@ def main():
                                                  model_plot_file=args.model_plot_file,
                                                  model_accuracy_file=args.model_accuracy_file,
                                                  model_loss_file=args.model_loss_file,
-                                                 num_latent_factors=args.num_latent_factors)
+                                                 num_latent_factors=args.num_latent_factors,
+                                                 validation_split=args.validation_split)
 
     if args.mode == 'training':
         recommendation_system.train(epochs=args.epochs, batch_size=args.batch)
@@ -230,6 +236,7 @@ def parse_args():
                         help='Model accuracy file')
     parser.add_argument('--model_loss_file', default='model_loss.png', help='Model loss file')
     parser.add_argument('--num_latent_factors', type=int, default=64, help='Number of latent factors')
+    parser.add_argument('--validation_split', type=float, default=0.25, help='Validation split')
     parser.add_argument('--epochs', type=int, default=100, help='Number of training epochs')
     parser.add_argument('--batch', type=int, default=128, help='Batch size')
 
