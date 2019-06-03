@@ -67,8 +67,8 @@ class RecommendationSystem:
         model.save(self.trained_model_file)
 
         plot_model(model, to_file=self.model_plot_file, show_shapes=True, show_layer_names=True)
-        self._visualize_model_accuracy(history)
         self._visualize_model_loss(history)
+        self._visualize_model_accuracy(history)
 
     def _visualize_model_accuracy(self, history):
         """
@@ -89,6 +89,7 @@ class RecommendationSystem:
         plt.xlabel('Epochs')
         plt.legend(['Train', 'Test'], loc='upper left')
         plt.savefig(self.model_accuracy_file)
+        plt.clf()
 
     def _visualize_model_loss(self, history):
         """
@@ -109,6 +110,7 @@ class RecommendationSystem:
         plt.xlabel('Epochs')
         plt.legend(['Train', 'Test'], loc='upper left')
         plt.savefig(self.model_loss_file)
+        plt.clf()
 
     def _preprocess_training_data(self, training_data_file):
         """
