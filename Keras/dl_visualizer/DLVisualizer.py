@@ -51,7 +51,7 @@ class DLVisualizer:
         plt.title('Model Accuracy')
         plt.ylabel('Accuracy')
         plt.xlabel('Epochs')
-        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.legend(['Train', 'Validation'], loc='upper left')
         plt.savefig(model_accuracy_file)
         plt.clf()
 
@@ -72,6 +72,6 @@ class DLVisualizer:
         plt.title('Model Loss')
         plt.ylabel('Loss')
         plt.xlabel('Epochs')
-        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.legend(['Train', 'Validation'], loc='upper left')
         plt.savefig(model_loss_file)
         plt.clf()
