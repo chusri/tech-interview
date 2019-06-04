@@ -2,9 +2,9 @@
 
 """ Neural Collaborative Filtering based Recommendation System for movies, books etc. """
 
+import sys
 import argparse
 import pandas as pd
-import matplotlib.pyplot as plt
 from keras import Model
 from keras.layers import Input
 from keras.layers import Dense
@@ -13,8 +13,10 @@ from keras.layers import Dropout
 from keras.layers import Embedding
 from keras.layers import concatenate
 from keras.optimizers import Adam
-from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split
+
+sys.path.append('/home/ubuntu/efs/tech-interview/Keras/dl_visualizer/')
+from DLVisualizer import DLVisualizer
 
 class RecommendationSystem:
     def __init__(self, training_data_file, trained_model_file, model_plot_file='model_plot.png',
@@ -66,51 +68,10 @@ class RecommendationSystem:
                             epochs=epochs, batch_size=batch_size)
         model.save(self.trained_model_file)
 
-        plot_model(model, to_file=self.model_plot_file, show_shapes=True, show_layer_names=True)
-        self._visualize_model_loss(history)
-        self._visualize_model_accuracy(history)
-
-    def _visualize_model_accuracy(self, history):
-        """
-        Visualize model accuracy.
-
-        Arguments:
-        self
-        history -- record of training loss values and metrics values at successive epochs
-
-        Returns:
-        None
-        """
-
-        plt.plot(history.history['acc'])
-        plt.plot(history.history['val_acc'])
-        plt.title('Model Accuracy')
-        plt.ylabel('Accuracy')
-        plt.xlabel('Epochs')
-        plt.legend(['Train', 'Test'], loc='upper left')
-        plt.savefig(self.model_accuracy_file)
-        plt.clf()
-
-    def _visualize_model_loss(self, history):
-        """
-        Visualize model loss.
-
-        Arguments:
-        self
-        history -- record of training loss values and metrics values at successive epochs
-
-        Returns:
-        None
-        """
-
-        plt.plot(history.history['loss'])
-        plt.plot(history.history['val_loss'])
-        plt.title('Model Loss')
-        plt.ylabel('Loss')
-        plt.xlabel('Epochs')
-        plt.legend(['Train', 'Test'], loc='upper left')
-        plt.savefig(self.model_loss_file)
-        plt.clf()
+        dl_visualizer = DLVisualizer(model, history)
+        dl_visualizer.visualize_model(self.model_plot_file)
+        dl_visualizer.visualize_model_loss(self.model_loss_file)
+        dl_visualizer.visualize_model_accuracy(self.model_accuracy_file)
 
     def _preprocess_training_data(self, training_data_file):
         """
