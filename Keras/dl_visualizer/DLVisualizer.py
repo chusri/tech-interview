@@ -73,7 +73,7 @@ class DLVisualizer:
         plt.title('Model Loss')
         plt.ylabel('Loss')
         plt.xlabel('Epochs')
-        plt.legend(['Train', 'Validation'], loc='upper left')
+        plt.legend(['Train', 'Validation'], loc='upper right')
         plt.ylim(0, 1)
         plt.savefig(model_loss_file)
         plt.clf()
