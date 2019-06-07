@@ -13,6 +13,8 @@ from keras.layers import Dropout
 from keras.layers import Embedding
 from keras.layers import concatenate
 from keras.optimizers import Adam
+from keras.models import load_model
+from keras.losses import mean_absolute_error
 from sklearn.model_selection import train_test_split
 
 sys.path.append('/home/ubuntu/efs/tech-interview/Keras/dl_visualizer/')
@@ -72,6 +74,22 @@ class RecommendationSystem:
         dl_visualizer.visualize_model(self.model_plot_file)
         dl_visualizer.visualize_model_loss(self.model_loss_file)
         dl_visualizer.visualize_model_accuracy(self.model_accuracy_file)
+
+    def recommend(self):
+        """
+        Make recommendations based on the trained neural network.
+
+        Arguments:
+        self
+
+        Returns:
+        Accuracy
+        Predicted recommendations for [user, item] tuple
+        """
+
+        model = load_model(self.trained_model_file)
+        recommendations = model.predict([self.test_data.user_id.values, self.test_data.item_id.values])
+        return mean_absolute_error(recommendations, self.test_data.rating.values), recommendations
 
     def _preprocess_training_data(self, training_data_file):
         """
@@ -176,7 +194,8 @@ def main():
     if args.mode == 'training':
         recommendation_system.train(epochs=args.epochs, batch_size=args.batch)
     else:
-        pass
+        accuracy, predictions = recommendation_system.recommend()
+        print('Recommendation accuracy: ', accuracy)
 
 def parse_args():
     """
