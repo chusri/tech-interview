@@ -4,6 +4,7 @@
 
 import sys
 import argparse
+import numpy as np
 import pandas as pd
 from keras import Model
 from keras.layers import Input
@@ -14,7 +15,7 @@ from keras.layers import Embedding
 from keras.layers import concatenate
 from keras.optimizers import Adam
 from keras.models import load_model
-from keras.losses import mean_absolute_error
+from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
 sys.path.append('/home/ubuntu/efs/tech-interview/Keras/dl_visualizer/')
@@ -88,8 +89,8 @@ class RecommendationSystem:
         """
 
         model = load_model(self.trained_model_file)
-        recommendations = model.predict([self.test_data.user_id.values, self.test_data.item_id.values])
-        return mean_absolute_error(recommendations, self.test_data.rating.values), recommendations
+        return np.round(model.predict([self.test_data.user_id.values,
+                        self.test_data.item_id.values]))
 
     def _preprocess_training_data(self, training_data_file):
         """
@@ -194,8 +195,9 @@ def main():
     if args.mode == 'training':
         recommendation_system.train(epochs=args.epochs, batch_size=args.batch)
     else:
-        accuracy, predictions = recommendation_system.recommend()
-        print('Recommendation accuracy: ', accuracy)
+        recommendations = recommendation_system.recommend().flatten()
+        mse = mean_squared_error(recommendation_system.test_data.rating.values, recommendations)
+        print('Recommendation Accuracy: %.2f' % mse)
 
 def parse_args():
     """
