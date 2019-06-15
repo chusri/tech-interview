@@ -52,6 +52,19 @@ class Pixel {
 		bool operator==(const Pixel& pixel) const;
 
 		/**
+		 * @brief Overload the << operator
+		 * @param ostream Reference to ostream object
+		 * @param pixel Reference to Pixel object
+		 * @return Reference to ostream object
+		 */
+		friend ostream& operator<<(ostream& out, const Pixel& pixel) {
+			out << pixel.get_red_channel() << "," << pixel.get_green_channel() << "," <<
+						 pixel.get_blue_channel() << "," << pixel.get_alpha_channel() << "," <<
+						 pixel.get_rgba() << endl;
+			return(out);
+		}
+
+		/**
 		 * @brief Getter method for rgba value of pixel
 		 * @param void
 		 * @return RGBA value of pixel
