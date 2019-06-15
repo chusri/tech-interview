@@ -13,6 +13,11 @@ TEST (BoxBlurFilterTest, PixelDefaultConstructor) {
 	ASSERT_EQ(pixel.get_rgba(), 255);
 }
 
+TEST (BoxBlurFilterTest, PixelDefaultConstructorNoValue) {
+	Pixel pixel;
+	ASSERT_EQ(pixel.get_rgba(), 0);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());
