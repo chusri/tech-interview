@@ -8,6 +8,7 @@
 #define PIXEL_H
 
 #include<cstdint>
+#include<iostream>
 
 using namespace std;
 
@@ -136,6 +137,14 @@ class Pixel {
 
 	private:
 		pixel_t rgba;
+};
+
+Pixel::Pixel(uint32_t rgba) {
+	this->rgba.value = rgba;
+}
+
+uint32_t Pixel::get_rgba(void) const {
+	return(rgba.value);
 }
 
 #endif //PIXEL_H
