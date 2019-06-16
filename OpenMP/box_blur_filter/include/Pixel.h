@@ -57,13 +57,13 @@ class Pixel {
 		 * @param ostream Reference to ostream object
 		 * @param pixel Reference to Pixel object
 		 * @return Reference to ostream object
-		 */
 		friend ostream& operator<<(ostream& out, const Pixel& pixel) {
 			out << pixel.get_red_channel() << "," << pixel.get_green_channel() << "," <<
 						 pixel.get_blue_channel() << "," << pixel.get_alpha_channel() << "," <<
 						 pixel.get_rgba() << endl;
 			return(out);
 		}
+		 */
 
 		/**
 		 * @brief Getter method for rgba value of pixel
@@ -141,6 +141,18 @@ class Pixel {
 
 Pixel::Pixel(uint32_t rgba) {
 	this->rgba.value = rgba;
+}
+
+// Copy constructor
+Pixel::Pixel(const Pixel& pixel): Pixel(pixel.rgba.value) {}
+
+Pixel& Pixel::operator=(const Pixel& pixel) {
+	rgba = pixel.rgba;
+	return(*this);
+}
+
+bool Pixel::operator==(const Pixel& pixel) const {
+	return(rgba.value == pixel.rgba.value);
 }
 
 uint32_t Pixel::get_rgba(void) const {
