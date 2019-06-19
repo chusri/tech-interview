@@ -32,6 +32,42 @@ TEST (BoxBlurFilterTest, PixelOverloadAssignmentOperator) {
 	ASSERT_EQ(pixel_1, pixel_2);
 }
 
+TEST (BoxBlurFilterTest, PixelSetGetRedChannel) {
+	Pixel pixel;
+
+	pixel.set_channel(rgba_channel::RED, 255);
+	uint8_t value = pixel.get_channel(rgba_channel::RED);
+
+	ASSERT_EQ(value, 255);
+}
+
+TEST (BoxBlurFilterTest, PixelSetGetGreenChannel) {
+	Pixel pixel;
+
+	pixel.set_channel(rgba_channel::GREEN, 5);
+	uint8_t value = pixel.get_channel(rgba_channel::GREEN);
+
+	ASSERT_EQ(value, 5);
+}
+
+TEST (BoxBlurFilterTest, PixelSetGetBlueChannel) {
+	Pixel pixel;
+
+	pixel.set_channel(rgba_channel::BLUE, 128);
+	uint8_t value = pixel.get_channel(rgba_channel::BLUE);
+
+	ASSERT_EQ(value, 128);
+}
+
+TEST (BoxBlurFilterTest, PixelSetGetAlphaChannel) {
+	Pixel pixel;
+
+	pixel.set_channel(rgba_channel::ALPHA, 64);
+	uint8_t value = pixel.get_channel(rgba_channel::ALPHA);
+
+	ASSERT_EQ(value, 64);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());

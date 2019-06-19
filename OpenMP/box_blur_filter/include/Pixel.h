@@ -146,4 +146,24 @@ uint8_t Pixel::get_channel(const rgba_channel channel) const {
 	return(value);
 }
 
+void Pixel::set_channel(const rgba_channel channel, const uint8_t value) {
+	switch(channel) {
+		case rgba_channel::RED:
+			rgba.bytes[0] = value;
+			break;
+		case rgba_channel::GREEN:
+			rgba.bytes[1] = value;
+			break;
+		case rgba_channel::BLUE:
+			rgba.bytes[2] = value;
+			break;
+		case rgba_channel::ALPHA:
+			rgba.bytes[3] = value;
+			break;
+		default:
+			/* Throw exception */
+			break;
+	}
+}
+
 #endif //PIXEL_H
