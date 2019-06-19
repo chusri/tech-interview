@@ -12,6 +12,8 @@
 
 using namespace std;
 
+enum class rgba_channel{RED, GREEN, BLUE, ALPHA};
+
 typedef union {
 	uint32_t value;
 	uint8_t bytes[4];
@@ -59,11 +61,11 @@ class Pixel {
 		 * @return Reference to ostream object
 		 */
 		friend ostream& operator<<(ostream& out, const Pixel& pixel) {
-			out << static_cast<uint32_t>(pixel.get_red_channel()) << "," <<
-						 static_cast<uint32_t>(pixel.get_green_channel()) << "," <<
-						 static_cast<uint32_t>(pixel.get_blue_channel()) << "," <<
-						 static_cast<uint32_t>(pixel.get_alpha_channel()) << "," <<
-						 pixel.get_rgba() << endl;
+			out << static_cast<uint32_t>(pixel.get_channel(rgba_channel::RED)) << "," <<
+						 static_cast<uint32_t>(pixel.get_channel(rgba_channel::GREEN)) << "," <<
+						 static_cast<uint32_t>(pixel.get_channel(rgba_channel::BLUE)) << "," <<
+						 static_cast<uint32_t>(pixel.get_channel(rgba_channel::ALPHA)) << "," <<
+						 pixel.get_pixel() << endl;
 			return(out);
 		}
 
@@ -72,70 +74,29 @@ class Pixel {
 		 * @param void
 		 * @return RGBA value of pixel
 		 */
-		uint32_t get_rgba(void) const;
+		uint32_t get_pixel(void) const;
 
 		/**
-		 * @brief Getter method for red channel of pixel
-		 * @param void
-		 * @return Red channel of pixel
+		 * @brief Getter method for RGBA channel of pixel
+		 * @param channel RGBA channel
+		 * @return RGBA channel of pixel
 		 */
-		uint8_t get_red_channel(void) const;
-
-		/**
-		 * @brief Getter method for green channel of pixel
-		 * @param void
-		 * @return Green channel of pixel
-		 */
-		uint8_t get_green_channel(void) const;
-
-		/**
-		 * @brief Getter method for blue channel of pixel
-		 * @param void
-		 * @return Blue channel of pixel
-		 */
-		uint8_t get_blue_channel(void) const;
-
-		/**
-		 * @brief Getter method for alpha channel of pixel
-		 * @param void
-		 * @return Alpha channel of pixel
-		 */
-		uint8_t get_alpha_channel(void) const;
+		uint8_t get_channel(const rgba_channel channel) const;
 
 		/**
 		 * @brief Setter method for rgba value of pixel
 		 * @param rgba RGBA value of pixel
 		 * @return void
 		 */
-		void set_rgba(const uint32_t rgba);
+		void set_pixel(const uint32_t rgba);
 
 		/**
-		 * @brief Setter method for red channel of pixel
-		 * @param red Red channel of pixel
+		 * @brief Setter method for RGBA channel of pixel
+		 * @param channel RGBA channel
+		 * @param value Value of pixel channel
 		 * @return void
 		 */
-		void set_red_channel(const uint8_t red);
-
-		/**
-		 * @brief Setter method for green channel of pixel
-		 * @param green Green channel of pixel
-		 * @return void
-		 */
-		void set_green_channel(const uint8_t green);
-
-		/**
-		 * @brief Setter method for blue channel of pixel
-		 * @param blue Blue channel of pixel
-		 * @return void
-		 */
-		void set_blue_channel(const uint8_t blue);
-
-		/**
-		 * @brief Setter method for alpha channel of pixel
-		 * @param alpha Alpha channel of pixel
-		 * @return void
-		 */
-		void set_alpha_channel(const uint8_t alpha);
+		void set_channel(const rgba_channel channel, const uint8_t value);
 
 	private:
 		pixel_t rgba;
@@ -157,24 +118,32 @@ bool Pixel::operator==(const Pixel& pixel) const {
 	return(rgba.value == pixel.rgba.value);
 }
 
-uint32_t Pixel::get_rgba(void) const {
+uint32_t Pixel::get_pixel(void) const {
 	return(rgba.value);
 }
 
-uint8_t Pixel::get_red_channel(void) const {
-	return(rgba.bytes[0]);
-}
+uint8_t Pixel::get_channel(const rgba_channel channel) const {
+	uint8_t value = 0;
 
-uint8_t Pixel::get_green_channel(void) const {
-	return(rgba.bytes[1]);
-}
+	switch(channel) {
+		case rgba_channel::RED:
+			value = rgba.bytes[0];
+			break;
+		case rgba_channel::GREEN:
+			value = rgba.bytes[1];
+			break;
+		case rgba_channel::BLUE:
+			value = rgba.bytes[2];
+			break;
+		case rgba_channel::ALPHA:
+			value = rgba.bytes[3];
+			break;
+		default:
+			/* Throw exception */
+			break;
+	}
 
-uint8_t Pixel::get_blue_channel(void) const {
-	return(rgba.bytes[2]);
-}
-
-uint8_t Pixel::get_alpha_channel(void) const {
-	return(rgba.bytes[3]);
+	return(value);
 }
 
 #endif //PIXEL_H

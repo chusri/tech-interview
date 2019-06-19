@@ -10,12 +10,12 @@
 // Unit tests for Pixel class
 TEST (BoxBlurFilterTest, PixelDefaultConstructor) {
 	Pixel pixel(255);
-	ASSERT_EQ(pixel.get_rgba(), 255);
+	ASSERT_EQ(pixel.get_pixel(), 255);
 }
 
 TEST (BoxBlurFilterTest, PixelDefaultConstructorNoValue) {
 	Pixel pixel;
-	ASSERT_EQ(pixel.get_rgba(), 0);
+	ASSERT_EQ(pixel.get_pixel(), 0);
 }
 
 TEST (BoxBlurFilterTest, PixelCopyConstructor) {
