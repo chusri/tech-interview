@@ -139,7 +139,7 @@ uint8_t Pixel::get_channel(const rgba_channel channel) const {
 			value = rgba.bytes[3];
 			break;
 		default:
-			/* Throw exception */
+			throw invalid_argument("Invalid channel");
 			break;
 	}
 
@@ -161,7 +161,7 @@ void Pixel::set_channel(const rgba_channel channel, const uint8_t value) {
 			rgba.bytes[3] = value;
 			break;
 		default:
-			/* Throw exception */
+			throw invalid_argument("Invalid channel");
 			break;
 	}
 }
