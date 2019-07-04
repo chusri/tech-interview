@@ -119,6 +119,34 @@ Image::Image(unsigned long width, unsigned long height): width(width), height(he
 	}
 }
 
+Image::Image(vector<vector<Pixel>> pixels): pixels(pixels) {
+	height = pixels.size();
+
+	if (height == 0) {
+		width = 0;
+	} else {
+		width = pixels[0].size();
+	}
+}
+
+Image::Image(const Image& image): width(image.width), height(image.height), pixels(image.pixels) {}
+
+bool Image::operator==(const Image& image) const {
+	return (width == image.width && height == image.height && pixels == image.pixels);
+}
+
+unsigned long Image::get_width(void) const {
+	return width;
+}
+
+unsigned long Image::get_height(void) const {
+	return height;
+}
+
+vector<vector<Pixel>> Image::get_pixels(void) const {
+	return pixels;
+}
+
 Image::~Image() {
 	for_each (pixels.begin(), pixels.end(), [](vector<Pixel> v) {v.clear();});
 	pixels.clear();

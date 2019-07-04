@@ -72,6 +72,55 @@ TEST (BoxBlurFilterTest, PixelSetGetAlphaChannel) {
 // Unit tests for Image class
 TEST (BoxBlurFilterTest, ImageConstructor1) {
 	Image image(4, 5);
+	vector<vector<Pixel>> pixels;
+
+	for (int i = 0; i < 5; i++) {
+		vector<Pixel> v;
+		for (int j = 0; j < 4; j++) {
+			Pixel pixel;
+			v.push_back(pixel);
+		}
+		pixels.push_back(v);
+	}
+
+	ASSERT_EQ(image.get_width(), 4);
+	ASSERT_EQ(image.get_height(), 5);
+	ASSERT_EQ(image.get_pixels(), pixels);
+}
+
+TEST (BoxBlurFilterTest, ImageConstructor2) {
+	vector<vector<Pixel>> pixels;
+
+	for (int i = 0; i < 5; i++) {
+		vector<Pixel> v;
+		for (int j = 0; j < 4; j++) {
+			Pixel pixel;
+			v.push_back(pixel);
+		}
+		pixels.push_back(v);
+	}
+
+	Image image(pixels);
+
+	ASSERT_EQ(image.get_width(), 4);
+	ASSERT_EQ(image.get_height(), 5);
+	ASSERT_EQ(image.get_pixels(), pixels);
+}
+
+TEST (BoxBlurFilterTest, ImageConstructor3) {
+	vector<vector<Pixel>> pixels;
+	Image image(pixels);
+
+	ASSERT_EQ(image.get_width(), 0);
+	ASSERT_EQ(image.get_height(), 0);
+	ASSERT_EQ(image.get_pixels(), pixels);
+}
+
+TEST (BoxBlurFilterTest, ImageCopyConstructor) {
+	Image image1(4, 5);
+	Image image2 = image1;
+
+	ASSERT_EQ(image1, image2);
 }
 
 int main(int argc, char** argv) {
