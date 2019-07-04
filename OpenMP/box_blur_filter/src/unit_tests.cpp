@@ -123,6 +123,15 @@ TEST (BoxBlurFilterTest, ImageCopyConstructor) {
 	ASSERT_EQ(image1, image2);
 }
 
+TEST (BoxBlurFilterTest, ImageOverloadAssignmentOperator) {
+	Image image1(4, 5);
+	Image image2;
+
+	image2 = image1;
+
+	ASSERT_EQ(image1, image2);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());

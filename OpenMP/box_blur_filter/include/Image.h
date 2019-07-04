@@ -131,6 +131,14 @@ Image::Image(vector<vector<Pixel>> pixels): pixels(pixels) {
 
 Image::Image(const Image& image): width(image.width), height(image.height), pixels(image.pixels) {}
 
+Image& Image::operator=(const Image& image) {
+	width = image.width;
+	height = image.height;
+	pixels = image.pixels;
+
+	return(*this);
+}
+
 bool Image::operator==(const Image& image) const {
 	return (width == image.width && height == image.height && pixels == image.pixels);
 }
