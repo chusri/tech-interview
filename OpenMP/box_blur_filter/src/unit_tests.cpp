@@ -5,6 +5,7 @@
  */
 
 #include "Pixel.h"
+#include "Image.h"
 #include<gtest/gtest.h>
 
 // Unit tests for Pixel class
@@ -66,6 +67,11 @@ TEST (BoxBlurFilterTest, PixelSetGetAlphaChannel) {
 	uint8_t value = pixel.get_channel(rgba_channel::ALPHA);
 
 	ASSERT_EQ(value, 64);
+}
+
+// Unit tests for Image class
+TEST (BoxBlurFilterTest, ImageConstructor1) {
+	Image image(4, 5);
 }
 
 int main(int argc, char** argv) {

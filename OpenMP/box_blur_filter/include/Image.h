@@ -11,6 +11,7 @@
 #include<vector>
 #include<cstdint>
 #include<iostream>
+#include<algorithm>
 
 using namespace std;
 
@@ -95,10 +96,32 @@ class Image {
 		 */
 		void set_pixels(const vector<vector<Pixel>> pixels);
 
+		/**
+		 * @brief Destructor for the Image class
+		 * @return None
+		 */
+		~Image();
+
 	private:
 		unsigned long width;
 		unsigned long height;
 		vector<vector<Pixel>> pixels;
 };
+
+Image::Image(unsigned long width, unsigned long height): width(width), height(height) {
+	for (int i = 0; i < height; i++) {
+		vector<Pixel> v;
+		for (int j = 0; j < width; j++) {
+			Pixel pixel;
+			v.push_back(pixel);
+		}
+		pixels.push_back(v);
+	}
+}
+
+Image::~Image() {
+	for_each (pixels.begin(), pixels.end(), [](vector<Pixel> v) {v.clear();});
+	pixels.clear();
+}
 
 #endif //IMAGE_H
