@@ -132,6 +132,16 @@ TEST (BoxBlurFilterTest, ImageOverloadAssignmentOperator) {
 	ASSERT_EQ(image1, image2);
 }
 
+TEST (BoxBlurFilterTest, ImageSetPixel) {
+	Pixel pixel(255);
+	Image image(4, 5);
+
+	image.set_pixel(2, 3, pixel);
+	vector<vector<Pixel>> pixels = image.get_pixels();
+
+	ASSERT_EQ(pixels[2][3], pixel);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return(RUN_ALL_TESTS());
