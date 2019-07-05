@@ -24,11 +24,11 @@ class Image {
 	public:
 		/**
 		 * @brief Constructor for the Image class
-		 * @param width Image width
 		 * @param height Image height
+		 * @param width Image width
 		 * @return None
 		 */
-		Image(unsigned long width=0, unsigned long height=0);
+		Image(unsigned long height=0, unsigned long width=0);
 
 		/**
 		 * @brief Constructor for the Image class
@@ -69,18 +69,18 @@ class Image {
 		}
 
 		/**
-		 * @brief Getter method for image width
-		 * @param void
-		 * @return image width
-		 */
-		unsigned long get_width(void) const;
-
-		/**
 		 * @brief Getter method for image height
 		 * @param void
 		 * @return image height
 		 */
 		unsigned long get_height(void) const;
+
+		/**
+		 * @brief Getter method for image width
+		 * @param void
+		 * @return image width
+		 */
+		unsigned long get_width(void) const;
 
 		/**
 		 * @brief Getter method for image pixels
@@ -105,12 +105,12 @@ class Image {
 		~Image();
 
 	private:
-		unsigned long width;
 		unsigned long height;
+		unsigned long width;
 		vector<vector<Pixel>> pixels;
 };
 
-Image::Image(unsigned long width, unsigned long height): width(width), height(height) {
+Image::Image(unsigned long height, unsigned long width): height(height), width(width) {
 	for (int i = 0; i < height; i++) {
 		vector<Pixel> v;
 		for (int j = 0; j < width; j++) {
@@ -131,26 +131,26 @@ Image::Image(vector<vector<Pixel>> pixels): pixels(pixels) {
 	}
 }
 
-Image::Image(const Image& image): width(image.width), height(image.height), pixels(image.pixels) {}
+Image::Image(const Image& image): height(image.height), width(image.width), pixels(image.pixels) {}
 
 Image& Image::operator=(const Image& image) {
-	width = image.width;
 	height = image.height;
+	width = image.width;
 	pixels = image.pixels;
 
 	return(*this);
 }
 
 bool Image::operator==(const Image& image) const {
-	return (width == image.width && height == image.height && pixels == image.pixels);
-}
-
-unsigned long Image::get_width(void) const {
-	return width;
+	return (height == image.height && width == image.width && pixels == image.pixels);
 }
 
 unsigned long Image::get_height(void) const {
 	return height;
+}
+
+unsigned long Image::get_width(void) const {
+	return width;
 }
 
 vector<vector<Pixel>> Image::get_pixels(void) const {

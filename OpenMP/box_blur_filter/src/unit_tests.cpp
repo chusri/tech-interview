@@ -74,26 +74,26 @@ TEST (BoxBlurFilterTest, ImageConstructor1) {
 	Image image(4, 5);
 	vector<vector<Pixel>> pixels;
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 4; i++) {
 		vector<Pixel> v;
-		for (int j = 0; j < 4; j++) {
+		for (int j = 0; j < 5; j++) {
 			Pixel pixel;
 			v.push_back(pixel);
 		}
 		pixels.push_back(v);
 	}
 
-	ASSERT_EQ(image.get_width(), 4);
-	ASSERT_EQ(image.get_height(), 5);
+	ASSERT_EQ(image.get_height(), 4);
+	ASSERT_EQ(image.get_width(), 5);
 	ASSERT_EQ(image.get_pixels(), pixels);
 }
 
 TEST (BoxBlurFilterTest, ImageConstructor2) {
 	vector<vector<Pixel>> pixels;
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 4; i++) {
 		vector<Pixel> v;
-		for (int j = 0; j < 4; j++) {
+		for (int j = 0; j < 5; j++) {
 			Pixel pixel;
 			v.push_back(pixel);
 		}
@@ -102,8 +102,8 @@ TEST (BoxBlurFilterTest, ImageConstructor2) {
 
 	Image image(pixels);
 
-	ASSERT_EQ(image.get_width(), 4);
-	ASSERT_EQ(image.get_height(), 5);
+	ASSERT_EQ(image.get_height(), 4);
+	ASSERT_EQ(image.get_width(), 5);
 	ASSERT_EQ(image.get_pixels(), pixels);
 }
 
@@ -111,8 +111,8 @@ TEST (BoxBlurFilterTest, ImageConstructor3) {
 	vector<vector<Pixel>> pixels;
 	Image image(pixels);
 
-	ASSERT_EQ(image.get_width(), 0);
 	ASSERT_EQ(image.get_height(), 0);
+	ASSERT_EQ(image.get_width(), 0);
 	ASSERT_EQ(image.get_pixels(), pixels);
 }
 
@@ -140,6 +140,20 @@ TEST (BoxBlurFilterTest, ImageSetPixel) {
 	vector<vector<Pixel>> pixels = image.get_pixels();
 
 	ASSERT_EQ(pixels[2][3], pixel);
+}
+
+TEST (BoxBlurFilterTest, ImageSetPixelIEqualToHeight) {
+	Pixel pixel(255);
+	Image image(4, 5);
+
+	EXPECT_THROW(image.set_pixel(4, 3, pixel), invalid_argument);
+}
+
+TEST (BoxBlurFilterTest, ImageSetPixelJEqualToWidth) {
+	Pixel pixel(255);
+	Image image(4, 5);
+
+	EXPECT_THROW(image.set_pixel(2, 5, pixel), invalid_argument);
 }
 
 int main(int argc, char** argv) {
