@@ -132,14 +132,13 @@ TEST (BoxBlurFilterTest, ImageOverloadAssignmentOperator) {
 	ASSERT_EQ(image1, image2);
 }
 
-TEST (BoxBlurFilterTest, ImageSetPixel) {
+TEST (BoxBlurFilterTest, ImageSetGetPixel) {
 	Pixel pixel(255);
 	Image image(4, 5);
 
 	image.set_pixel(2, 3, pixel);
-	vector<vector<Pixel>> pixels = image.get_pixels();
 
-	ASSERT_EQ(pixels[2][3], pixel);
+	ASSERT_EQ(image.get_pixel(2, 3), pixel);
 }
 
 TEST (BoxBlurFilterTest, ImageSetPixelIEqualToHeight) {
@@ -154,6 +153,16 @@ TEST (BoxBlurFilterTest, ImageSetPixelJEqualToWidth) {
 	Image image(4, 5);
 
 	EXPECT_THROW(image.set_pixel(2, 5, pixel), invalid_argument);
+}
+
+TEST (BoxBlurFilterTest, ImageGetPixelIEqualToHeight) {
+	Image image(4, 5);
+	EXPECT_THROW(image.get_pixel(4, 3), invalid_argument);
+}
+
+TEST (BoxBlurFilterTest, ImageGetPixelJEqualToWidth) {
+	Image image(4, 5);
+	EXPECT_THROW(image.get_pixel(2, 5), invalid_argument);
 }
 
 int main(int argc, char** argv) {

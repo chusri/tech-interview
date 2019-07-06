@@ -90,6 +90,14 @@ class Image {
 		vector<vector<Pixel>> get_pixels(void) const;
 
 		/**
+		 * @brief Getter method for image pixel
+		 * @param i index into 2-dim image
+		 * @param j index into 2-dim image
+		 * @return image pixel
+		 */
+		Pixel get_pixel(const unsigned long i, const unsigned long j) const;
+
+		/**
 		 * @brief Setter method for image pixel
 		 * @param i index into 2-dim image
 		 * @param j index into 2-dim image
@@ -155,6 +163,15 @@ unsigned long Image::get_width(void) const {
 
 vector<vector<Pixel>> Image::get_pixels(void) const {
 	return pixels;
+}
+
+Pixel Image::get_pixel(const unsigned long i, const unsigned long j) const {
+	if (i >= height || j >= width) {
+		throw invalid_argument("i >= height || j >= width");
+	}
+	else {
+		return (pixels[i][j]);
+	}
 }
 
 void Image::set_pixel(const unsigned long i, const unsigned long j, const Pixel pixel) {
