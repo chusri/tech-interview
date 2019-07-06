@@ -65,6 +65,16 @@ class Image {
 		 * @return Reference to ostream object
 		 */
 		friend ostream& operator<<(ostream& out, const Image& image) {
+			unsigned long height = image.get_height();
+			unsigned long width = image.get_width();
+
+			out << height << ", " << width << endl;
+			for (int i = 0; i < height; i++) {
+				for (int j = 0; j < width; j++) {
+					out << image.get_pixel(i, j).get_pixel() << " ";
+				}
+				out << endl;
+			}
 			return(out);
 		}
 
