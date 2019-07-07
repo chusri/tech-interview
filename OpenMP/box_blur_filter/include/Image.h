@@ -69,9 +69,9 @@ class Image {
 			unsigned long width = image.get_width();
 
 			out << height << ", " << width << endl;
-			for (unsigned long i = 0; i < height; i++) {
-				for (unsigned long j = 0; j < width; j++) {
-					out << image.get_pixel(i, j).get_pixel() << " ";
+			for (unsigned long row = 0; row < height; row++) {
+				for (unsigned long col = 0; col < width; col++) {
+					out << image.get_pixel(row, col).get_pixel() << " ";
 				}
 				out << endl;
 			}
@@ -101,20 +101,20 @@ class Image {
 
 		/**
 		 * @brief Getter method for image pixel
-		 * @param i index into image row
-		 * @param j index into image column
+		 * @param row index into image row
+		 * @param col index into image column
 		 * @return image pixel
 		 */
-		Pixel get_pixel(const unsigned long i, const unsigned long j) const;
+		Pixel get_pixel(const unsigned long row, const unsigned long col) const;
 
 		/**
 		 * @brief Setter method for image pixel
-		 * @param i index into image row
-		 * @param j index into image column
+		 * @param row index into image row
+		 * @param col index into image column
 		 * @param pixel image pixel
 		 * @return void
 		 */
-		void set_pixel(const unsigned long i, const unsigned long j, const Pixel pixel);
+		void set_pixel(const unsigned long row, const unsigned long col, const Pixel pixel);
 
 		/**
 		 * @brief Destructor for the Image class
@@ -130,12 +130,12 @@ class Image {
 		/**
 		 * @brief Calculate new value of pixel at x,y by averaging pixel values
 		 * from radius pixels
-		 * @param i index into image row
-		 * @param j index into image column
+		 * @param row index into image row
+		 * @param col index into image column
 		 * @param radius range of neighboring pixels to calculate new pixel value
 		 * @return New pixel
 		 */
-		Pixel box_blur_kernel(const unsigned long i, const unsigned long j, const unsigned long radius);
+		Pixel box_blur_kernel(const unsigned long row, const unsigned long col, const unsigned long radius);
 
 		/**
 		 * @brief Calculate new value of pixels for row
@@ -147,9 +147,9 @@ class Image {
 };
 
 Image::Image(unsigned long height, unsigned long width): height(height), width(width) {
-	for (unsigned long i = 0; i < height; i++) {
+	for (unsigned long row = 0; row < height; row++) {
 		vector<Pixel> v;
-		for (unsigned long j = 0; j < width; j++) {
+		for (unsigned long col = 0; col < width; col++) {
 			Pixel pixel;
 			v.push_back(pixel);
 		}
@@ -193,21 +193,21 @@ vector<vector<Pixel>> Image::get_pixels(void) const {
 	return pixels;
 }
 
-Pixel Image::get_pixel(const unsigned long i, const unsigned long j) const {
-	if (i >= height || j >= width) {
-		throw invalid_argument("i >= height || j >= width");
+Pixel Image::get_pixel(const unsigned long row, const unsigned long col) const {
+	if (row >= height || col >= width) {
+		throw invalid_argument("row >= height || col >= width");
 	}
 	else {
-		return (pixels[i][j]);
+		return (pixels[row][col]);
 	}
 }
 
-void Image::set_pixel(const unsigned long i, const unsigned long j, const Pixel pixel) {
-	if (i >= height || j >= width) {
-		throw invalid_argument("i >= height || j >= width");
+void Image::set_pixel(const unsigned long row, const unsigned long col, const Pixel pixel) {
+	if (row >= height || col >= width) {
+		throw invalid_argument("row >= height || col >= width");
 	}
 	else {
-		pixels[i][j] = pixel;
+		pixels[row][col] = pixel;
 	}
 }
 
@@ -217,17 +217,17 @@ Image::~Image() {
 }
 
 Pixel
-Image::box_blur_kernel(const unsigned long i, const unsigned long j, const unsigned long radius) {
+Image::box_blur_kernel(const unsigned long row, const unsigned long col, const unsigned long radius) {
 	Pixel pixel;
 	unsigned long num_elements = 0;
 	uint32_t red = 0, green = 0, blue = 0, alpha = 0;
-	unsigned long i_start = min((i-radius), static_cast<unsigned long>(0));
-	unsigned long i_end = min((i+radius), height);
-	unsigned long j_start = min((j-radius), static_cast<unsigned long>(0));
-	unsigned long j_end = min((j+radius), width);
+	unsigned long row_start = min((row-radius), static_cast<unsigned long>(0));
+	unsigned long row_end = min((row+radius), height);
+	unsigned long col_start = min((col-radius), static_cast<unsigned long>(0));
+	unsigned long col_end = min((col+radius), width);
 
-	for (unsigned long k = i_start; k < i_end; k++) {
-		for (unsigned long l = j_start; l < j_end; l++) {
+	for (unsigned long k = row_start; k < row_end; k++) {
+		for (unsigned long l = col_start; l < col_end; l++) {
 			red += pixels[k][l].get_channel(rgba_channel::RED);
 			green += pixels[k][l].get_channel(rgba_channel::GREEN);
 			blue += pixels[k][l].get_channel(rgba_channel::BLUE);
@@ -235,7 +235,7 @@ Image::box_blur_kernel(const unsigned long i, const unsigned long j, const unsig
 		}
 	}
 
-	num_elements = (i_end-i_start+1)*(j_end-j_start+1);
+	num_elements = (row_end-row_start+1)*(col_end-col_start+1);
 	pixel.set_channel(rgba_channel::RED, static_cast<uint8_t>(red/num_elements));
 	pixel.set_channel(rgba_channel::GREEN, static_cast<uint8_t>(green/num_elements));
 	pixel.set_channel(rgba_channel::BLUE, static_cast<uint8_t>(blue/num_elements));
