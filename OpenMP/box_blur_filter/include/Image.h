@@ -117,6 +117,13 @@ class Image {
 		void set_pixel(const unsigned long row, const unsigned long col, const Pixel pixel);
 
 		/**
+		 * @brief Blur the image
+		 * @param radius range of neighboring pixels to calculate new pixel value
+		 * @return Blurred Image
+		 */
+		Image blur(unsigned long radius=1);
+
+		/**
 		 * @brief Destructor for the Image class
 		 * @return None
 		 */
@@ -209,6 +216,16 @@ void Image::set_pixel(const unsigned long row, const unsigned long col, const Pi
 	else {
 		pixels[row][col] = pixel;
 	}
+}
+
+Image Image::blur(unsigned long radius) {
+	vector<vector<Pixel>> pixels;
+
+	for (unsigned long row = 0; row < height; row++) {
+		pixels.push_back(blur_image_row(row, radius));
+	}
+
+	return (Image(pixels));
 }
 
 Image::~Image() {
