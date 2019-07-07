@@ -69,8 +69,8 @@ class Image {
 			unsigned long width = image.get_width();
 
 			out << height << ", " << width << endl;
-			for (int i = 0; i < height; i++) {
-				for (int j = 0; j < width; j++) {
+			for (unsigned long i = 0; i < height; i++) {
+				for (unsigned long j = 0; j < width; j++) {
 					out << image.get_pixel(i, j).get_pixel() << " ";
 				}
 				out << endl;
@@ -101,16 +101,16 @@ class Image {
 
 		/**
 		 * @brief Getter method for image pixel
-		 * @param i index into 2-dim image
-		 * @param j index into 2-dim image
+		 * @param i index into image row
+		 * @param j index into image column
 		 * @return image pixel
 		 */
 		Pixel get_pixel(const unsigned long i, const unsigned long j) const;
 
 		/**
 		 * @brief Setter method for image pixel
-		 * @param i index into 2-dim image
-		 * @param j index into 2-dim image
+		 * @param i index into image row
+		 * @param j index into image column
 		 * @param pixel image pixel
 		 * @return void
 		 */
@@ -126,12 +126,22 @@ class Image {
 		unsigned long height;
 		unsigned long width;
 		vector<vector<Pixel>> pixels;
+
+		/**
+		 * @brief Calculate new value of pixel at x,y by averaging pixel values
+		 * from radius pixels
+		 * @param i index into image row
+		 * @param j index into image column
+		 * @param radius range of neighboring pixels to calculate new pixel value
+		 * @return New pixel
+		 */
+		Pixel box_blur_kernel(const unsigned long i, const unsigned long j, const unsigned long radius);
 };
 
 Image::Image(unsigned long height, unsigned long width): height(height), width(width) {
-	for (int i = 0; i < height; i++) {
+	for (unsigned long i = 0; i < height; i++) {
 		vector<Pixel> v;
-		for (int j = 0; j < width; j++) {
+		for (unsigned long j = 0; j < width; j++) {
 			Pixel pixel;
 			v.push_back(pixel);
 		}
@@ -196,6 +206,22 @@ void Image::set_pixel(const unsigned long i, const unsigned long j, const Pixel 
 Image::~Image() {
 	for_each (pixels.begin(), pixels.end(), [](vector<Pixel> v) {v.clear();});
 	pixels.clear();
+}
+
+Pixel
+Image::box_blur_kernel(const unsigned long i, const unsigned long j, const unsigned long radius) {
+	Pixel pixel;
+	unsigned long i_start = min((i-radius), static_cast<unsigned long>(0));
+	unsigned long i_end = min((i+radius), height);
+	unsigned long j_start = min((j-radius), static_cast<unsigned long>(0));
+	unsigned long j_end = min((j+radius), width);
+
+	for (unsigned long k = i_start; k < i_end; k++) {
+		for (unsigned long l = j_start; l < j_end; l++) {
+		}
+	}
+
+	return (pixel);
 }
 
 #endif //IMAGE_H
