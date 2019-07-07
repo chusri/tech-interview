@@ -136,6 +136,14 @@ class Image {
 		 * @return New pixel
 		 */
 		Pixel box_blur_kernel(const unsigned long i, const unsigned long j, const unsigned long radius);
+
+		/**
+		 * @brief Calculate new value of pixels for row
+		 * @param row index into image row
+		 * @param radius range of neighboring pixels to calculate new pixel value
+		 * @return vector of blurred pixels
+		 */
+		vector<Pixel> blur_image_row(const unsigned long row, const unsigned long radius);
 };
 
 Image::Image(unsigned long height, unsigned long width): height(height), width(width) {
@@ -234,6 +242,21 @@ Image::box_blur_kernel(const unsigned long i, const unsigned long j, const unsig
 	pixel.set_channel(rgba_channel::ALPHA, static_cast<uint8_t>(alpha/num_elements));
 
 	return (pixel);
+}
+
+vector<Pixel> Image::blur_image_row(const unsigned long row, const unsigned long radius) {
+	vector<Pixel> pixels;
+
+	if (row >= height) {
+		throw invalid_argument("row >= height");
+	}
+	else {
+		for (unsigned long col = 0; col < width; col++) {
+			pixels.push_back(box_blur_kernel(row, col, radius));
+		}
+	}
+
+	return (pixels);
 }
 
 #endif //IMAGE_H
