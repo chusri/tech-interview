@@ -211,6 +211,8 @@ Image::~Image() {
 Pixel
 Image::box_blur_kernel(const unsigned long i, const unsigned long j, const unsigned long radius) {
 	Pixel pixel;
+	unsigned long num_elements = 0;
+	uint32_t red = 0, green = 0, blue = 0, alpha = 0;
 	unsigned long i_start = min((i-radius), static_cast<unsigned long>(0));
 	unsigned long i_end = min((i+radius), height);
 	unsigned long j_start = min((j-radius), static_cast<unsigned long>(0));
@@ -218,8 +220,18 @@ Image::box_blur_kernel(const unsigned long i, const unsigned long j, const unsig
 
 	for (unsigned long k = i_start; k < i_end; k++) {
 		for (unsigned long l = j_start; l < j_end; l++) {
+			red += pixels[k][l].get_channel(rgba_channel::RED);
+			green += pixels[k][l].get_channel(rgba_channel::GREEN);
+			blue += pixels[k][l].get_channel(rgba_channel::BLUE);
+			alpha += pixels[k][l].get_channel(rgba_channel::ALPHA);
 		}
 	}
+
+	num_elements = (i_end-i_start+1)*(j_end-j_start+1);
+	pixel.set_channel(rgba_channel::RED, static_cast<uint8_t>(red/num_elements));
+	pixel.set_channel(rgba_channel::GREEN, static_cast<uint8_t>(green/num_elements));
+	pixel.set_channel(rgba_channel::BLUE, static_cast<uint8_t>(blue/num_elements));
+	pixel.set_channel(rgba_channel::ALPHA, static_cast<uint8_t>(alpha/num_elements));
 
 	return (pixel);
 }
