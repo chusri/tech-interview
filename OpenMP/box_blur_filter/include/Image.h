@@ -238,17 +238,21 @@ Image::box_blur_kernel(const unsigned long row, const unsigned long col, const u
 	Pixel pixel;
 	unsigned long num_elements = 0;
 	uint32_t red = 0, green = 0, blue = 0, alpha = 0;
-	unsigned long row_start = min((row-radius), static_cast<unsigned long>(0));
+	unsigned long row_start = max((row-radius), static_cast<unsigned long>(0));
 	unsigned long row_end = min((row+radius), height);
-	unsigned long col_start = min((col-radius), static_cast<unsigned long>(0));
+	unsigned long col_start = max((col-radius), static_cast<unsigned long>(0));
 	unsigned long col_end = min((col+radius), width);
 
-	for (unsigned long k = row_start; k < row_end; k++) {
-		for (unsigned long l = col_start; l < col_end; l++) {
-			red += pixels[k][l].get_channel(rgba_channel::RED);
-			green += pixels[k][l].get_channel(rgba_channel::GREEN);
-			blue += pixels[k][l].get_channel(rgba_channel::BLUE);
-			alpha += pixels[k][l].get_channel(rgba_channel::ALPHA);
+	if (radius == 0) {
+		return pixels[row][col];
+	} else {
+		for (unsigned long k = row_start; k < row_end; k++) {
+			for (unsigned long l = col_start; l < col_end; l++) {
+				red += pixels[k][l].get_channel(rgba_channel::RED);
+				green += pixels[k][l].get_channel(rgba_channel::GREEN);
+				blue += pixels[k][l].get_channel(rgba_channel::BLUE);
+				alpha += pixels[k][l].get_channel(rgba_channel::ALPHA);
+			}
 		}
 	}
 
