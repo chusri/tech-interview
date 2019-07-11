@@ -246,16 +246,12 @@ Image::box_blur_kernel(const long row, const long col, const long radius) {
 	if (row_end == height) row_end--;
 	if (col_end == width) col_end--;
 
-	if (radius == 0) {
-		return pixels[row][col];
-	} else {
-		for (long k = row_start; k <= row_end; k++) {
-			for (long l = col_start; l <= col_end; l++) {
-				red += pixels[k][l].get_channel(rgba_channel::RED);
-				green += pixels[k][l].get_channel(rgba_channel::GREEN);
-				blue += pixels[k][l].get_channel(rgba_channel::BLUE);
-				alpha += pixels[k][l].get_channel(rgba_channel::ALPHA);
-			}
+	for (long k = row_start; k <= row_end; k++) {
+		for (long l = col_start; l <= col_end; l++) {
+			red += pixels[k][l].get_channel(rgba_channel::RED);
+			green += pixels[k][l].get_channel(rgba_channel::GREEN);
+			blue += pixels[k][l].get_channel(rgba_channel::BLUE);
+			alpha += pixels[k][l].get_channel(rgba_channel::ALPHA);
 		}
 	}
 
