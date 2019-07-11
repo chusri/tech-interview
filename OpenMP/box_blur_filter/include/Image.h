@@ -28,7 +28,7 @@ class Image {
 		 * @param width Image width
 		 * @return None
 		 */
-		Image(unsigned long height=0, unsigned long width=0);
+		Image(long height=0, long width=0);
 
 		/**
 		 * @brief Constructor for the Image class
@@ -65,12 +65,12 @@ class Image {
 		 * @return Reference to ostream object
 		 */
 		friend ostream& operator<<(ostream& out, const Image& image) {
-			unsigned long height = image.get_height();
-			unsigned long width = image.get_width();
+			long height = image.get_height();
+			long width = image.get_width();
 
 			out << height << ", " << width << endl;
-			for (unsigned long row = 0; row < height; row++) {
-				for (unsigned long col = 0; col < width; col++) {
+			for (long row = 0; row < height; row++) {
+				for (long col = 0; col < width; col++) {
 					out << image.get_pixel(row, col).get_pixel() << " ";
 				}
 				out << endl;
@@ -83,14 +83,14 @@ class Image {
 		 * @param void
 		 * @return image height
 		 */
-		unsigned long get_height(void) const;
+		long get_height(void) const;
 
 		/**
 		 * @brief Getter method for image width
 		 * @param void
 		 * @return image width
 		 */
-		unsigned long get_width(void) const;
+		long get_width(void) const;
 
 		/**
 		 * @brief Getter method for image pixels
@@ -105,7 +105,7 @@ class Image {
 		 * @param col index into image column
 		 * @return image pixel
 		 */
-		Pixel get_pixel(const unsigned long row, const unsigned long col) const;
+		Pixel get_pixel(const long row, const long col) const;
 
 		/**
 		 * @brief Setter method for image pixel
@@ -114,14 +114,14 @@ class Image {
 		 * @param pixel image pixel
 		 * @return void
 		 */
-		void set_pixel(const unsigned long row, const unsigned long col, const Pixel pixel);
+		void set_pixel(const long row, const long col, const Pixel pixel);
 
 		/**
 		 * @brief Blur the image
 		 * @param radius range of neighboring pixels to calculate new pixel value
 		 * @return Blurred Image
 		 */
-		Image blur(unsigned long radius=1);
+		Image blur(const long radius=1);
 
 		/**
 		 * @brief Destructor for the Image class
@@ -130,8 +130,8 @@ class Image {
 		~Image();
 
 	private:
-		unsigned long height;
-		unsigned long width;
+		long height;
+		long width;
 		vector<vector<Pixel>> pixels;
 
 		/**
@@ -142,7 +142,7 @@ class Image {
 		 * @param radius range of neighboring pixels to calculate new pixel value
 		 * @return New pixel
 		 */
-		Pixel box_blur_kernel(const unsigned long row, const unsigned long col, const unsigned long radius);
+		Pixel box_blur_kernel(const long row, const long col, const long radius);
 
 		/**
 		 * @brief Calculate new value of pixels for row
@@ -150,13 +150,13 @@ class Image {
 		 * @param radius range of neighboring pixels to calculate new pixel value
 		 * @return vector of blurred pixels
 		 */
-		vector<Pixel> blur_image_row(const unsigned long row, const unsigned long radius);
+		vector<Pixel> blur_image_row(const long row, const long radius);
 };
 
-Image::Image(unsigned long height, unsigned long width): height(height), width(width) {
-	for (unsigned long row = 0; row < height; row++) {
+Image::Image(long height, long width): height(height), width(width) {
+	for (long row = 0; row < height; row++) {
 		vector<Pixel> v;
-		for (unsigned long col = 0; col < width; col++) {
+		for (long col = 0; col < width; col++) {
 			Pixel pixel;
 			v.push_back(pixel);
 		}
@@ -188,11 +188,11 @@ bool Image::operator==(const Image& image) const {
 	return (height == image.height && width == image.width && pixels == image.pixels);
 }
 
-unsigned long Image::get_height(void) const {
+long Image::get_height(void) const {
 	return height;
 }
 
-unsigned long Image::get_width(void) const {
+long Image::get_width(void) const {
 	return width;
 }
 
@@ -200,7 +200,7 @@ vector<vector<Pixel>> Image::get_pixels(void) const {
 	return pixels;
 }
 
-Pixel Image::get_pixel(const unsigned long row, const unsigned long col) const {
+Pixel Image::get_pixel(const long row, const long col) const {
 	if (row >= height || col >= width) {
 		throw invalid_argument("row >= height || col >= width");
 	}
@@ -209,7 +209,7 @@ Pixel Image::get_pixel(const unsigned long row, const unsigned long col) const {
 	}
 }
 
-void Image::set_pixel(const unsigned long row, const unsigned long col, const Pixel pixel) {
+void Image::set_pixel(const long row, const long col, const Pixel pixel) {
 	if (row >= height || col >= width) {
 		throw invalid_argument("row >= height || col >= width");
 	}
@@ -218,10 +218,10 @@ void Image::set_pixel(const unsigned long row, const unsigned long col, const Pi
 	}
 }
 
-Image Image::blur(unsigned long radius) {
+Image Image::blur(const long radius) {
 	vector<vector<Pixel>> pixels;
 
-	for (unsigned long row = 0; row < height; row++) {
+	for (long row = 0; row < height; row++) {
 		pixels.push_back(blur_image_row(row, radius));
 	}
 
@@ -234,20 +234,23 @@ Image::~Image() {
 }
 
 Pixel
-Image::box_blur_kernel(const unsigned long row, const unsigned long col, const unsigned long radius) {
+Image::box_blur_kernel(const long row, const long col, const long radius) {
 	Pixel pixel;
-	unsigned long num_elements = 0;
+	long num_elements = 0, zero = 0;
 	uint32_t red = 0, green = 0, blue = 0, alpha = 0;
-	unsigned long row_start = max((row-radius), static_cast<unsigned long>(0));
-	unsigned long row_end = min((row+radius), height);
-	unsigned long col_start = max((col-radius), static_cast<unsigned long>(0));
-	unsigned long col_end = min((col+radius), width);
+	long row_start = max((row-radius), zero);
+	long row_end = min((row+radius), height);
+	long col_start = max((col-radius), zero);
+	long col_end = min((col+radius), width);
+
+	if (row_end == height) row_end--;
+	if (col_end == width) col_end--;
 
 	if (radius == 0) {
 		return pixels[row][col];
 	} else {
-		for (unsigned long k = row_start; k < row_end; k++) {
-			for (unsigned long l = col_start; l < col_end; l++) {
+		for (long k = row_start; k <= row_end; k++) {
+			for (long l = col_start; l <= col_end; l++) {
 				red += pixels[k][l].get_channel(rgba_channel::RED);
 				green += pixels[k][l].get_channel(rgba_channel::GREEN);
 				blue += pixels[k][l].get_channel(rgba_channel::BLUE);
@@ -265,14 +268,14 @@ Image::box_blur_kernel(const unsigned long row, const unsigned long col, const u
 	return (pixel);
 }
 
-vector<Pixel> Image::blur_image_row(const unsigned long row, const unsigned long radius) {
+vector<Pixel> Image::blur_image_row(const long row, const long radius) {
 	vector<Pixel> pixels;
 
 	if (row >= height) {
 		throw invalid_argument("row >= height");
 	}
 	else {
-		for (unsigned long col = 0; col < width; col++) {
+		for (long col = 0; col < width; col++) {
 			pixels.push_back(box_blur_kernel(row, col, radius));
 		}
 	}
