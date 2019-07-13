@@ -158,21 +158,21 @@ class Image {
 		 * @param col index into image column
 		 * @return void
 		 */
-		void check_image_bounds(long row, long col) const;
+		void check_image_bounds(const long row, const long col) const;
 
 		/**
 		 * @brief Check if row is within image bounds
 		 * @param row index into image row
 		 * @return void
 		 */
-		void check_image_row_bound(long row) const;
+		void check_image_row_bound(const long row) const;
 
 		/**
 		 * @brief Check if col is within image bounds
 		 * @param col index into image column
 		 * @return void
 		 */
-		void check_image_col_bound(long col) const;
+		void check_image_col_bound(const long col) const;
 
 		/**
 		 * @brief Check if radius < 0
@@ -298,18 +298,18 @@ vector<Pixel> Image::blur_image_row(const long row, const long radius) {
 	return (pixels);
 }
 
-void Image::check_image_bounds(long row, long col) const {
+void Image::check_image_bounds(const long row, const long col) const {
 	check_image_row_bound(row);
 	check_image_col_bound(col);
 }
 
-void Image::check_image_row_bound(long row) const {
+void Image::check_image_row_bound(const long row) const {
 	if (row < 0 || row >= height) {
 		throw invalid_argument("row < 0 || row >= height");
 	}
 }
 
-void Image::check_image_col_bound(long col) const {
+void Image::check_image_col_bound(const long col) const {
 	if (col < 0 || col >= width) {
 		throw invalid_argument("col < 0 || col >= width");
 	}
