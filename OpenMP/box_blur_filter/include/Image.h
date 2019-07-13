@@ -151,6 +151,28 @@ class Image {
 		 * @return vector of blurred pixels
 		 */
 		vector<Pixel> blur_image_row(const long row, const long radius);
+
+		/**
+		 * @brief Check if row, col are within image bounds
+		 * @param row index into image row
+		 * @param col index into image column
+		 * @return void
+		 */
+		void check_image_bounds(long row, long col) const;
+
+		/**
+		 * @brief Check if row is within image bounds
+		 * @param row index into image row
+		 * @return void
+		 */
+		void check_image_row_bound(long row) const;
+
+		/**
+		 * @brief Check if col is within image bounds
+		 * @param col index into image column
+		 * @return void
+		 */
+		void check_image_col_bound(long col) const;
 };
 
 Image::Image(long height, long width): height(height), width(width) {
@@ -201,21 +223,13 @@ vector<vector<Pixel>> Image::get_pixels(void) const {
 }
 
 Pixel Image::get_pixel(const long row, const long col) const {
-	if (row >= height || col >= width) {
-		throw invalid_argument("row >= height || col >= width");
-	}
-	else {
-		return (pixels[row][col]);
-	}
+	check_image_bounds(row, col);
+	return (pixels[row][col]);
 }
 
 void Image::set_pixel(const long row, const long col, const Pixel pixel) {
-	if (row >= height || col >= width) {
-		throw invalid_argument("row >= height || col >= width");
-	}
-	else {
-		pixels[row][col] = pixel;
-	}
+	check_image_bounds(row, col);
+	pixels[row][col] = pixel;
 }
 
 Image Image::blur(const long radius) {
@@ -267,16 +281,30 @@ Image::box_blur_kernel(const long row, const long col, const long radius) {
 vector<Pixel> Image::blur_image_row(const long row, const long radius) {
 	vector<Pixel> pixels;
 
-	if (row >= height) {
-		throw invalid_argument("row >= height");
-	}
-	else {
-		for (long col = 0; col < width; col++) {
-			pixels.push_back(box_blur_kernel(row, col, radius));
-		}
+	check_image_row_bound(row);
+
+	for (long col = 0; col < width; col++) {
+		pixels.push_back(box_blur_kernel(row, col, radius));
 	}
 
 	return (pixels);
+}
+
+void Image::check_image_bounds(long row, long col) const {
+	check_image_row_bound(row);
+	check_image_col_bound(col);
+}
+
+void Image::check_image_row_bound(long row) const {
+	if (row < 0 || row >= height) {
+		throw invalid_argument("row < 0 || row >= height");
+	}
+}
+
+void Image::check_image_col_bound(long col) const {
+	if (col < 0 || col >= width) {
+		throw invalid_argument("col < 0 || col >= width");
+	}
 }
 
 #endif //IMAGE_H

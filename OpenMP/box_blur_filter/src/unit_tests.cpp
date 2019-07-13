@@ -148,6 +148,13 @@ TEST (BoxBlurFilterTest, ImageSetPixelIEqualToHeight) {
 	EXPECT_THROW(image.set_pixel(4, 3, pixel), invalid_argument);
 }
 
+TEST (BoxBlurFilterTest, ImageSetPixelIEqualToNegativeOne) {
+	Pixel pixel(255);
+	Image image(4, 5);
+
+	EXPECT_THROW(image.set_pixel(-1, 3, pixel), invalid_argument);
+}
+
 TEST (BoxBlurFilterTest, ImageSetPixelJEqualToWidth) {
 	Pixel pixel(255);
 	Image image(4, 5);
@@ -155,14 +162,11 @@ TEST (BoxBlurFilterTest, ImageSetPixelJEqualToWidth) {
 	EXPECT_THROW(image.set_pixel(2, 5, pixel), invalid_argument);
 }
 
-TEST (BoxBlurFilterTest, ImageGetPixelIEqualToHeight) {
+TEST (BoxBlurFilterTest, ImageSetPixelJEqualToNegativeOne) {
+	Pixel pixel(255);
 	Image image(4, 5);
-	EXPECT_THROW(image.get_pixel(4, 3), invalid_argument);
-}
 
-TEST (BoxBlurFilterTest, ImageGetPixelJEqualToWidth) {
-	Image image(4, 5);
-	EXPECT_THROW(image.get_pixel(2, 5), invalid_argument);
+	EXPECT_THROW(image.set_pixel(2, -1, pixel), invalid_argument);
 }
 
 TEST (BoxBlurFilterTest, ImageBlurRadiusZero) {
