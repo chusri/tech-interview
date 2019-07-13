@@ -173,6 +173,13 @@ class Image {
 		 * @return void
 		 */
 		void check_image_col_bound(long col) const;
+
+		/**
+		 * @brief Check if radius < 0
+		 * @param radius range of neighboring pixels to calculate new pixel value
+		 * @return void
+		 */
+		void check_blur_radius(const long radius) const;
 };
 
 Image::Image(long height, long width): height(height), width(width) {
@@ -257,6 +264,9 @@ Image::box_blur_kernel(const long row, const long col, const long radius) {
 	long col_start = max((col-radius), zero);
 	long col_end = min((col+radius), width);
 
+	check_image_bounds(row, col);
+	check_blur_radius(radius);
+
 	if (row_end == height) row_end--;
 	if (col_end == width) col_end--;
 
@@ -281,8 +291,6 @@ Image::box_blur_kernel(const long row, const long col, const long radius) {
 vector<Pixel> Image::blur_image_row(const long row, const long radius) {
 	vector<Pixel> pixels;
 
-	check_image_row_bound(row);
-
 	for (long col = 0; col < width; col++) {
 		pixels.push_back(box_blur_kernel(row, col, radius));
 	}
@@ -304,6 +312,12 @@ void Image::check_image_row_bound(long row) const {
 void Image::check_image_col_bound(long col) const {
 	if (col < 0 || col >= width) {
 		throw invalid_argument("col < 0 || col >= width");
+	}
+}
+
+void Image::check_blur_radius(const long radius) const {
+	if (radius < 0) {
+		throw invalid_argument("radius < 0");
 	}
 }
 

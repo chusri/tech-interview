@@ -169,6 +169,21 @@ TEST (BoxBlurFilterTest, ImageSetPixelJEqualToNegativeOne) {
 	EXPECT_THROW(image.set_pixel(2, -1, pixel), invalid_argument);
 }
 
+TEST (BoxBlurFilterTest, ImageBlurRadiusNegativeOne) {
+	vector<vector<Pixel>> pixels;
+	vector<Pixel> row0 = {Pixel(0), Pixel(255), Pixel(11), Pixel(128)};
+	vector<Pixel> row1 = {Pixel(17), Pixel(5), Pixel(255), Pixel(236)};
+	vector<Pixel> row2 = {Pixel(24), Pixel(26), Pixel(31), Pixel(0)};
+
+	pixels.push_back(row0);
+	pixels.push_back(row1);
+	pixels.push_back(row2);
+
+	Image image(pixels);
+
+	EXPECT_THROW(image.blur(-1), invalid_argument);
+}
+
 TEST (BoxBlurFilterTest, ImageBlurRadiusZero) {
 	vector<vector<Pixel>> pixels;
 	vector<Pixel> row0 = {Pixel(0), Pixel(255), Pixel(11), Pixel(128)};
