@@ -223,41 +223,76 @@ TEST (BoxBlurFilterTest, ImageBlurRadiusOne) {
 	ASSERT_EQ(image.blur(1), blurred_image);
 }
 
-TEST (BoxBlurFilterTest, TBD) {
-	Pixel pixel;
-	vector<vector<uint8_t>> pixels;
-	uint32_t red = 0, green = 0, blue = 0, alpha = 0;
-	vector<uint8_t> row0 = {0, 255, 11, 128};
-	vector<uint8_t> row1 = {17, 5, 255, 236};
-	vector<uint8_t> row2 = {24, 26, 31, 0};
+TEST (BoxBlurFilterTest, ImageBlurRadiusTwo) {
+	vector<vector<Pixel>> pixels, blurred_pixels;
+	vector<Pixel> row0 = {Pixel(0), Pixel(255), Pixel(11), Pixel(128)};
+	vector<Pixel> row1 = {Pixel(17), Pixel(5), Pixel(255), Pixel(236)};
+	vector<Pixel> row2 = {Pixel(24), Pixel(26), Pixel(31), Pixel(0)};
+
+	vector<Pixel> blurred_row0 = {Pixel(69), Pixel(82), Pixel(82), Pixel(105)};
+	vector<Pixel> blurred_row1 = {Pixel(69), Pixel(82), Pixel(82), Pixel(105)};
+	vector<Pixel> blurred_row2 = {Pixel(69), Pixel(82), Pixel(82), Pixel(105)};
 
 	pixels.push_back(row0);
 	pixels.push_back(row1);
 	pixels.push_back(row2);
 
-	//for (auto i : {0, 255, 17, 5}) {
-	//for (auto i : {0, 255, 11, 17, 5, 255}) {
-	//for (auto i : {255, 11, 128, 5, 255, 236}) {
-	//for (auto i : {11, 128, 255, 236}) {
-	//for (auto i : {0, 255, 17, 5, 24, 26}) {
-	//for (auto i : {255, 11, 128, 5, 255, 236, 26, 31, 0}) {
-	//for (auto i : {11, 128, 255, 236, 31, 0}) {
-	//for (auto i : {17, 5, 24, 26}) {
-	//for (auto i : {17, 5, 255, 24, 26, 31}) {
-	for (auto i : {255, 236, 31, 0}) {
-		pixel.set_pixel(i);
-		red += pixel.get_channel(rgba_channel::RED);
-		green += pixel.get_channel(rgba_channel::GREEN);
-		blue += pixel.get_channel(rgba_channel::BLUE);
-		alpha += pixel.get_channel(rgba_channel::ALPHA);
-	}
+	blurred_pixels.push_back(blurred_row0);
+	blurred_pixels.push_back(blurred_row1);
+	blurred_pixels.push_back(blurred_row2);
 
-	pixel.set_channel(rgba_channel::RED, static_cast<uint8_t>(red/4));
-	pixel.set_channel(rgba_channel::GREEN, static_cast<uint8_t>(green/4));
-	pixel.set_channel(rgba_channel::BLUE, static_cast<uint8_t>(blue/4));
-	pixel.set_channel(rgba_channel::ALPHA, static_cast<uint8_t>(alpha/4));
+	Image image(pixels);
+	Image blurred_image(blurred_pixels);
 
-	cout << pixel;
+	ASSERT_EQ(image.blur(2), blurred_image);
+}
+
+TEST (BoxBlurFilterTest, ImageBlurRadiusThree) {
+	vector<vector<Pixel>> pixels, blurred_pixels;
+	vector<Pixel> row0 = {Pixel(0), Pixel(255), Pixel(11), Pixel(128)};
+	vector<Pixel> row1 = {Pixel(17), Pixel(5), Pixel(255), Pixel(236)};
+	vector<Pixel> row2 = {Pixel(24), Pixel(26), Pixel(31), Pixel(0)};
+
+	vector<Pixel> blurred_row0 = {Pixel(82), Pixel(82), Pixel(82), Pixel(82)};
+	vector<Pixel> blurred_row1 = {Pixel(82), Pixel(82), Pixel(82), Pixel(82)};
+	vector<Pixel> blurred_row2 = {Pixel(82), Pixel(82), Pixel(82), Pixel(82)};
+
+	pixels.push_back(row0);
+	pixels.push_back(row1);
+	pixels.push_back(row2);
+
+	blurred_pixels.push_back(blurred_row0);
+	blurred_pixels.push_back(blurred_row1);
+	blurred_pixels.push_back(blurred_row2);
+
+	Image image(pixels);
+	Image blurred_image(blurred_pixels);
+
+	ASSERT_EQ(image.blur(3), blurred_image);
+}
+
+TEST (BoxBlurFilterTest, ImageBlurRadiusFour) {
+	vector<vector<Pixel>> pixels, blurred_pixels;
+	vector<Pixel> row0 = {Pixel(0), Pixel(255), Pixel(11), Pixel(128)};
+	vector<Pixel> row1 = {Pixel(17), Pixel(5), Pixel(255), Pixel(236)};
+	vector<Pixel> row2 = {Pixel(24), Pixel(26), Pixel(31), Pixel(0)};
+
+	vector<Pixel> blurred_row0 = {Pixel(82), Pixel(82), Pixel(82), Pixel(82)};
+	vector<Pixel> blurred_row1 = {Pixel(82), Pixel(82), Pixel(82), Pixel(82)};
+	vector<Pixel> blurred_row2 = {Pixel(82), Pixel(82), Pixel(82), Pixel(82)};
+
+	pixels.push_back(row0);
+	pixels.push_back(row1);
+	pixels.push_back(row2);
+
+	blurred_pixels.push_back(blurred_row0);
+	blurred_pixels.push_back(blurred_row1);
+	blurred_pixels.push_back(blurred_row2);
+
+	Image image(pixels);
+	Image blurred_image(blurred_pixels);
+
+	ASSERT_EQ(image.blur(4), blurred_image);
 }
 
 int main(int argc, char** argv) {
