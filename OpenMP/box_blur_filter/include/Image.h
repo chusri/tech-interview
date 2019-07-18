@@ -8,6 +8,7 @@
 #define IMAGE_H
 
 #include "Pixel.h"
+#include<omp.h>
 #include<vector>
 #include<cstdint>
 #include<iostream>
@@ -240,10 +241,19 @@ void Image::set_pixel(const long row, const long col, const Pixel pixel) {
 }
 
 Image Image::blur(const long radius) {
-	vector<vector<Pixel>> pixels;
+	long row = 0;
+	int chunk = 1;
+	vector<vector<Pixel>> pixels(height);
 
-	for (long row = 0; row < height; row++) {
-		pixels.push_back(blur_image_row(row, radius));
+	check_blur_radius(radius);
+
+#pragma omp parallel for shared(pixels, chunk) private(row) schedule(static, chunk)
+	for (row = 0; row < height; row++) {
+		pixels[row] = blur_image_row(row, radius);
+	}
+
+	if (omp_get_thread_num() == 0) {
+		cout << "Threads: " << omp_get_num_threads() << endl;
 	}
 
 	return (Image(pixels));
