@@ -36,6 +36,21 @@ def math_operations():
     print b/a
     print c.dot(d)
     print e
+    print e.sum()
+    print e.min()
+    print e.max()
+    print e.sum(axis=0)
+    print e.min(axis=1)
+    print a
+    print np.exp(a)
+    print np.sqrt(a)
+    print a[::-1]
+    print a[0:3:2]
+    print c[2,3]
+
+    print e
+    for element in e.flat:
+        print element
 
 def main():
     #print_array_attributes()
