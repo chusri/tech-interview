@@ -252,10 +252,6 @@ Image Image::blur(const long radius) {
 		pixels[row] = blur_image_row(row, radius);
 	}
 
-	if (omp_get_thread_num() == 0) {
-		cout << "Threads: " << omp_get_num_threads() << endl;
-	}
-
 	return (Image(pixels));
 }
 
