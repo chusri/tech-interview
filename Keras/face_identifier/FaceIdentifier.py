@@ -2,6 +2,8 @@
 
 """ Deep Learning system for identifying faces. """
 
+import numpy as np
+from PIL import Image
 from keras.models import load_model
 
 class FaceIdentifier(object):
@@ -31,4 +33,20 @@ class FaceIdentifier(object):
         """
 
         return load_model(self.facenet_model)
+
+    def _preprocess_image(self, filename):
+        """
+        1. Convert to RGB
+        2. Convert image to NumPy array
+
+        Arguments:
+        self
+        filename -- image to be processed
+
+        Returns:
+        NumPy array representation of image
+        """
+
+        image = Image.open(filename).convert('RGB')
+        return np.asarray(image)
 
