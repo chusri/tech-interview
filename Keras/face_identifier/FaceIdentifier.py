@@ -71,3 +71,20 @@ class FaceIdentifier(object):
 
         return x1, y1, x2, y2
 
+    def _extract_face(self, pixels, x1, y1, x2, y2):
+        """
+        Extract face in image.
+
+        Arguments:
+        self
+        pixels -- NumPy array representation of image
+        x1, y1, x2, y2 -- Co-ordinates of face
+
+        Returns:
+        Resized face array
+        """
+
+        face = pixels[y1:y2, x1:x2]
+        image = Image.fromarray(face).resize((160, 160))
+        return np.asarray(image)
+
