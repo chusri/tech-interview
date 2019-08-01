@@ -4,6 +4,7 @@
 
 import numpy as np
 from PIL import Image
+from mtcnn.mtcnn import MTCNN
 from keras.models import load_model
 
 class FaceIdentifier(object):
@@ -49,4 +50,24 @@ class FaceIdentifier(object):
 
         image = Image.open(filename).convert('RGB')
         return np.asarray(image)
+
+    def _detect_face(self, pixels):
+        """
+        Detect face in image.
+
+        Arguments:
+        self
+        pixels -- NumPy array representation of image
+
+        Returns:
+        Co-ordinates of face
+        """
+
+        mtcnn = MTCNN()
+        faces = mtcnn.detect_faces(pixels)
+        x1, y1, width, height = faces[0]['box']
+        x1, y1 = abs(x1), abs(y1)
+        x2, y2 = x1+width, y1+height
+
+        return x1, y1, x2, y2
 

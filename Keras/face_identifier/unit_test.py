@@ -18,5 +18,12 @@ class TestFaceIdentifier(unittest.TestCase):
         pixels = face_identifier._preprocess_image(image)
         self.assertEqual(pixels.shape, (264, 200, 3))
 
+    def test_detect_face(self):
+        image = 'data/5-celebrity-faces-dataset/val/ben_affleck/httpcsvkmeuaafdfjpg.jpg'
+        face_identifier = FaceIdentifier('data/facenet_keras.h5')
+        pixels = face_identifier._preprocess_image(image)
+        x1, y1, x2, y2 = face_identifier._detect_face(pixels)
+        self.assertEqual([x1, y1, x2, y2], [113, 42, 151, 94])
+
 if __name__ == '__main__':
     unittest.main()
