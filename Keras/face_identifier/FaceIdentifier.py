@@ -22,6 +22,22 @@ class FaceIdentifier(object):
 
         self.facenet_model = facenet_model
 
+    def extract_face(self, image):
+        """
+        Extract face from image.
+
+        Arguments:
+        self
+        image -- image to be processed
+
+        Returns:
+        Resized face NumPy array
+        """
+
+        pixels = self._preprocess_image(image)
+        x1, y1, x2, y2 = self._detect_face(pixels)
+        return self._extract_face(pixels, x1, y1, x2, y2)
+
     def _load_facenet_model(self):
         """
         Load FaceNet model.
