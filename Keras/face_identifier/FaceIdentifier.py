@@ -23,7 +23,37 @@ class FaceIdentifier(object):
 
         self.facenet_model = facenet_model
 
-    def extract_face(self, image):
+    def _load_facenet_model(self):
+        """
+        Load FaceNet model.
+
+        Arguments:
+        self
+
+        Returns:
+        Pre-trained FaceNet model
+        """
+
+        return load_model(self.facenet_model)
+
+    def _load_faces_from_dir(self, directory):
+        """
+        Extract and return faces from images in directory.
+
+        Arguments:
+        self
+        directory -- directory with images
+
+        Returns:
+        List of extracted faces
+        """
+
+        faces = list()
+        for filename in os.listdir(directory):
+            faces.append(self._extract_face(directory+filename))
+        return faces
+
+    def _extract_face(self, image):
         """
         Extract face from image.
 
@@ -37,20 +67,7 @@ class FaceIdentifier(object):
 
         pixels = self._preprocess_image(image)
         x1, y1, x2, y2 = self._detect_face(pixels)
-        return self._extract_face(pixels, x1, y1, x2, y2)
-
-    def _load_facenet_model(self):
-        """
-        Load FaceNet model.
-
-        Arguments:
-        self
-
-        Returns:
-        Pre-trained FaceNet model
-        """
-
-        return load_model(self.facenet_model)
+        return self._extract_face_array(pixels, x1, y1, x2, y2)
 
     def _preprocess_image(self, filename):
         """
@@ -88,7 +105,7 @@ class FaceIdentifier(object):
 
         return x1, y1, x2, y2
 
-    def _extract_face(self, pixels, x1, y1, x2, y2):
+    def _extract_face_array(self, pixels, x1, y1, x2, y2):
         """
         Extract face in image.
 
@@ -104,20 +121,3 @@ class FaceIdentifier(object):
         face = pixels[y1:y2, x1:x2]
         image = Image.fromarray(face).resize((160, 160))
         return np.asarray(image)
-
-    def _load_faces_from_dir(self, directory):
-        """
-        Extract and return faces from images in directory.
-
-        Arguments:
-        self
-        directory -- directory with images
-
-        Returns:
-        List of extracted faces
-        """
-
-        faces = list()
-        for filename in os.listdir(directory):
-            faces.append(self.extract_face(directory+filename))
-        return faces

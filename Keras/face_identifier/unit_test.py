@@ -29,7 +29,7 @@ class TestFaceIdentifier(unittest.TestCase):
     def test_extract_face(self):
         image = 'data/5-celebrity-faces-dataset/val/ben_affleck/httpcsvkmeuaafdfjpg.jpg'
         face_identifier = FaceIdentifier('data/facenet_keras.h5')
-        face = face_identifier.extract_face(image)
+        face = face_identifier._extract_face(image)
         self.assertEqual(face.shape, (160, 160, 3))
 
     def test_load_faces_from_dir(self):
