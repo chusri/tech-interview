@@ -2,6 +2,7 @@
 
 """ Deep Learning system for identifying faces. """
 
+import os
 import numpy as np
 from PIL import Image
 from mtcnn.mtcnn import MTCNN
@@ -104,3 +105,19 @@ class FaceIdentifier(object):
         image = Image.fromarray(face).resize((160, 160))
         return np.asarray(image)
 
+    def _load_faces_from_dir(self, directory):
+        """
+        Extract and return faces from images in directory.
+
+        Arguments:
+        self
+        directory -- directory with images
+
+        Returns:
+        List of extracted faces
+        """
+
+        faces = list()
+        for filename in os.listdir(directory):
+            faces.append(self.extract_face(directory+filename))
+        return faces
