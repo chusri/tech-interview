@@ -38,5 +38,19 @@ class TestFaceIdentifier(unittest.TestCase):
         faces = face_identifier._load_faces_from_dir(directory)
         self.assertEqual(len(faces), 5)
 
+    def test_load_dataset(self):
+        directory = 'data/5-celebrity-faces-dataset/val/'
+        face_identifier = FaceIdentifier('data/facenet_keras.h5')
+        X, y = face_identifier._load_dataset(directory)
+        self.assertEqual(X.shape, (25, 160, 160, 3))
+        self.assertEqual(y.shape, (25,))
+
+    def test_load_dataset_without_trailing_slash(self):
+        directory = 'data/5-celebrity-faces-dataset/val'
+        face_identifier = FaceIdentifier('data/facenet_keras.h5')
+        X, y = face_identifier._load_dataset(directory)
+        self.assertEqual(X.shape, (25, 160, 160, 3))
+        self.assertEqual(y.shape, (25,))
+
 if __name__ == '__main__':
     unittest.main()

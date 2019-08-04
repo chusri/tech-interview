@@ -36,6 +36,30 @@ class FaceIdentifier(object):
 
         return load_model(self.facenet_model)
 
+    def _load_dataset(self, directory):
+        """
+        Extract and return faces from images in directory.
+
+        Arguments:
+        self
+        directory -- directory with images
+
+        Returns:
+        List of extracted faces with labels
+        """
+
+        X, y = list(), list()
+        for subdir in os.listdir(directory):
+            path = directory+'/'+subdir+'/'
+            if not os.path.isdir(path):
+                continue
+            faces = self._load_faces_from_dir(path)
+            labels = [subdir for _ in range(len(faces))]
+            print('>loaded %d images from class %s' % (len(faces), subdir))
+            X.extend(faces)
+            y.extend(labels)
+        return np.asarray(X), np.asarray(y)
+
     def _load_faces_from_dir(self, directory):
         """
         Extract and return faces from images in directory.
