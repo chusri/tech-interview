@@ -5,7 +5,7 @@ import unittest
 from FaceIdentifier import *
 
 class TestFaceIdentifier(unittest.TestCase):
-    @unittest.skip('load_facenet_model() takes too long')
+    @unittest.skip('test takes too long')
     def test_load_facenet_model(self):
         warnings.filterwarnings('ignore')
         face_identifier = FaceIdentifier('data/facenet_keras.h5')
@@ -38,6 +38,7 @@ class TestFaceIdentifier(unittest.TestCase):
         faces = face_identifier._load_faces_from_dir(directory)
         self.assertEqual(len(faces), 5)
 
+    @unittest.skip('test takes too long')
     def test_load_dataset(self):
         directory = 'data/5-celebrity-faces-dataset/val/'
         face_identifier = FaceIdentifier('data/facenet_keras.h5')
@@ -45,12 +46,20 @@ class TestFaceIdentifier(unittest.TestCase):
         self.assertEqual(X.shape, (25, 160, 160, 3))
         self.assertEqual(y.shape, (25,))
 
+    @unittest.skip('test takes too long')
     def test_load_dataset_without_trailing_slash(self):
         directory = 'data/5-celebrity-faces-dataset/val'
         face_identifier = FaceIdentifier('data/facenet_keras.h5')
         X, y = face_identifier._load_dataset(directory)
         self.assertEqual(X.shape, (25, 160, 160, 3))
         self.assertEqual(y.shape, (25,))
+
+    def test_normalize_face_pixels(self):
+        image = 'data/5-celebrity-faces-dataset/val/ben_affleck/httpcsvkmeuaafdfjpg.jpg'
+        face_identifier = FaceIdentifier('data/facenet_keras.h5')
+        face = face_identifier._extract_face(image)
+        normalized_face = face_identifier._normalize_face_pixels(face)
+        self.assertEqual(normalized_face.shape, (1, 160, 160, 3))
 
 if __name__ == '__main__':
     unittest.main()

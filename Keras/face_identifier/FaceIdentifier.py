@@ -36,6 +36,23 @@ class FaceIdentifier(object):
 
         return load_model(self.facenet_model)
 
+    def _normalize_face_pixels(self, pixels):
+        """
+        Normalize face for embedding.
+
+        Arguments:
+        self
+        pixels -- pixels of face
+
+        Returns:
+        Normalized face pixels
+        """
+
+        pixels = pixels.astype('float32')
+        mean, stddev = pixels.mean(), pixels.std()
+        pixels = (pixels-mean)/stddev
+        return np.expand_dims(pixels, axis=0)
+
     def _load_dataset(self, directory):
         """
         Extract and return faces from images in directory.
