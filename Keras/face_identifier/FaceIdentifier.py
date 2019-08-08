@@ -36,6 +36,23 @@ class FaceIdentifier(object):
 
         return load_model(self.facenet_model)
 
+    def _get_face_embedding(self, model, pixels):
+        """
+        Return face embedding.
+
+        Arguments:
+        self
+        model -- FaceNet model
+        pixels -- pixels of face
+
+        Returns:
+        Face embedding
+        """
+
+        samples = self._normalize_face_pixels(pixels)
+        yhat = model.predict(samples)
+        return yhat[0]
+
     def _normalize_face_pixels(self, pixels):
         """
         Normalize face for embedding.

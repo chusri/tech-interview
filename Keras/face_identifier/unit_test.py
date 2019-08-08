@@ -61,5 +61,14 @@ class TestFaceIdentifier(unittest.TestCase):
         normalized_face = face_identifier._normalize_face_pixels(face)
         self.assertEqual(normalized_face.shape, (1, 160, 160, 3))
 
+    def test_get_face_embedding(self):
+        warnings.filterwarnings('ignore')
+        image = 'data/5-celebrity-faces-dataset/val/ben_affleck/httpcsvkmeuaafdfjpg.jpg'
+        face_identifier = FaceIdentifier('data/facenet_keras.h5')
+        model = face_identifier._load_facenet_model()
+        face = face_identifier._extract_face(image)
+        face_embedding = face_identifier._get_face_embedding(model, face)
+        self.assertEqual(face_embedding.shape, (128,))
+
 if __name__ == '__main__':
     unittest.main()
