@@ -47,14 +47,14 @@ class TestFaceEmbedding(unittest.TestCase):
         self.assertEqual(embedding.shape, (128,))
 
 class TestImageData(unittest.TestCase):
-    #@unittest.skip('test takes too long')
+    @unittest.skip('test takes too long')
     def test_load_faces_from_dir(self):
         directory = 'data/5-celebrity-faces-dataset/val/ben_affleck/'
         image_data = ImageData(directory)
         faces = image_data._load_faces_from_dir(directory)
         self.assertEqual(len(faces), 5)
 
-    #@unittest.skip('test takes too long')
+    @unittest.skip('test takes too long')
     def test_load_dataset(self):
         directory = 'data/5-celebrity-faces-dataset/val/'
         image_data = ImageData(directory)
@@ -62,7 +62,7 @@ class TestImageData(unittest.TestCase):
         self.assertEqual(X.shape, (25, 160, 160, 3))
         self.assertEqual(y.shape, (25,))
 
-    #@unittest.skip('test takes too long')
+    @unittest.skip('test takes too long')
     def test_load_dataset_without_trailing_slash(self):
         directory = 'data/5-celebrity-faces-dataset/val'
         image_data = ImageData(directory)
