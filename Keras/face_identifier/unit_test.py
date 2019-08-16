@@ -28,13 +28,13 @@ class TestImage(unittest.TestCase):
         self.assertEqual(face.shape, (160, 160, 3))
 
 class TestFaceEmbedding(unittest.TestCase):
-    def test_normalize_face_pixels(self):
+    def test_normalize_face(self):
         warnings.filterwarnings('ignore')
         filename = 'data/5-celebrity-faces-dataset/val/ben_affleck/httpcsvkmeuaafdfjpg.jpg'
         face_embedding = FaceEmbedding('data/facenet_keras.h5')
         image = Image(filename)
         face = image.extract_face()
-        normalized_face = face_embedding._normalize_face_pixels(face)
+        normalized_face = face_embedding._normalize_face(face)
         self.assertEqual(normalized_face.shape, (1, 160, 160, 3))
 
     def test_get_face_embedding(self):

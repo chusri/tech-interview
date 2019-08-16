@@ -18,35 +18,35 @@ class FaceEmbedding(object):
 
         self.facenet_model = load_model(facenet_model)
 
-    def get_face_embedding(self, pixels):
+    def get_face_embedding(self, face):
         """
         Return face embedding.
 
         Arguments:
         self
-        pixels -- pixels of face
+        face -- pixels of face
 
         Returns:
         Face embedding
         """
 
-        samples = self._normalize_face_pixels(pixels)
-        yhat = self.facenet_model.predict(samples)
+        normalized_face = self._normalize_face(face)
+        yhat = self.facenet_model.predict(normalized_face)
         return yhat[0]
 
-    def _normalize_face_pixels(self, pixels):
+    def _normalize_face(self, face):
         """
         Normalize face for embedding.
 
         Arguments:
         self
-        pixels -- pixels of face
+        face -- pixels of face
 
         Returns:
         Normalized face pixels
         """
 
-        pixels = pixels.astype('float32')
-        mean, stddev = pixels.mean(), pixels.std()
-        pixels = (pixels-mean)/stddev
-        return np.expand_dims(pixels, axis=0)
+        face = face.astype('float32')
+        mean, stddev = face.mean(), face.std()
+        face = (face-mean)/stddev
+        return np.expand_dims(face, axis=0)
