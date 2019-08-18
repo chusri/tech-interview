@@ -7,6 +7,7 @@ from Image import *
 from ImageData import *
 from FaceEmbedding import *
 from FaceIdentifier import *
+from sklearn.preprocessing import Normalizer
 
 class FaceIdentifier(object):
     def __init__(self):
@@ -30,7 +31,8 @@ def main():
 
     train_x, train_y, test_x, test_y = load_data(training_dir, validation_dir)
     embedding_train_x, embedding_test_x = get_face_embeddings(facenet_model, train_x, test_x)
-
+    norm_embedding_train_x, norm_embedding_test_x = normalize_face_embeddings(embedding_train_x,
+                                                                              embedding_test_x)
 def load_data(training_dir, validation_dir):
     """
     Load training and validation data.
@@ -73,6 +75,21 @@ def get_face_embeddings(facenet_model, train_x, test_x):
     embedding_test_x = [face_embedding.get_face_embedding(face) for face in test_x]
 
     return embedding_train_x, embedding_test_x
+
+def normalize_face_embeddings(embedding_train_x, embedding_test_x):
+    """
+    Normalize face embeddings.
+
+    Arguments:
+    embedding_train_x -- embeddings of training data
+    embedding_test_x -- embeddings of validation data
+
+    Returns:
+    Normalized face embedding vectors
+    """
+
+    normalizer = Normalizer(norm='l2')
+    return normalizer.transform(embedding_train_x), normalizer.transform(embedding_test_x)
 
 if __name__ == '__main__':
     main()
