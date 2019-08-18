@@ -8,6 +8,7 @@ from ImageData import *
 from FaceEmbedding import *
 from FaceIdentifier import *
 from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import LabelEncoder
 
 class FaceIdentifier(object):
     def __init__(self):
@@ -33,6 +34,8 @@ def main():
     embedding_train_x, embedding_test_x = get_face_embeddings(facenet_model, train_x, test_x)
     norm_embedding_train_x, norm_embedding_test_x = normalize_face_embeddings(embedding_train_x,
                                                                               embedding_test_x)
+    encoded_train_y, encoded_test_y = encode_labels(train_y, test_y)
+
 def load_data(training_dir, validation_dir):
     """
     Load training and validation data.
@@ -90,6 +93,23 @@ def normalize_face_embeddings(embedding_train_x, embedding_test_x):
 
     normalizer = Normalizer(norm='l2')
     return normalizer.transform(embedding_train_x), normalizer.transform(embedding_test_x)
+
+def encode_labels(train_y, test_y):
+    """
+    Encode string labels into integers.
+
+    Arguments:
+    train_y -- training data labels
+    test_y -- validation data labels
+
+    Returns:
+    Encoded data labels
+    """
+
+    encoder = LabelEncoder()
+    encoder.fit(train_y)
+
+    return encoder.transform(train_y), encoder.transform(test_y)
 
 if __name__ == '__main__':
     main()
