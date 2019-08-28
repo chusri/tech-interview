@@ -1,11 +1,11 @@
 /**
- * @file xor.h
+ * @file exor.h
  * @brief This file implements the XOR gate using 4 NAND gates.
  * @author Nawab Ali
  */
 
-#ifndef XOR_H
-#define XOR_H
+#ifndef EXOR_H
+#define EXOR_H
 
 #include "nand.h"
 #include <systemc.h>
@@ -37,4 +37,4 @@ SC_MODULE (exor) {
 	}
 };
 
-#endif //XOR_H
+#endif //EXOR_H
