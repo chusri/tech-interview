@@ -7,6 +7,7 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
+#include <iomanip>
 #include <iostream>
 #include <systemc.h>
 
