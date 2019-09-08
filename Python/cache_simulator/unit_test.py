@@ -2,6 +2,7 @@
 
 import unittest
 from Cache import Cache
+from CacheLine import CacheLine
 
 class TestCache(unittest.TestCase):
     def test_raise_exception_if_num_blocks_not_power_2(self):
@@ -52,6 +53,13 @@ class TestCache(unittest.TestCase):
         self.assertEqual(cache.sets, 16)
         self.assertEqual(len(cache.container), 16)
         self.assertEqual(len(cache.container[0]), 4)
+
+class TestCacheLine(unittest.TestCase):
+    def test_init(self):
+        cacheline = CacheLine()
+        self.assertEqual(cacheline.valid, False)
+        self.assertEqual(cacheline.dirty, False)
+        self.assertEqual(cacheline.tag, None)
 
 if __name__ == '__main__':
     unittest.main()
