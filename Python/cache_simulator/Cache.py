@@ -22,7 +22,7 @@ class Cache(object):
         self.size = num_blocks * block_size
         self.associativity = associativity
         self.sets = num_blocks/associativity
-        self.container = [[] for _ in range(self.sets)]
+        self.container = [[None]*associativity for _ in range(self.sets)]
 
     def _check_init_args(self, num_blocks, block_size, associativity):
         """

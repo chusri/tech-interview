@@ -37,18 +37,21 @@ class TestCache(unittest.TestCase):
         self.assertEqual(cache.size, 64*64)
         self.assertEqual(cache.sets, 64)
         self.assertEqual(len(cache.container), 64)
+        self.assertEqual(len(cache.container[0]), 1)
 
     def test_fully_associative_cache(self):
         cache = Cache(64, 64, 64)
         self.assertEqual(cache.size, 64*64)
         self.assertEqual(cache.sets, 1)
         self.assertEqual(len(cache.container), 1)
+        self.assertEqual(len(cache.container[0]), 64)
 
     def test_4_way_associative_cache(self):
         cache = Cache(64, 64, 4)
         self.assertEqual(cache.size, 64*64)
         self.assertEqual(cache.sets, 16)
         self.assertEqual(len(cache.container), 16)
+        self.assertEqual(len(cache.container[0]), 4)
 
 if __name__ == '__main__':
     unittest.main()
