@@ -4,6 +4,7 @@
  * @author Nawab Ali
  */
 
+#include "Employee.h"
 #include<gtest/gtest.h>
 
 int main(int argc, char** argv) {
