@@ -7,6 +7,7 @@ from Image import *
 from ImageData import *
 from FaceEmbedding import *
 from FaceIdentifier import *
+from numpy import savez_compressed
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import LabelEncoder
 
@@ -29,12 +30,16 @@ def main():
     facenet_model = 'data/facenet_keras.h5'
     training_dir = 'data/5-celebrity-faces-dataset/train'
     validation_dir = 'data/5-celebrity-faces-dataset/val'
+    face_embeddings_file = 'data/5-celebrity-faces-embeddings.npz'
 
     train_x, train_y, test_x, test_y = load_data(training_dir, validation_dir)
     embedding_train_x, embedding_test_x = get_face_embeddings(facenet_model, train_x, test_x)
     norm_embedding_train_x, norm_embedding_test_x = normalize_face_embeddings(embedding_train_x,
                                                                               embedding_test_x)
     encoded_train_y, encoded_test_y = encode_labels(train_y, test_y)
+
+    savez_compressed(face_embeddings_file, norm_embedding_train_x, encoded_train_y,
+                     norm_embedding_test_x, encoded_test_y)
 
 def load_data(training_dir, validation_dir):
     """
