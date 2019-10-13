@@ -7,14 +7,36 @@ from Image import *
 from ImageData import *
 from FaceEmbedding import *
 from FaceIdentifier import *
+from numpy import load
 from numpy import savez_compressed
+from sklearn.svm import SVC
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import LabelEncoder
 
 class FaceIdentifier(object):
-    def __init__(self):
+    def __init__(self, face_embeddings_file):
         """
         Initialize FaceIdentifier object.
+
+        Arguments:
+        self
+        face_embeddings_file -- compressed face embeddings file
+
+        Returns:
+        None
+        """
+
+        face_embeddings = load(face_embeddings_file)
+        self.train_x = face_embeddings['arr_0']
+        self.train_y = face_embeddings['arr_1']
+        self.test_x = face_embeddings['arr_2']
+        self.test_y = face_embeddings['arr_3']
+        print(self.train_x.shape)
+        print(self.train_y.shape)
+
+    def train(self):
+        """
+        Train FaceIdentifier model.
 
         Arguments:
         self
@@ -23,7 +45,8 @@ class FaceIdentifier(object):
         None
         """
 
-        pass
+        model = SVC(kernel='linear', probability=True)
+        model.fit(self.train_x, self.train_y)
 
 def main():
     warnings.filterwarnings('ignore')
@@ -33,11 +56,12 @@ def main():
     face_embeddings_file = 'data/5-celebrity-faces-embeddings.npz'
 
     train_x, train_y, test_x, test_y = load_data(training_dir, validation_dir)
+    print('Faces: ', train_x.shape, train_y.shape, test_x.shape, test_y.shape)
+
     embedding_train_x, embedding_test_x = get_face_embeddings(facenet_model, train_x, test_x)
     norm_embedding_train_x, norm_embedding_test_x = normalize_face_embeddings(embedding_train_x,
                                                                               embedding_test_x)
     encoded_train_y, encoded_test_y = encode_labels(train_y, test_y)
-
     savez_compressed(face_embeddings_file, norm_embedding_train_x, encoded_train_y,
                      norm_embedding_test_x, encoded_test_y)
 
