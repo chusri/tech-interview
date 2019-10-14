@@ -3,6 +3,7 @@
 """ Deep Learning system for identifying faces. """
 
 import warnings
+import argparse
 from Image import *
 from ImageData import *
 from FaceEmbedding import *
@@ -66,25 +67,22 @@ class FaceIdentifier(object):
 
 def main():
     warnings.filterwarnings('ignore')
-    facenet_model = 'data/facenet_keras.h5'
-    training_dir = 'data/5-celebrity-faces-dataset/train'
-    validation_dir = 'data/5-celebrity-faces-dataset/val'
-    face_embeddings_file = 'data/5-celebrity-faces-embeddings.npz'
 
-    train_x, train_y, test_x, test_y = load_data(training_dir, validation_dir)
-    print('Load image data: ', train_x.shape, train_y.shape, test_x.shape, test_y.shape)
+    args = parse_args()
+    train_x, train_y, test_x, test_y = load_data(args.training_dir, args.validation_dir)
+    print('Image data: ', train_x.shape, train_y.shape, test_x.shape, test_y.shape)
 
-    embedding_train_x, embedding_test_x = get_face_embeddings(facenet_model, train_x, test_x)
+    print('Create face embeddings...')
+    embedding_train_x, embedding_test_x = get_face_embeddings(args.facenet_model, train_x, test_x)
     norm_embedding_train_x, norm_embedding_test_x = normalize_face_embeddings(embedding_train_x,
                                                                               embedding_test_x)
     encoded_train_y, encoded_test_y = encode_labels(train_y, test_y)
-    savez_compressed(face_embeddings_file, norm_embedding_train_x, encoded_train_y,
+    savez_compressed(args.face_embeddings_file, norm_embedding_train_x, encoded_train_y,
                      norm_embedding_test_x, encoded_test_y)
-    print('Create face embeddings')
 
-    face_identifier = FaceIdentifier(face_embeddings_file)
+    print('Train FaceIdentifier model...')
+    face_identifier = FaceIdentifier(args.face_embeddings_file)
     face_identifier.train()
-    print('Train FaceIdentifier model')
 
     train_accuracy, test_accuracy = face_identifier.predict()
     print('Prediction accuracy: train=%.2f test=%.2f' % (train_accuracy*100, test_accuracy*100))
@@ -104,8 +102,11 @@ def load_data(training_dir, validation_dir):
     test_y -- validation data label
     """
 
+    print('Load training data...')
     training_data = ImageData(training_dir)
     train_x, train_y = training_data.load_dataset()
+
+    print('Load validation data...')
     validation_data = ImageData(validation_dir)
     test_x, test_y = validation_data.load_dataset()
 
@@ -163,6 +164,25 @@ def encode_labels(train_y, test_y):
     encoder.fit(train_y)
 
     return encoder.transform(train_y), encoder.transform(test_y)
+
+def parse_args():
+    """
+    Parse command line arguments.
+
+    Arguments:
+    None
+
+    Returns:
+    Parsed command line arguments
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--facenet_model', required=True, help='Trained FaceNet model')
+    parser.add_argument('--training_dir', required=True, help='Training images directory')
+    parser.add_argument('--validation_dir', required=True, help='Validation images directory')
+    parser.add_argument('--face_embeddings_file', required=True, help='Face embeddings file')
+
+    return parser.parse_args()
 
 if __name__ == '__main__':
     main()
