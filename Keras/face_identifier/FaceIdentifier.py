@@ -10,6 +10,7 @@ from FaceIdentifier import *
 from numpy import load
 from numpy import savez_compressed
 from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import LabelEncoder
 
@@ -27,12 +28,11 @@ class FaceIdentifier(object):
         """
 
         face_embeddings = load(face_embeddings_file)
+        self.model = None
         self.train_x = face_embeddings['arr_0']
         self.train_y = face_embeddings['arr_1']
         self.test_x = face_embeddings['arr_2']
         self.test_y = face_embeddings['arr_3']
-        print(self.train_x.shape)
-        print(self.train_y.shape)
 
     def train(self):
         """
@@ -45,8 +45,24 @@ class FaceIdentifier(object):
         None
         """
 
-        model = SVC(kernel='linear', probability=True)
-        model.fit(self.train_x, self.train_y)
+        self.model = SVC(kernel='linear', probability=True)
+        self.model.fit(self.train_x, self.train_y)
+
+    def predict(self):
+        """
+        Identify faces using trained FaceIdentifier model.
+
+        Arguments:
+        self
+
+        Returns:
+        train, test data set prediction accuracy
+        """
+
+        yhat_train = self.model.predict(self.train_x)
+        yhat_test = self.model.predict(self.test_x)
+
+        return accuracy_score(self.train_y, yhat_train), accuracy_score(self.test_y, yhat_test)
 
 def main():
     warnings.filterwarnings('ignore')

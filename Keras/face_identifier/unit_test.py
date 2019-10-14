@@ -71,9 +71,11 @@ class TestImageData(unittest.TestCase):
         self.assertEqual(y.shape, (25,))
 
 class TestFaceIdentifier(unittest.TestCase):
-    def test_train(self):
+    def test_predict(self):
         face_identifier = FaceIdentifier('data/5-celebrity-faces-embeddings.npz')
         face_identifier.train()
+        train_accuracy, test_accuracy = face_identifier.predict()
+        print('Prediction accuracy: train=%.2f test=%.2f' % (train_accuracy*100, test_accuracy*100))
 
 if __name__ == '__main__':
     unittest.main()
